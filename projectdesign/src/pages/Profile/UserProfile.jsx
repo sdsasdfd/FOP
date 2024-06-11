@@ -3,8 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import profileImg from "/img/profileImg.webp";
 import { CiLocationOn } from "react-icons/ci";
 import EditProfile from "../../components/User/EditProfile";
+import { useSelector } from "react-redux";
 
 const UserProfile = () => {
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
   const [toggleModal, setToggleModal] = useState(false);
   // const navigate = useNavigate();
   // const [user, setUser] = useState(null);
@@ -37,15 +40,23 @@ const UserProfile = () => {
           <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
             <div className="flex flex-col">
               <span className=" text-gray-500 text-md">Username</span>
-              <span className=" font-semibold text-lg">Unas</span>
+              <span className=" font-semibold text-lg">
+                {" "}
+                {currentUser.username}{" "}
+              </span>
             </div>
             <div className="flex flex-col">
               <span className=" text-gray-500 text-md">Email</span>
-              <span className=" font-semibold text-lg">unas@gmail.com</span>
+              <span className=" font-semibold text-lg">
+                {currentUser.email}{" "}
+              </span>
             </div>
             <div className="flex flex-col">
               <span className=" text-gray-500 text-md">Location</span>
-              <span className=" font-semibold text-lg">Jhelum</span>
+              <span className=" font-semibold text-lg">
+                {" "}
+                {currentUser.location}{" "}
+              </span>
             </div>
             <div>
               <button

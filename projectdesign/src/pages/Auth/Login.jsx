@@ -24,6 +24,7 @@ const Login = () => {
       });
 
       const data = await res.json();
+      console.log(data);
       if (data.success === false) {
         return dispatch(loginFailure(data.message));
       }
@@ -32,7 +33,7 @@ const Login = () => {
         return navigate("/user-home");
       } else {
         dispatch(loginSuccess(data));
-        return navigate("/servicer");
+        return navigate("/servicer-home");
       }
     } catch (error) {
       return dispatch(loginFailure(error.message));
@@ -53,9 +54,8 @@ const Login = () => {
               required
               name="email"
               className="border outline-none py-1 px-1 mt-3 rounded-lg"
-              type="text"
+              type="email"
               placeholder="Enter email"
-              defaultValue="user1@gmail.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -71,7 +71,6 @@ const Login = () => {
               className="border outline-none py-1 px-1 mt-2 rounded-lg"
               type="password"
               placeholder="Enter password"
-              defaultValue="unas"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

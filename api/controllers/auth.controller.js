@@ -62,13 +62,17 @@ export const login = async (req, res, next) => {
       return next(errorHandler(400, "invalid credentials"));
     }
 
-    const token = jwt.sign({ userId: isUser._id }, process.env.SECRET);
+    const token = jwt.sign({ userId: isUser._id }, process.env.SECRET, {
+      expiresIn: "15d",
+    });
 
     const user = await User.findById(isUser._id).select("-password");
 
+    const oneDay = 1000 * 60 * 60 * 24;
     res
       .cookie("token", token, {
         httpOnly: true,
+        expires: new Date(Date.now() + oneDay),
       })
       .status(200)
       .json(user);
@@ -79,6 +83,9 @@ export const login = async (req, res, next) => {
 };
 
 export const logout = async (req, res) => {
-  res.cookie("token", "", { maxAge: 0 });
+  res.cookie("token", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
   res.status(200).json("log out");
 };

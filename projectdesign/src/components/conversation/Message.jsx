@@ -7,9 +7,7 @@ const Message = () => {
         <div className="w-10 rounded-full">
           <img
             alt="Tailwind CSS chat bubble component"
-            src="https://avatar.iran.liara.run/public/boy
-
-"
+            src="https://avatar.iran.liara.run/public/girl"
           />
         </div>
       </div>

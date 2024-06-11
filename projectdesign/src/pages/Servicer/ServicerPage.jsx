@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const ServicerPage = () => {
-  return <h1>Servier</h1>;
+  return;
 };
 
 export default ServicerPage;

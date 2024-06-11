@@ -45,9 +45,8 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<ProtectRoute />}>
-          <Route path="/" element={<Testing />} />
-          <Route element={<Root />}>
-            <Route path="home" element={<Home />} />
+          <Route path="/" element={<Root />}>
+            <Route index element={<Home />} />
             <Route path="category" element={<Category />} />
             <Route path="users" element={<Users />} />
             <Route path="servicers" element={<Servicers />} />

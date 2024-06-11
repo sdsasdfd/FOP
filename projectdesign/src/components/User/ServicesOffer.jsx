@@ -51,7 +51,9 @@ const ServicesOffer = () => {
       <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
         {categories.map((category) => (
           <div key={category._id}>
-            <Link to={`servicers-list?category=${category.title}`}>
+            <Link
+              to={`servicers-list?category=${category.title.toLowerCase()}`}
+            >
               <CategoryCard category={category} />
             </Link>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.jpeg";
 const Register = () => {
@@ -11,6 +11,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [roles, setRoles] = useState("");
   const [category, setCategory] = useState("");
+  const [categoryNames, setCategoryNames] = useState([]);
 
   const servicerRoleHandler = () => {
     setIsServicer(true);
@@ -34,7 +35,7 @@ const Register = () => {
           password,
           roles,
           location,
-          category,
+          category: category.toLowerCase(),
         }),
       });
       const data = await res.json();
@@ -49,6 +50,23 @@ const Register = () => {
       console.log(error.message);
     }
   };
+
+  useEffect(() => {
+    const fetchNames = async () => {
+      try {
+        const res = await fetch("/api/category/names");
+        const data = await res.json();
+
+        setCategoryNames(data);
+        // console.log(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchNames();
+  }, []);
+
+  // console.log(categoryNames);
   return (
     <>
       <div className="container mr-auto">
@@ -107,6 +125,7 @@ const Register = () => {
                 value={location}
               >
                 <option value="">Select your Location</option>
+                {}
                 <option value="jhelum">Jhelum</option>
                 <option value="Dina">Dina</option>
               </select>
@@ -141,8 +160,11 @@ const Register = () => {
                   value={category}
                 >
                   <option value="">Select your Category</option>
-                  <option value="home-cleaning">Home Cleaning</option>
-                  <option value="tv-mounting">TV Mounting</option>
+                  {categoryNames.map((categoryName, index) => (
+                    <option key={index} value={categoryName}>
+                      {categoryName}
+                    </option>
+                  ))}
                 </select>
               </div>
             ) : (

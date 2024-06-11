@@ -1,12 +1,9 @@
 import React, { useRef, useState } from "react";
 import profileImg from "/img/profileImg.webp";
 import { MdEdit } from "react-icons/md";
+import { useSelector } from "react-redux";
 const EditProfile = ({ setToggleModal }) => {
-  const currentUser = {
-    username: "Unas",
-    email: "unas@gmail.com",
-    location: "dina",
-  };
+  const { currentUser } = useSelector((state) => state.user);
   const [img, setImg] = useState(null);
   const imgRef = useRef(null);
   const handleImgChange = (e) => {

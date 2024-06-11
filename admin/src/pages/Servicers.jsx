@@ -21,6 +21,21 @@ const Servicers = () => {
     };
     fetchServicers();
   }, []);
+
+  const handleDeleteServicer = async (id) => {
+    try {
+      const res = await fetch(`/api/user/delete/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+      }
+
+      setServicers(servicers.filter((user) => user._id !== id));
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="flex-1 p-5 bg-slate-50 min-h-screen">
       <div className="p-4 bg-white flex-1 shadow-md rounded-md">
@@ -52,7 +67,10 @@ const Servicers = () => {
                 <td className=" p-3"> {servicer.category} </td>
                 <td className=" p-3"> {servicer.location} </td>
                 <td className=" p-3 flex gap-2">
-                  <button className=" text-red-500 text-lg">
+                  <button
+                    onClick={() => handleDeleteServicer(servicer._id)}
+                    className=" text-red-500 text-lg"
+                  >
                     <AiOutlineDelete />
                   </button>
                 </td>

@@ -5,9 +5,11 @@ import { IoMdMenu } from "react-icons/io";
 
 import logo from "../assets/logo.jpeg";
 import profileImg from "/img/profileImg.webp";
+import { useSelector } from "react-redux";
 const NavbarPerson = () => {
   const [toggle, setToggle] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <div className="px-2 relative border-b-[2px]  ">
       <div className="container lg:px-8 sm:px-6 mx-auto p-2 flex justify-between items-center ">
@@ -40,7 +42,11 @@ const NavbarPerson = () => {
                   <Link
                     className=" font-semibold border px-2 py-1 rounded-md cursor-pointer bg-gray-100"
                     onClick={() => setToggleProfile(false)}
-                    to="user-profile"
+                    to={
+                      currentUser.roles === "servicer"
+                        ? "ser-profile"
+                        : "user-profile"
+                    }
                   >
                     View Profile
                   </Link>

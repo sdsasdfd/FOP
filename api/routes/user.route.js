@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  deleteServicer,
   deleteUser,
   getLocationCategory,
   getServicers,
@@ -15,4 +16,6 @@ router.get("/get-location-category", verifyUser, getLocationCategory);
 router.get("/get-users", verifyUser, getUsers);
 router.get("/get-servicers", verifyUser, getServicers);
 router.delete("/delete/:id", verifyUser, deleteUser);
+router.delete("/delete/:id", verifyUser, deleteServicer);
+
 export default router;

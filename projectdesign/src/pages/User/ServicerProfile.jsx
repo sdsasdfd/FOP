@@ -1,8 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bgImg from "/img/tv-mounting.jpg";
 import { IoLocationOutline } from "react-icons/io5";
 
+import { useParams } from "react-router-dom";
 const ServicerProfile = () => {
+  const { id } = useParams();
+
+  const [servicerInfo, setServicerInfo] = useState({});
+  const servicerId = servicerInfo.servicerId?._id;
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        const res = await fetch(`/api/gig/${id}`);
+        const data = await res.json();
+
+        if (data.success === false) {
+          console.log(data.message);
+        }
+        console.log(data.subCategory);
+        setServicerInfo(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchInfo();
+  }, []);
+
+  const handleSendRequest = async () => {
+    try {
+      const res = await fetch(`/api/message/create/${servicerId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(),
+      });
+      const data = await res.json();
+
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div className="container mx-auto mt-6  px-4">
       {/* //Hero Section with img */}
@@ -15,17 +53,14 @@ const ServicerProfile = () => {
           objectFit: "cover",
         }}
       >
-        <h1 className="text-4xl font-bold mb-4">Book a cleaning with John</h1>
-        <p className="mb-4">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime quam
-          molestias unde voluptatem!
-        </p>
+        <h1 className="text-4xl font-bold mb-4">Book a cleaning with</h1>
+        <p className="mb-4">{servicerInfo?.description}</p>
         <div className="mb-8 flex gap-4  ">
           <button className="bg-blue-600 py-2 px-2 rounded-lg font-semibold">
-            1200rs/Hour
+            {servicerInfo.price}rs/Hour
           </button>
           <button className="bg-gray-300 font-semibold px-2 rounded-md py-1 text-black">
-            Request John
+            Request
           </button>
         </div>
       </div>
@@ -41,7 +76,9 @@ const ServicerProfile = () => {
                 className="w-24 h-24 border rounded-full"
               />
 
-              <h1 className="text-xl font-bold">John </h1>
+              <h1 className="text-xl font-bold">
+                {servicerInfo?.servicerId?.username}
+              </h1>
             </div>
             <div className="flex gap-4 items-center ">
               <span
@@ -49,7 +86,9 @@ const ServicerProfile = () => {
           "
               >
                 <IoLocationOutline className="font-bold text-lg" />
-                <span className="font-semibold">Jhelum</span>
+                <span className="font-semibold">
+                  {servicerInfo.servicerId?.location}
+                </span>
               </span>
               <span className="bg-blue-600 text-white py-1 px-1 rounded-md">
                 4.9 (30)
@@ -58,11 +97,11 @@ const ServicerProfile = () => {
           </div>
           <hr />
           <div className="mt-8 sm:border-b pb-4">
-            <h2 className="font-bold text-2xl">About John</h2>
+            <h2 className="font-bold text-2xl">
+              About {servicerInfo.servicerId?.username}
+            </h2>
             <p className="text-md font-semibold ">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Inventore nihil maxime repellendus illum temporibus exercitationem
-              nemo porro eligendi labore fugit.
+              {servicerInfo?.description}
             </p>
           </div>
         </div>
@@ -70,22 +109,21 @@ const ServicerProfile = () => {
           <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">Services Offered</h2>
             <div className="flex flex-wrap gap-2 ">
-              <span className="bg-gray-300 font-semibold px-2 rounded-lg py-1">
-                House Cleaning
-              </span>
-              <span className="bg-gray-300 font-semibold px-2 rounded-md py-1">
-                Deep Cleaning{""}
-              </span>
-              <span className="bg-gray-300 font-semibold px-2 rounded-lg py-1">
-                Office Cleaning{" "}
-              </span>
-              <span className="bg-gray-300 font-semibold px-2 rounded-lg py-1">
-                Repair Cleaning{" "}
-              </span>
+              {servicerInfo?.subCategory?.map((category, index) => (
+                <span
+                  key={index}
+                  className="bg-gray-300 font-semibold px-2 rounded-lg py-1"
+                >
+                  {category}
+                </span>
+              ))}
             </div>
           </div>
-          <button className="w-full bg-blue-600 text-white py-2 rounded-lg">
-            Request John
+          <button
+            onClick={handleSendRequest}
+            className="w-full bg-blue-600 text-white py-2 rounded-lg"
+          >
+            Request {servicerInfo.servicerId?.username}
           </button>
         </div>
       </div>

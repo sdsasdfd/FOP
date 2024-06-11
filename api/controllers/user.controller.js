@@ -65,6 +65,30 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
+export const deleteServicer = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!req.user.isAdmin && req.user._id.toString() !== id) {
+      return next(errorHandler(401, "Unauthorize"));
+    }
+
+    const user = await User.findById(id);
+
+    if (user.image) {
+      await cloundinary.uploader.destroy(
+        user.image.split("/").pop().split(".")[0]
+      );
+    }
+
+    await User.findByIdAndDelete(id);
+    res.status(200).json("servicer deleted");
+
+    res.json("testing");
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getLocationCategory = async (req, res, next) => {
   try {
     const { category } = req.query;
@@ -75,10 +99,18 @@ export const getLocationCategory = async (req, res, next) => {
       location: req.user.location,
     });
 
-    const gigInfo = await Gig.find({ servicerId: servicers._id });
-    console.log(gigInfo);
+    // Use an array to store gig information for each servicer
+    const gigInfoArray = await Promise.all(
+      servicers.map((servicer) => Gig.find({ servicerId: servicer._id }))
+    );
 
-    res.status(200).json(servicers);
+    // Add gig information to each servicer object
+    const servicersWithGigs = servicers.map((servicer, index) => ({
+      ...servicer.toObject(),
+      gigs: gigInfoArray[index],
+    }));
+    // console.log(servicersWithGigs);
+    res.status(200).json(servicersWithGigs);
   } catch (error) {
     next(error);
   }

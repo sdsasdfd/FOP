@@ -11,7 +11,7 @@ const Users = () => {
         const data = await res.json();
 
         if (data.success === false) {
-          consol.log(data.message);
+          console.log(data.message);
         }
         setUsers(data.users);
         // console.log(users);

@@ -17,6 +17,9 @@ import ServicerPage from "./pages/Servicer/ServicerPage";
 import Conversation from "./pages/Conversation/Conversation";
 import UserProfile from "./pages/Profile/UserProfile";
 import MessageInfo from "./pages/MessageInfo/MessageInfo";
+import SerProfile from "./pages/Servicer/SerProfile";
+import Gig from "./pages/User/Gig";
+import ProtectRoute from "../../admin/src/components/ProtectRoute";
 
 const router = createBrowserRouter([
   {
@@ -32,12 +35,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/user-home",
-    element: <UserHome />,
+    element: (
+      // <ProtectRoute>
+      <UserHome />
+      // </ProtectRoute>
+    ),
     children: [
       { index: true, element: <UserPage /> },
       { path: "servicers-list", element: <ServicersList /> },
       {
-        path: "servicers-list/:servicer-profile",
+        path: "servicers-list/:id",
         element: <ServicerProfile />,
       },
       { path: "user-profile", element: <UserProfile /> },
@@ -46,9 +53,15 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/servicer",
+    path: "/servicer-home",
     element: <Servicer />,
-    children: [{ index: true, element: <ServicerPage /> }],
+    children: [
+      { index: true, element: <ServicerPage /> },
+      { path: "ser-profile", element: <SerProfile /> },
+      { path: "gig", element: <Gig /> },
+      { path: "message-info", element: <MessageInfo /> },
+      { path: "message-info/:conversation", element: <Conversation /> },
+    ],
   },
 ]);
 

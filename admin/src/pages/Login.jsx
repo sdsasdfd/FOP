@@ -3,6 +3,7 @@ import CircleEffect from "../components/Circle";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,18 +22,20 @@ const Login = () => {
       const data = await res.json();
       if (data.success === false) {
         dispatch(loginFailure(data.message));
+        toast.error(data.message);
       }
 
       if (!data.isAdmin) {
-        return console.log("unauthorize to access ");
+        return toast.error("Only admin can access it");
       }
       if (res.ok) {
         dispatch(loginSuccess(data));
-
+        toast.success("Login...");
         navigate("/home");
       }
     } catch (error) {
       dispatch(loginFailure(error.message));
+      toast.error(error.message);
     }
   };
 
@@ -49,7 +52,6 @@ const Login = () => {
                 type="email"
                 placeholder="Enter your Email..."
                 value={email}
-                defaultValue={"admin@gmail.com"}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
@@ -60,7 +62,6 @@ const Login = () => {
                 type="password"
                 placeholder="Enter passwordl..."
                 value={password}
-                defaultValue={"unas"}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <button

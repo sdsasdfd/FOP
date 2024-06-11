@@ -27,10 +27,10 @@ export const createCategory = async (req, res, next) => {
 
 export const getAllCategory = async (req, res, next) => {
   try {
-    const { isAdmin } = req.user;
-    if (!isAdmin && !req.user) {
-      return next(errorHandler(403, "Forbidden"));
-    }
+    // const { isAdmin } = req.user;
+    // if (!isAdmin && !req.user) {
+    //   return next(errorHandler(403, "Forbidden"));
+    // }
 
     const categories = await Category.find();
     const categoryNumber = await Category.countDocuments();
@@ -132,5 +132,15 @@ export const getCategory = async (req, res, next) => {
   } catch (error) {
     next(error);
     console.log(error.message);
+  }
+};
+
+export const getCategoryName = async (req, res, next) => {
+  try {
+    const categories = await Category.find({});
+    const titles = categories.map((category) => category.title);
+    res.status(200).json(titles);
+  } catch (error) {
+    next(error);
   }
 };

@@ -6,10 +6,11 @@ const ServicersList = () => {
   const [servicerLists, setServicerLists] = useState([]);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams);
+
     urlParams.get("category");
 
     const categoryName = urlParams.toString();
+    // console.log(categoryName);
 
     const fetchServicer = async () => {
       try {
@@ -17,11 +18,13 @@ const ServicersList = () => {
           `/api/user/get-location-category?${categoryName}`
         );
         const data = await res.json();
-
         if (data.success === false) {
           console.log(data.message);
         }
+        // console.log(data);
+
         setServicerLists(data);
+        // console.log(data);
       } catch (error) {
         console.log(error.message);
       }
