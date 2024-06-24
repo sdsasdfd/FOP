@@ -10,6 +10,6 @@ const router = Router();
 
 router.post("/create/:id", verifyUser, sendMessage);
 router.get("/:id", verifyUser, getAllMessages);
-router.get("/last/:id", verifyUser, getLastMessage);
+// router.get("/last/:id", verifyUser, getLastMessage);
 
 export default router;

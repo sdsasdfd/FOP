@@ -8,6 +8,7 @@ import gigRouter from "./routes/gig.route.js";
 import messageRouter from "./routes/message.route.js";
 import chatRouter from "./routes/chat.route.js";
 import categoryRouter from "./routes/category.route.js";
+import paymentRouter from "./routes/payment.route.js";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -29,6 +30,7 @@ app.use("/api/category", categoryRouter);
 app.use("/api/gig", gigRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
+app.use("/api/payment", paymentRouter);
 
 mongoose
   .connect(process.env.MONGO_URL)

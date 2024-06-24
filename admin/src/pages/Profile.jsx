@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
+
   return (
     <div className="flex justify-center  min-h-[500px] bg-slate-50 ">
       <div className=" bg-white p-4 w-[350px] my-4 flex shadow-md flex-col border rounded-md">

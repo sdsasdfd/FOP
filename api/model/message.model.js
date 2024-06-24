@@ -12,7 +12,7 @@ const chatMessageSchema = new Schema(
     },
     message: {
       type: String,
-      required: true,
+      // required: true,
     },
     chat: {
       type: Schema.Types.ObjectId,

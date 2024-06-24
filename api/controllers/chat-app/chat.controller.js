@@ -7,7 +7,7 @@ const createChat = async (req, res, next) => {
   try {
     const userId1 = req.user._id;
     const userId2 = req.params;
-    console.log(userId2, userId1);
+    // console.log(userId2, userId1);
 
     // Ensure both users exist
     const user1 = await User.findById(userId1);
@@ -51,12 +51,89 @@ const createChat = async (req, res, next) => {
   }
 };
 
-const getAllChats = async (req, res) => {
-  // get user id
-  // verify if user exists
-  // search chats with user id
-  // if there' s no chat existed before, throw an error
-  // if chat exist, return all chats retrieved from db.
+// const getAllChats = async (req, res, next) => {
+//   try {
+//      const { id: userId } = req.params;
+
+//      const userExists = await User.exists({ _id: userId });
+
+//      if (!userExists) {
+//        return next(errorHandler(404, "User not found"));
+//      }
+
+//      const chats = await Chat.find({
+//        participants: userId,
+//      }).populate("messages lastMessage participants");
+
+//      if (chats.length === 0) {
+//        return next(errorHandler(404, "Chats not found"));
+//      }
+
+//      console.log(chats);
+
+//      res.status(200).json(chats);
+//   } catch (error) {
+//     next(error);
+//   }
+//   // get user id
+//   // verify if user exists
+//   // search chats with user id
+//   // if there' s no chat existed before, throw an error
+//   // if chat exist, return all chats retrieved from db.
+// };
+
+// const getAllChats = async (req, res, next) => {
+//   // get user id
+//   // verify if user exists
+//   // search chats with user id
+//   // if there' s no chat existed before, throw an error
+//   // if chat exist, return all chats retrieved from db.
+
+//   try {
+//     const userId = req.user._id;
+
+//     const userExists = await User.exists({ _id: userId });
+
+//     if (!userExists) {
+//       return next(errorHandler(404, "User not found"));
+//     }
+
+//     const chats = await Chat.find({
+//       participants: userId,
+//     }).populate("messages lastMessage participants");
+
+//     if (chats.length === 0) {
+//       return next(errorHandler(404, "Chats not found"));
+//     }
+
+//     console.log(chats);
+
+//     res.status(200).json(chats);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+const getAllChats = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+
+    const chats = await Chat.find({ participants: userId }).populate({
+      path: "lastMessage",
+      populate: {
+        path: "senderId",
+        select: "-password",
+      },
+    });
+
+    if (chats.length === 0) {
+      return next(errorHandler(404, "Chats not found"));
+    }
+
+    res.status(200).json(chats);
+  } catch (error) {
+    next(error);
+  }
 };
 
 export { createChat, getAllChats };

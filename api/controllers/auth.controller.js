@@ -2,6 +2,7 @@ import User from "../model/userModel.js";
 import bcrypt from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import { Account } from "../model/account.model.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -40,7 +41,22 @@ export const register = async (req, res, next) => {
       category,
       isAdmin,
     });
-    res.status(200).json(user);
+
+    const account = await Account.create({ owner: user._id });
+
+    const token = jwt.sign({ userId: user._id }, process.env.SECRET, {
+      expiresIn: "15d",
+    });
+
+    const oneDay = 1000 * 60 * 60 * 24;
+
+    res
+      .cookie("token", token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + oneDay),
+      })
+      .status(200)
+      .json(user);
   } catch (error) {
     next(error);
     console.log(error.message);

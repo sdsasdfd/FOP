@@ -7,10 +7,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { customFetch } from "../../utils/customFetch";
-import Navbar from "../../components/Landing/Navbar";
-import NavbarPerson from "../../components/NavbarPerson";
 
-import UserPage from "./UserPage";
+import NavbarPerson from "../../components/NavbarPerson";
 
 const UserHome = () => {
   return (

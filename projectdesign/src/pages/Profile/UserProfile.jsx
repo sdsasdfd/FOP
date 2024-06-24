@@ -21,12 +21,6 @@ const UserProfile = () => {
   //   fetchUser();
   // }, []);
 
-  // const logoutHandler = async () => {
-  //   const res = await fetch("/api/auth/logout");
-  //   const data = await res.json();
-  //   setUser(null);
-  //   navigate("/");
-  // };
   return (
     <div className=" container mx-auto auto md:px-10 px-6 bg-slate-100 mt-8">
       <h1 className=" text-3xl font-bold">Profile</h1>
@@ -41,8 +35,7 @@ const UserProfile = () => {
             <div className="flex flex-col">
               <span className=" text-gray-500 text-md">Username</span>
               <span className=" font-semibold text-lg">
-                {" "}
-                {currentUser.username}{" "}
+                {currentUser.username}
               </span>
             </div>
             <div className="flex flex-col">
@@ -54,8 +47,7 @@ const UserProfile = () => {
             <div className="flex flex-col">
               <span className=" text-gray-500 text-md">Location</span>
               <span className=" font-semibold text-lg">
-                {" "}
-                {currentUser.location}{" "}
+                {currentUser.location}
               </span>
             </div>
             <div>

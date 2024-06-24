@@ -2,7 +2,7 @@ import mongoose, { Schema } from "mongoose";
 const chatSchema = new Schema(
   {
     messages: [
-      { type: mongoose.Schema.Types.ObjectId, ref: "ChatMessage", default: [] },
+      { type: Schema.Types.ObjectId, ref: "ChatMessage", default: [] },
     ],
     lastMessage: {
       type: Schema.Types.ObjectId,

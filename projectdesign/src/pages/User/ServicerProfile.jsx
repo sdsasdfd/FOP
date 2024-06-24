@@ -18,7 +18,7 @@ const ServicerProfile = () => {
         if (data.success === false) {
           console.log(data.message);
         }
-        console.log(data.subCategory);
+        console.log(data);
         setServicerInfo(data);
       } catch (error) {
         console.log(error.message);
@@ -47,7 +47,7 @@ const ServicerProfile = () => {
       <div
         className=" h-[450px] md:pl-8 pl-4 rounded-lg text-white flex flex-col justify-end"
         style={{
-          backgroundImage: `url(${bgImg})`,
+          backgroundImage: `url(${servicerInfo.coverImg})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
           objectFit: "cover",

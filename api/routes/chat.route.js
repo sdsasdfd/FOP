@@ -7,7 +7,7 @@ import {
 
 const router = Router();
 
-router.get("/:id", verifyUser, getAllChats);
-router.post("/create/:id", verifyUser, createChat);
+router.get("/all", verifyUser, getAllChats);
+// router.post("/create/:id", verifyUser, createChat);
 
 export default router;

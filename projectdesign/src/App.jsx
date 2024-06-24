@@ -18,7 +18,7 @@ import Conversation from "./pages/Conversation/Conversation";
 import UserProfile from "./pages/Profile/UserProfile";
 import MessageInfo from "./pages/MessageInfo/MessageInfo";
 import SerProfile from "./pages/Servicer/SerProfile";
-import Gig from "./pages/User/Gig";
+import Gig from "./pages/Servicer/Gig";
 import ProtectRoute from "../../admin/src/components/ProtectRoute";
 
 const router = createBrowserRouter([
@@ -35,11 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/user-home",
-    element: (
-      // <ProtectRoute>
-      <UserHome />
-      // </ProtectRoute>
-    ),
+    element: <UserHome />,
     children: [
       { index: true, element: <UserPage /> },
       { path: "servicers-list", element: <ServicersList /> },
@@ -58,11 +54,11 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <ServicerPage /> },
       { path: "ser-profile", element: <SerProfile /> },
-      { path: "gig", element: <Gig /> },
       { path: "message-info", element: <MessageInfo /> },
       { path: "message-info/:conversation", element: <Conversation /> },
     ],
   },
+  { path: "gig", element: <Gig /> },
 ]);
 
 const App = () => {

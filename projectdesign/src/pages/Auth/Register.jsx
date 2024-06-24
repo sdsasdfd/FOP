@@ -34,7 +34,7 @@ const Register = () => {
           email,
           password,
           roles,
-          location,
+          location: location.toLowerCase(),
           category: category.toLowerCase(),
         }),
       });
@@ -44,8 +44,11 @@ const Register = () => {
         return console.log(data.message);
       }
 
-      navigate("/login");
-      console.log(data);
+      if (data.roles === "servicer") {
+        return navigate("/gig");
+      } else {
+        navigate("/login");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -58,7 +61,7 @@ const Register = () => {
         const data = await res.json();
 
         setCategoryNames(data);
-        // console.log(data);
+        console.log(data);
       } catch (error) {
         console.log(error.message);
       }

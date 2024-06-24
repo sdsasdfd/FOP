@@ -1,15 +1,41 @@
 import React, { useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 
 import logo from "../assets/logo.jpeg";
 import profileImg from "/img/profileImg.webp";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { toast } from "react-toastify";
+import { logoutSuccess } from "../store/userSlice";
 const NavbarPerson = () => {
   const [toggle, setToggle] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+      const data = await res.json();
+
+      if (data.success === false) {
+        toast.error(data.message);
+      }
+
+      if (res.ok) {
+        dispatch(logoutSuccess());
+        toast.success("logging out...");
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return (
     <div className="px-2 relative border-b-[2px]  ">
       <div className="container lg:px-8 sm:px-6 mx-auto p-2 flex justify-between items-center ">
@@ -50,7 +76,11 @@ const NavbarPerson = () => {
                   >
                     View Profile
                   </Link>
-                  <button className="cursor-pointer bg-blue-500 text-white px-2 py-1 rounded-md mt-3 ">
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="cursor-pointer bg-blue-500 text-white px-2 py-1 rounded-md mt-3 "
+                  >
                     Sign Out
                   </button>
                 </div>
