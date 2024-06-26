@@ -11,6 +11,9 @@ const MessageInput = ({ setMessages, messages }) => {
   const { conversation } = useParams();
   const [popupPay, setPopupPay] = useState(false);
   const [amount, setAmount] = useState();
+  const [amountSentByServicer, setAmountSentByServicer] = useState(false);
+  const [togglePriceCardForUser, setTogglePriceCardForUser] = useState(false);
+  const [amountSentByUser, setAmountSentByUser] = useState(null);
 
   const handleSubmitAmount = async (e) => {
     e.preventDefault();
@@ -25,6 +28,9 @@ const MessageInput = ({ setMessages, messages }) => {
         return console.log(data.message);
       }
       console.log(data);
+      setPopupPay(false);
+      setAmountSentByServicer(true);
+      console.log(amountSentByServicer);
     } catch (error) {
       console.log(error.message);
     }
@@ -55,8 +61,50 @@ const MessageInput = ({ setMessages, messages }) => {
     }
   };
 
+  const handleSubmitAmountByUser = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`/api/payment/make-payment/${conversation}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: +amount }),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+      }
+      console.log(data);
+      setTogglePriceCardForUser(false);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <>
+      {togglePriceCardForUser && (
+        <div className=" absolute top-0 w-[80%] flex items-center justify-center  h-screen border z-50">
+          <form
+            onSubmit={handleSubmitAmountByUser}
+            className="flex flex-col bg-slate-200 w-[250px] p-6 card"
+          >
+            <label className="label" htmlFor="">
+              check the amount
+            </label>
+            <input
+              type="number"
+              className=" input"
+              min={0}
+              placeholder="Price..."
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <button className="btn mt-2" type="submit">
+              Send
+            </button>
+          </form>
+        </div>
+      )}
       {popupPay && (
         <div className=" absolute top-0 w-[80%] flex items-center justify-center  h-screen border z-50">
           <form
@@ -111,6 +159,7 @@ const MessageInput = ({ setMessages, messages }) => {
             <button
               type="button"
               className="bg-blue-500 text-white py-3 px-6 rounded-lg"
+              onClick={() => setTogglePriceCardForUser(!togglePriceCardForUser)}
             >
               Mark as completed
             </button>

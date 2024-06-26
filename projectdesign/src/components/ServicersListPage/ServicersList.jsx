@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ServicerList from "./ServicerList";
 import { Link } from "react-router-dom";
 
-const ServicersList = () => {
+const ServicersList = ({ sortingOption }) => {
   const [servicerLists, setServicerLists] = useState([]);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -15,13 +15,13 @@ const ServicersList = () => {
     const fetchServicer = async () => {
       try {
         const res = await fetch(
-          `/api/user/get-location-category?${categoryName}`
+          `/api/user/get-location-category?${categoryName}&sortingOrder=${sortingOption}`
         );
         const data = await res.json();
         if (data.success === false) {
           console.log(data.message);
         }
-        // console.log(data);
+        console.log(data);
 
         setServicerLists(data);
         // console.log(data);
@@ -30,7 +30,7 @@ const ServicersList = () => {
       }
     };
     fetchServicer();
-  }, []);
+  }, [sortingOption]);
   return (
     <div className="sm:ml-4  mt-6  lg:w-[calc(100%-250px)] ">
       {servicerLists.map((servicerList) => (

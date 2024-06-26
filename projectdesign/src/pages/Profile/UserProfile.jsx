@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const UserProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
+  // console.log(currentUser);
   const [toggleModal, setToggleModal] = useState(false);
   // const navigate = useNavigate();
   // const [user, setUser] = useState(null);
@@ -20,6 +20,41 @@ const UserProfile = () => {
   //   };
   //   fetchUser();
   // }, []);
+
+  const [accountDetails, setAccountDetails] = useState(null);
+  const [transactions, setTransactions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchAccountDetails = async () => {
+      try {
+        const res = await fetch("/api/account/get-account-details");
+        const data = await res.json();
+        setAccountDetails(data);
+        // console.log(data);
+      } catch (error) {
+        console.error("Error fetching account details:", error);
+      }
+    };
+    fetchAccountDetails();
+
+    const fetchTransactions = async () => {
+      try {
+        const res = await fetch("/api/transaction/get-transaction-history");
+        const data = await res.json();
+        console.log(data);
+        setTransactions(data);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching transaction history: ", error);
+      }
+    };
+    fetchTransactions();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div className=" container mx-auto auto md:px-10 px-6 bg-slate-100 mt-8">
@@ -64,7 +99,9 @@ const UserProfile = () => {
         <div className=" mt-8 pb-4 md:mt-auto md:mr-6">
           <span className=" p-2 text-[16px] rounded-md">
             Account Balance:{" "}
-            <span className=" font-medium text-lg">50,000$</span>
+            <span className=" font-medium text-lg">
+              {accountDetails?.balance} Rs
+            </span>
           </span>
         </div>
       </div>
@@ -80,17 +117,17 @@ const UserProfile = () => {
               </tr>
             </thead>
             <tbody className="divide-y">
-              <tr>
-                <td className="p-3 font-semibold">Plumbing</td>
-
-                <td className="p-3">23/2/2024</td>
-                <td className="p-3">12,000</td>
-              </tr>
-              <tr className="p-3">
-                <td className="p-3 font-semibold">Tv mounting</td>
-                <td className="p-3">12/1/2023</td>
-                <td className="p-3">1220</td>
-              </tr>
+              {transactions.map((transaction) => (
+                <tr key={transaction._id}>
+                  <td className="p-3 font-semibold">
+                    {transaction.categoryName}
+                  </td>
+                  <td className="p-3">
+                    {new Date(transaction.createdAt).toLocaleDateString()}
+                  </td>
+                  <td className="p-3">{transaction.totalAmount}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

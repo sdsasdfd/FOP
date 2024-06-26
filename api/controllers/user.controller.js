@@ -1,7 +1,7 @@
 import User from "../model/userModel.js";
 import Category from "../model/category.model.js";
 import { errorHandler } from "../utils/error.js";
-import { v2 as cloundinary } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 import Gig from "../model/gig.model.js";
 export const user = (req, res) => {
   res.json(req.user);
@@ -91,7 +91,11 @@ export const deleteServicer = async (req, res, next) => {
 
 export const getLocationCategory = async (req, res, next) => {
   try {
-    const { category } = req.query;
+    const { category, sortingOrder } = req.query;
+
+    const order = sortingOrder
+      ? { price: sortingOrder === "asc" ? 1 : -1 }
+      : { createdAt: -1 };
 
     const servicers = await User.find({
       roles: "servicer",
@@ -99,19 +103,180 @@ export const getLocationCategory = async (req, res, next) => {
       location: req.user.location,
     });
 
-    // Use an array to store gig information for each servicer
-    const gigInfoArray = await Promise.all(
-      servicers.map((servicer) => Gig.find({ servicerId: servicer._id }))
+    if (!servicers.length) {
+      return next(
+        errorHandler(
+          404,
+          "No servicers found for the given location and category!"
+        )
+      );
+    }
+
+    const servicerIds = servicers.map((servicer) => servicer._id);
+
+    const gigs = await Gig.find({ servicerId: { $in: servicerIds } })
+      .sort(order)
+      .populate({
+        path: "servicerId",
+        match: { location: req.user.location },
+      });
+
+    res.status(200).json(gigs);
+  } catch (error) {
+    return next(errorHandler(500, "Error fetching gigs"));
+  }
+};
+
+export const getCategoriesBasedOnLocation = async (req, res, next) => {
+  console.log("inside api");
+  try {
+    const userLocation = req.user.location;
+
+    const servicersAvailableAtLocation = await User.find({
+      location: userLocation,
+    }).select("-password");
+
+    const categoriesAvailable = servicersAvailableAtLocation.map(
+      (servicer) => servicer.category
     );
 
-    // Add gig information to each servicer object
-    const servicersWithGigs = servicers.map((servicer, index) => ({
-      ...servicer.toObject(),
-      gigs: gigInfoArray[index],
-    }));
-    // console.log(servicersWithGigs);
-    res.status(200).json(servicersWithGigs);
+    const categories = await Category.find({
+      title: { $in: categoriesAvailable },
+    });
+
+    res.status(200).json(categories);
   } catch (error) {
-    next(error);
+    return next(errorHandler(500, "Something went wrong"));
+  }
+};
+
+export const searchCategory = async (req, res, next) => {
+  try {
+    const { inputCategoryTitle } = req.query;
+
+    const category = await Category.find({
+      title: inputCategoryTitle,
+    });
+    if (!category) {
+      return next(errorHandler(404, "Category does not exist."));
+    }
+
+    res.status(200).json(category);
+  } catch (error) {
+    return next(errorHandler(500, "Something went wrong"));
+  }
+};
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const { username, email, location } = req.body;
+
+    let { image } = req.body;
+
+    if (image) {
+      const imgRes = await cloudinary.uploader.upload(image);
+      image = imgRes.secure_url;
+    }
+
+    const updateUserData = {};
+
+    if (username) updateUserData.username = username;
+    if (email) updateUserData.email = email;
+    if (location) updateUserData.location = location;
+    if (image) updateUserData.image = image;
+
+    const user = await User.findByIdAndUpdate({ _id: userId }, updateUserData, {
+      new: true,
+    }).select("-password");
+
+    if (!user) {
+      return next(errorHandler(404, "User not found"));
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    return next(errorHandler(500, "Error while updating user details"));
+  }
+};
+
+export const updateServiceProvider = async (req, res, next) => {
+  try {
+    const servicerId = req.user._id;
+    const { username, email, location, category } = req.body;
+
+    let { image } = req.body;
+
+    if (image) {
+      const imgRes = await cloudinary.uploader.upload(image);
+      image = imgRes.secure_url;
+    }
+
+    const updateServicerData = {};
+
+    if (username) updateServicerData.username = username;
+    if (email) updateServicerData.email = email;
+    if (location) updateServicerData.location = location;
+    if (category) updateServicerData.category = category;
+    if (image) updateServicerData.image = image;
+
+    const serviceProvider = await User.findByIdAndUpdate(
+      { _id: servicerId },
+      updateServicerData,
+      {
+        new: true,
+      }
+    ).select("-password");
+
+    if (!serviceProvider) {
+      return next(errorHandler(404, "Service Provider not found"));
+    }
+
+    res.status(200).json(serviceProvider);
+  } catch (error) {
+    return next(errorHandler(500, "Error while updating user details"));
+  }
+};
+
+export const updateAdminProfile = async (req, res, next) => {
+  try {
+    const { username, email } = req.body;
+    const adminId = req.user._id;
+    let { image } = req.body;
+
+    if (image) {
+      try {
+        const imgRes = await cloudinary.uploader.upload(image);
+        console.log(image);
+        image = imgRes.secure_url;
+      } catch (error) {
+        return next(errorHandler(500, "Error uploading image"));
+      }
+    }
+
+    console.log(username, email, image);
+    if (!username && !email) {
+      return next(errorHandler(400, "Provide Input"));
+    }
+
+    const adminProfileInput = {};
+
+    if (username) adminProfileInput.username = username;
+    if (email) adminProfileInput.email = email;
+    if (image) adminProfileInput.image = image;
+
+    const updatedAdmin = await User.findByIdAndUpdate(
+      { _id: adminId },
+      adminProfileInput,
+      {
+        new: true,
+      }
+    ).select("-password");
+
+    console.log(updatedAdmin);
+
+    res.status(200).json(updatedAdmin);
+  } catch (error) {
+    return next(errorHandler(500, "Error updating profile."));
   }
 };

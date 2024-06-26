@@ -1,5 +1,6 @@
 import { Payment } from "../model/payment.model.js";
 import { Account } from "../model/account.model.js";
+import { Chat } from "../model/chat.model.js";
 import { errorHandler } from "../utils/error.js";
 import User from "../model/userModel.js";
 
@@ -65,15 +66,27 @@ export const makePayment = async (req, res, next) => {
     return next(errorHandler(400, "Invalid Amount"));
   }
 
-  const participants = [senderId, receiverId];
+  const receiver = await User.findById(receiverId);
+
+  if (!receiver) {
+    return next(errorHandler(404, "not found!"));
+  }
+
+  const chat = await Chat.findOne({
+    participants: { $all: [senderId, receiverId] },
+  });
+  console.log(chat);
+  const chatIdForParticipants = chat._id;
+  console.log(chatIdForParticipants);
 
   const paymentDetails = processPayment(amount);
 
   const payment = new Payment({
-    participants,
+    participantsFromChat: chatIdForParticipants,
     totalAmount: paymentDetails.totalAmount,
     feeAmount: paymentDetails.feeAmount,
     netAmount: paymentDetails.netAmount,
+    categoryName: receiver.category,
   });
 
   try {

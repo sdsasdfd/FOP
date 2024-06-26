@@ -16,7 +16,7 @@ const MessageContainer = () => {
         if (data.success === false) {
           console.log(data.message);
         }
-        // console.log(data);
+        console.log(data);
 
         setMessages(data);
       } catch (error) {

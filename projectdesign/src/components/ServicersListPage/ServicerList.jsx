@@ -4,11 +4,12 @@ import { CiStar } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 const ServicerList = ({ servicerList }) => {
-  const description = servicerList?.gigs[0]?.description;
-  const id = servicerList?.gigs[0]?._id;
-  const price = servicerList?.gigs[0]?.price;
-  // console.log(id);
-  // console.log(servicerList);
+  console.log(servicerList);
+  const description = servicerList?.description;
+  const id = servicerList?.servicerId._id;
+  console.log(servicerList.servicerId);
+  const price = servicerList?.price;
+
   return (
     <div className="mb-8 flex  flex-col gap-3 rounded-lg border p-6  shadow-lg">
       <div className="flex items-center gap-4">
@@ -16,7 +17,7 @@ const ServicerList = ({ servicerList }) => {
         <div className="w-[80%]">
           <div className="flex items-center justify-between">
             <h3 className="mb-1 pl-1 text-xl sm:text-3xl font-semibold">
-              {servicerList.username}
+              {servicerList.servicerId.username}
             </h3>
             <span className="rounded-md text-sm bg-yellow-300 sm:p-1 p-[2px] sm:text-lg text-yellow-900">
               {price} rs/Hour
@@ -24,7 +25,7 @@ const ServicerList = ({ servicerList }) => {
           </div>
           <div className="mt-3  flex items-center gap-4">
             <span className="rounded-md bg-blue-100 p-[2px] sm:p-1 sm:text-md text-sm text-blue-900">
-              {servicerList.category}
+              {servicerList.servicerId.category}
             </span>
             <span className="rounded-md flex  sm:text-md sm:p-1 text-sm items-center gap-1 bg-green-100 p-1 text-green-900">
               4.5 <FaStar />

@@ -1,34 +1,33 @@
 import React from "react";
-import Logo from "./Logo";
+import Logo from "../Logo";
 import { MdDashboard } from "react-icons/md";
 
 import { HiMiniUsers } from "react-icons/hi2";
 import { TbCategoryPlus, TbH1 } from "react-icons/tb";
 import { GrUserWorker } from "react-icons/gr";
+import { MdOutlineMessage } from "react-icons/md";
+
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { hiddenSidebar } from "../store/toggleSidebar";
-import { logoutSuccess } from "../store/userSlice";
 
 const Sidebar = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const toggle = useSelector((state) => state.toggle);
-  const handleLogout = async () => {
-    try {
-      const res = await fetch("/api/auth/logout", { method: "POST" });
-      const data = res.json();
-      if (data.success === false) {
-        console.log(data.message);
-      }
-      dispatch(logoutSuccess());
-      navigate("/login");
-    } catch (error) {
-      console.log(data.message);
-    }
-  };
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const toggle = useSelector((state) => state.toggle);
+  // const handleLogout = async () => {
+  //   try {
+  //     const res = await fetch("/api/auth/logout", { method: "POST" });
+  //     const data = res.json();
+  //     if (data.success === false) {
+  //       console.log(data.message);
+  //     }
+  //     dispatch(logoutSuccess());
+  //     navigate("/login");
+  //   } catch (error) {
+  //     console.log(data.message);
+  //   }
+  // };
   return (
     <div>
       <div className="hidden md:block w-[220px] border-r h-screen">
@@ -36,31 +35,25 @@ const Sidebar = () => {
         <div className="pl-2 mt-4">
           <div className="cursor-pointer my-2">
             <span className=" text-[12px] text-gray-400">MAIN</span>
-            <Link to="/">
+            <Link to="/servicer-home">
               <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                <MdDashboard className=" text-lg" />
-                Dashboard
+                <FaRegUserCircle className=" text-lg" />
+                Profile
               </span>
             </Link>
           </div>
           <div className="cursor-pointer">
             <span className=" text-[12px] text-gray-400">LISTS</span>
-            <Link to="users">
+            <Link to="message-info">
               <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                <HiMiniUsers className=" text-lg" />
-                Users
+                <MdOutlineMessage className=" text-lg" />
+                Message
               </span>
             </Link>
-            <Link to="servicers">
-              <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                <GrUserWorker className=" text-lg" />
-                Servicers
-              </span>
-            </Link>
-            <Link to="category">
+            <Link to="edit-gig">
               <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
                 <TbCategoryPlus className=" text-lg" />
-                Category
+                Gig
               </span>
             </Link>
           </div>
@@ -74,7 +67,7 @@ const Sidebar = () => {
               </span>
             </Link>
             <button
-              onClick={handleLogout}
+              // onClick={handleLogout}
               className="w-full text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2"
             >
               <TbLogout className=" text-lg" />

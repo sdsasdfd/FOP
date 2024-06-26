@@ -9,6 +9,9 @@ import messageRouter from "./routes/message.route.js";
 import chatRouter from "./routes/chat.route.js";
 import categoryRouter from "./routes/category.route.js";
 import paymentRouter from "./routes/payment.route.js";
+import accountRouter from "./routes/account.route.js";
+import transactionRouter from "./routes/transaction.route.js";
+import reviewRouter from "./routes/review.route.js";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -31,6 +34,9 @@ app.use("/api/gig", gigRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/payment", paymentRouter);
+app.use("/api/account", accountRouter);
+app.use("/api/transaction", transactionRouter);
+app.use("/api/review", reviewRouter);
 
 mongoose
   .connect(process.env.MONGO_URL)

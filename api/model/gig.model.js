@@ -21,6 +21,10 @@ const gigSchema = new mongoose.Schema({
     type: [String],
     required: false,
   },
+  title: {
+    type: String,
+    required: true,
+  },
 });
 
 const Gig = mongoose.model("Gig", gigSchema);

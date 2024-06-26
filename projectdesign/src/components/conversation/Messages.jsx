@@ -6,7 +6,7 @@ const Messages = ({ messages }) => {
   // const { conversation } = useParams();
   // const [messages, setMessages] = useState([]);
   const lastMessageRef = useRef();
-  // console.log(messages);
+  console.log(messages);
 
   // useEffect(() => {
   //   const fetchMessages = async () => {
@@ -31,6 +31,10 @@ const Messages = ({ messages }) => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   }, []);
+
+  // if (messages.length === 0) {
+  //   return <h1>No messages</h1>;
+  // }
 
   return (
     <div className="h-[420px] overflow-auto">

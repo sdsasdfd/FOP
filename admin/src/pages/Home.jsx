@@ -12,6 +12,7 @@ const Home = () => {
   const [categoriesNumbers, setCategoriesNumbers] = useState(0);
   const [usersNumbers, setUsersNumbers] = useState(0);
   const [servicersNumbers, setServicersNumbers] = useState(0);
+  const [accountDetails, setAccountDetails] = useState(null);
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -28,6 +29,18 @@ const Home = () => {
       }
     };
     fetchCategory();
+
+    const fetchAccountDetails = async () => {
+      try {
+        const res = await fetch("/api/account/get-account-details");
+        const data = await res.json();
+        setAccountDetails(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching account details:", error);
+      }
+    };
+    fetchAccountDetails();
   }, []);
 
   useEffect(() => {
@@ -100,7 +113,7 @@ const Home = () => {
             <span className=" rounded-md bg-purple-300">
               <SiFuturelearn className="text-purple-500 text-lg  m-2" />
             </span>
-            <span className=" text-3xl mt-auto">Rs 1220</span>
+            <span className=" text-2xl mt-auto">Rs 1220</span>
           </div>
         </div>
         <div className="flex flex-col  border flex-1 h-[120px] p-3 rounded-md shadow-lg bg-white">
@@ -109,7 +122,9 @@ const Home = () => {
             <span className=" rounded-md bg-blue-300">
               <IoWalletOutline className="text-blue-500 text-lg  m-2" />
             </span>
-            <span className=" text-3xl mt-auto">Rs 122200</span>
+            <span className=" text-2xl mt-auto">
+              Rs {accountDetails?.balance.toFixed(2)}
+            </span>
           </div>
         </div>
       </div>

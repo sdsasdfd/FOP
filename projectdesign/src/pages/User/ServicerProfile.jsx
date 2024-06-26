@@ -7,7 +7,7 @@ const ServicerProfile = () => {
   const { id } = useParams();
 
   const [servicerInfo, setServicerInfo] = useState({});
-  const servicerId = servicerInfo.servicerId?._id;
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const fetchInfo = async () => {
@@ -27,9 +27,26 @@ const ServicerProfile = () => {
     fetchInfo();
   }, []);
 
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch(`/api/review/get-all-reviews/${id}`);
+        const data = await res.json();
+        if (data.success === false) {
+          console.log(data.message);
+        }
+
+        setReviews(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    // fetchReviews();
+  }, []);
+
   const handleSendRequest = async () => {
     try {
-      const res = await fetch(`/api/message/create/${servicerId}`, {
+      const res = await fetch(`/api/message/create/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(),
@@ -41,6 +58,7 @@ const ServicerProfile = () => {
       console.log(error.message);
     }
   };
+
   return (
     <div className="container mx-auto mt-6  px-4">
       {/* //Hero Section with img */}
@@ -138,28 +156,29 @@ const ServicerProfile = () => {
                 <input
                   type="radio"
                   name="rating-4"
-                  className="mask mask-star-2 bg-gray-700"
+                  className="mask mask-star-2 bg-green-500"
                 />
                 <input
                   type="radio"
                   name="rating-4"
-                  className="mask mask-star-2 bg-gray-700"
+                  className="mask mask-star-2 bg-green-500"
+                  defaultChecked
                 />
                 <input
                   type="radio"
                   name="rating-4"
-                  className="mask mask-star-2 bg-gray-700"
+                  className="mask mask-star-2 bg-green-500"
+                  defaultChecked
                 />
                 <input
                   type="radio"
                   name="rating-4"
-                  className="mask mask-star-2 bg-gray-700"
-                  checked
+                  className="mask mask-star-2 bg-green-500"
                 />
                 <input
                   type="radio"
                   name="rating-4"
-                  className="mask mask-star-2 bg-gray-700"
+                  className="mask mask-star-2 bg-green-500"
                 />
               </div>
               <span className="text-lg font-medium">30 reviews</span>
@@ -217,52 +236,52 @@ const ServicerProfile = () => {
       {/* user Reviews */}
       {/* first */}
       <div className="md:w-[70%] w-full">
-        <div className="mb-4  flex flex-col">
-          <div className="flex mb-4 items-center">
-            <img
-              src="https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png"
-              alt=""
-              className="w-20 h-20"
-            />
-            <div className="flex flex-col">
-              <span className="font-bold text-[18px] ">John</span>
-              <span>Jan 1 2024</span>
+        {reviews.map((review) => (
+          <div className="mb-4  flex flex-col">
+            <div className="flex mb-4 items-center">
+              <img
+                src="https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png"
+                alt=""
+                className="w-20 h-20"
+              />{" "}
+              <div className="flex flex-col">
+                <span className="font-bold text-[18px] ">
+                  {review.userId.username}{" "}
+                </span>
+                <span> {review.createdAt} </span>
+              </div>
             </div>
+            <div className="rating mb-4 rating-sm gap-[2px]">
+              <input
+                type="radio"
+                name="rating-4"
+                className="mask mask-star-2 bg-gray-700"
+                checked
+              />
+              <input
+                type="radio"
+                name="rating-4"
+                className="mask mask-star-2 bg-gray-700"
+              />
+              <input
+                type="radio"
+                name="rating-4"
+                className="mask mask-star-2 bg-gray-700"
+              />
+              <input
+                type="radio"
+                name="rating-4"
+                className="mask mask-star-2 bg-gray-700"
+              />
+              <input
+                type="radio"
+                name="rating-4"
+                className="mask mask-star-2 bg-gray-700"
+              />
+            </div>
+            <p className="font-semibold">{review.desc}</p>
           </div>
-          <div className="rating mb-4 rating-sm gap-[2px]">
-            <input
-              type="radio"
-              name="rating-4"
-              className="mask mask-star-2 bg-gray-700"
-            />
-            <input
-              type="radio"
-              name="rating-4"
-              className="mask mask-star-2 bg-gray-700"
-            />
-            <input
-              type="radio"
-              name="rating-4"
-              className="mask mask-star-2 bg-gray-700"
-            />
-            <input
-              type="radio"
-              name="rating-4"
-              className="mask mask-star-2 bg-gray-700"
-              checked
-            />
-            <input
-              type="radio"
-              name="rating-4"
-              className="mask mask-star-2 bg-gray-700"
-            />
-          </div>
-          <p className="font-semibold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum,
-            tempora totam. Sequi eos delectus adipisci at pariatur incidunt id
-            nobis.
-          </p>
-        </div>
+        ))}
         {/* second */}
         <div className="mb-4  flex flex-col">
           <div className="flex mb-4 items-center">
@@ -279,28 +298,28 @@ const ServicerProfile = () => {
           <div className="rating mb-4 rating-sm gap-[2px]">
             <input
               type="radio"
-              name="rating-4"
+              name="rating-3"
               className="mask mask-star-2 bg-gray-700"
             />
             <input
               type="radio"
-              name="rating-4"
+              name="rating-3"
               className="mask mask-star-2 bg-gray-700"
             />
             <input
               type="radio"
-              name="rating-4"
-              className="mask mask-star-2 bg-gray-700"
+              name="rating-3"
+              className="mask mask-star-3 bg-gray-700"
             />
             <input
               type="radio"
-              name="rating-4"
+              name="rating-3"
               className="mask mask-star-2 bg-gray-700"
               checked
             />
             <input
               type="radio"
-              name="rating-4"
+              name="rating-3"
               className="mask mask-star-2 bg-gray-700"
             />
           </div>

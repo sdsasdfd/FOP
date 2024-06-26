@@ -74,10 +74,7 @@ export const createGig = async (req, res, next) => {
 
 export const getGig = async (req, res, next) => {
   try {
-    const gig = await Gig.findById(req.params.id).populate({
-      path: "servicerId",
-      select: "-password",
-    });
+    const gig = await Gig.findOne({ servicerId: req.params.id });
 
     if (!gig) {
       return next(errorHandler(404, "Not found!"));

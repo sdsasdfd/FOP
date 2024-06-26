@@ -20,19 +20,21 @@ const EditProfile = ({ setToggleModal }) => {
     }
   };
 
-  const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
+  const [username, setUsername] = useState(currentUser.username);
+  const [email, setEmail] = useState(currentUser.email);
   const [location, setLocation] = useState(null);
+  const [category, setCategory] = useState(currentUser.category);
 
   const handleUpdateProfile = async () => {
     try {
-      const res = await fetch("/api/user/update-user", {
+      const res = await fetch("/api/user/update-servicer", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           image: img,
           username,
           email,
+          category,
           location,
         }),
       });
@@ -78,7 +80,6 @@ const EditProfile = ({ setToggleModal }) => {
         <form className="flex flex-col">
           <input
             className="border-2 my-1 rounded-md p-2  "
-            defaultValue={currentUser.username}
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -86,9 +87,14 @@ const EditProfile = ({ setToggleModal }) => {
           <input
             className="border-2  my-1 rounded-md p-2  "
             type="email"
-            defaultValue={currentUser.email}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="border-2  my-1 rounded-md p-2  "
+            type="email"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
           />
           <select
             className="border-2  my-1 rounded-md p-2  "

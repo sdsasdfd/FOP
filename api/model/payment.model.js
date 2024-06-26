@@ -2,12 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const paymentSchema = new Schema(
   {
-    participants: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Chat",
-      },
-    ],
+    participantsFromChat: {
+      type: Schema.Types.ObjectId,
+      ref: "Chat",
+    },
     totalAmount: {
       type: Number,
       required: true,
@@ -18,10 +16,13 @@ const paymentSchema = new Schema(
     netAmount: {
       type: Number,
     },
+    categoryName: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
   }
 );
-
 export const Payment = mongoose.model("Payment", paymentSchema);

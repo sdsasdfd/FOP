@@ -20,6 +20,7 @@ import MessageInfo from "./pages/MessageInfo/MessageInfo";
 import SerProfile from "./pages/Servicer/SerProfile";
 import Gig from "./pages/Servicer/Gig";
 import ProtectRoute from "../../admin/src/components/ProtectRoute";
+import EditGig from "./pages/Servicer/EditGig";
 
 const router = createBrowserRouter([
   {
@@ -52,10 +53,11 @@ const router = createBrowserRouter([
     path: "/servicer-home",
     element: <Servicer />,
     children: [
-      { index: true, element: <ServicerPage /> },
-      { path: "ser-profile", element: <SerProfile /> },
+      // { index: true, element: <ServicerPage /> },
+      { index: true, element: <SerProfile /> },
       { path: "message-info", element: <MessageInfo /> },
       { path: "message-info/:conversation", element: <Conversation /> },
+      { path: "edit-gig", element: <EditGig /> },
     ],
   },
   { path: "gig", element: <Gig /> },

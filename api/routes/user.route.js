@@ -2,9 +2,14 @@ import { Router } from "express";
 import {
   deleteServicer,
   deleteUser,
+  getCategoriesBasedOnLocation,
   getLocationCategory,
   getServicers,
   getUsers,
+  searchCategory,
+  updateAdminProfile,
+  updateServiceProvider,
+  updateUser,
   user,
 } from "../controllers/user.controller.js";
 import { verifyUser } from "../middleware/verifyToken.js";
@@ -17,5 +22,16 @@ router.get("/get-users", verifyUser, getUsers);
 router.get("/get-servicers", verifyUser, getServicers);
 router.delete("/delete/:id", verifyUser, deleteUser);
 router.delete("/delete/:id", verifyUser, deleteServicer);
+
+router.get(
+  "/get-categories-by-location",
+  verifyUser,
+  getCategoriesBasedOnLocation
+);
+
+router.get("/search-category", verifyUser, searchCategory);
+router.patch("/update-user", verifyUser, updateUser);
+router.patch("/update-servicer", verifyUser, updateServiceProvider);
+router.patch("/update-admin", verifyUser, updateAdminProfile);
 
 export default router;
