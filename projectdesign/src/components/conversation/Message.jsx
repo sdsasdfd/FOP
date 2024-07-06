@@ -2,9 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { extractTime } from "../../utils/extractTime";
 
-const Message = ({ message }) => {
+const Message = ({ message, isImage }) => {
   const { currentUser } = useSelector((state) => state.user);
   const formattedTime = extractTime(message.createdAt);
+
   // console.log(message);
   // console.log(currentUser);
   return (
@@ -22,8 +23,10 @@ const Message = ({ message }) => {
         </div>
       </div>
       <div className={`chat-bubble chat-bubble-info text-white  pb-2`}>
-        {" "}
-        {message.message}{" "}
+        {isImage && (
+          <img src={message.image} alt="Chat" className="rounded-lg" />
+        )}
+        <span> {message.message}</span>
       </div>
       <div className="chat-footer opacity-50 text-xs flex gap-1 items-center">
         {formattedTime}

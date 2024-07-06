@@ -3,6 +3,7 @@ import bgImg from "/img/tv-mounting.jpg";
 import { IoLocationOutline } from "react-icons/io5";
 
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 const ServicerProfile = () => {
   const { id } = useParams();
 
@@ -35,13 +36,13 @@ const ServicerProfile = () => {
         if (data.success === false) {
           console.log(data.message);
         }
-
+        console.log(data);
         setReviews(data);
       } catch (error) {
         console.log(error.message);
       }
     };
-    // fetchReviews();
+    fetchReviews();
   }, []);
 
   const handleSendRequest = async () => {
@@ -52,9 +53,10 @@ const ServicerProfile = () => {
         body: JSON.stringify(),
       });
       const data = await res.json();
-
-      console.log(data);
+      toast.success("Request message send!");
+      // console.log(data);
     } catch (error) {
+      toast.error(error.message);
       console.log(error.message);
     }
   };
@@ -77,7 +79,10 @@ const ServicerProfile = () => {
           <button className="bg-blue-600 py-2 px-2 rounded-lg font-semibold">
             {servicerInfo.price}rs/Hour
           </button>
-          <button className="bg-gray-300 font-semibold px-2 rounded-md py-1 text-black">
+          <button
+            onClick={handleSendRequest}
+            className="bg-gray-300 font-semibold px-2 rounded-md py-1 text-black"
+          >
             Request
           </button>
         </div>
@@ -235,7 +240,11 @@ const ServicerProfile = () => {
       </div>
       {/* user Reviews */}
       {/* first */}
+
       <div className="md:w-[70%] w-full">
+        {reviews.length === 0 && (
+          <span className=" font-medium text-xl">No Reviews</span>
+        )}
         {reviews.map((review) => (
           <div className="mb-4  flex flex-col">
             <div className="flex mb-4 items-center">
@@ -282,54 +291,6 @@ const ServicerProfile = () => {
             <p className="font-semibold">{review.desc}</p>
           </div>
         ))}
-        {/* second */}
-        <div className="mb-4  flex flex-col">
-          <div className="flex mb-4 items-center">
-            <img
-              src="https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png"
-              alt=""
-              className="w-20 h-20"
-            />
-            <div className="flex flex-col">
-              <span className="font-bold text-[18px] ">John</span>
-              <span>Jan 1 2024</span>
-            </div>
-          </div>
-          <div className="rating mb-4 rating-sm gap-[2px]">
-            <input
-              type="radio"
-              name="rating-3"
-              className="mask mask-star-2 bg-gray-700"
-            />
-            <input
-              type="radio"
-              name="rating-3"
-              className="mask mask-star-2 bg-gray-700"
-            />
-            <input
-              type="radio"
-              name="rating-3"
-              className="mask mask-star-3 bg-gray-700"
-            />
-            <input
-              type="radio"
-              name="rating-3"
-              className="mask mask-star-2 bg-gray-700"
-              checked
-            />
-            <input
-              type="radio"
-              name="rating-3"
-              className="mask mask-star-2 bg-gray-700"
-            />
-          </div>
-          <p className="font-semibold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error,
-            consectetur. Lorem ipsum dolor sit amet consectetur adipisicing
-            elit. Harum, tempora totam. Sequi eos delectus adipisci at pariatur
-            incidunt id nobis.
-          </p>
-        </div>
       </div>
     </div>
   );

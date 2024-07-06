@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.jpeg";
+import { toast } from "react-toastify";
 const Register = () => {
   const navigate = useNavigate();
 
@@ -41,6 +42,7 @@ const Register = () => {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
+        toast.error(data.message);
         return console.log(data.message);
       }
 
@@ -49,7 +51,9 @@ const Register = () => {
       } else {
         navigate("/login");
       }
+      toast.success("Registration completed!");
     } catch (error) {
+      toast.error(error.message);
       console.log(error.message);
     }
   };

@@ -1,13 +1,19 @@
 import React, { useRef, useState } from "react";
 import profileImg from "/img/profileImg.webp";
 import { MdEdit } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import {
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+} from "../../store/userSlice";
 
 const EditProfile = ({ setToggleModal }) => {
   const { currentUser } = useSelector((state) => state.user);
-  const [img, setImg] = useState(null);
+  const dispatch = useDispatch();
+  const [img, setImg] = useState(currentUser.image);
   const imgRef = useRef(null);
   const handleImgChange = (e) => {
     const file = e.target.files[0];
@@ -22,13 +28,15 @@ const EditProfile = ({ setToggleModal }) => {
 
   const [username, setUsername] = useState(currentUser.username);
   const [email, setEmail] = useState(currentUser.email);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState(currentUser.location);
   const [category, setCategory] = useState(currentUser.category);
 
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
     try {
+      dispatch(updateUserStart());
       const res = await fetch("/api/user/update-servicer", {
-        method: "PATCH",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           image: img,
@@ -41,7 +49,14 @@ const EditProfile = ({ setToggleModal }) => {
 
       const data = await res.json();
       console.log(data);
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return console.log(data.message);
+      }
+      dispatch(updateUserSuccess(data));
+      setToggleModal(false);
     } catch (error) {
+      dispatch(updateUserFailure(error.message));
       console.log(error.message);
     }
   };
@@ -54,30 +69,30 @@ const EditProfile = ({ setToggleModal }) => {
             <IoCloseCircleOutline className="text-4xl text-slate-600" />
           </span>
         </div>
-        <div className="flex  justify-center items-center">
-          <div className=" relative">
-            <img
-              src={img || profileImg}
-              className=" w-40 h-40 relative rounded-full  object-cover"
-              alt=""
-            />
-            <input
-              hidden
-              type="file"
-              accept="image/*"
-              onChange={(e) => handleImgChange(e)}
-              ref={imgRef}
-            />
-            <div className="absolute top-2 right-2 rounded-full p-2 bg-gray-500 bg-opacity-75 cursor-pointer transition duration-200">
-              <MdEdit
-                className="w-5 h-5 text-white"
-                onClick={() => imgRef.current.click()}
+
+        <form onSubmit={handleUpdateProfile} className="flex flex-col">
+          <div className="flex  justify-center items-center">
+            <div className=" relative">
+              <img
+                src={img || profileImg}
+                className=" w-40 h-40 relative rounded-full  object-cover"
+                alt=""
               />
+              <input
+                hidden
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImgChange(e)}
+                ref={imgRef}
+              />
+              <div className="absolute top-2 right-2 rounded-full p-2 bg-gray-500 bg-opacity-75 cursor-pointer transition duration-200">
+                <MdEdit
+                  className="w-5 h-5 text-white"
+                  onClick={() => imgRef.current.click()}
+                />
+              </div>
             </div>
           </div>
-        </div>
-
-        <form className="flex flex-col">
           <input
             className="border-2 my-1 rounded-md p-2  "
             type="text"
@@ -90,29 +105,27 @@ const EditProfile = ({ setToggleModal }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
+          <select
             className="border-2  my-1 rounded-md p-2  "
-            type="email"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-          />
+          >
+            <option name="" value="cooking" id="">
+              cooking
+            </option>
+            <option name="" value="cleaning" id="">
+              cleaning
+            </option>
+          </select>
           <select
             className="border-2  my-1 rounded-md p-2  "
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           >
-            <option
-              name=""
-              defaultChecked={currentUser.location === "jhelum"}
-              id=""
-            >
+            <option name="" value="jhelum" id="">
               jhelum
             </option>
-            <option
-              name=""
-              defaultChecked={currentUser.location === "dina"}
-              id=""
-            >
+            <option name="" value="dina" id="">
               dina
             </option>
           </select>

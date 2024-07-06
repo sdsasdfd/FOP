@@ -30,51 +30,12 @@ export const createGig = async (req, res, next) => {
   }
 };
 
-// export const createGig = async (req, res, next) => {
-//   const existingGig = await Gig.findOne({ servicerId: req.user._id });
-
-//   if (existingGig) {
-//     return next(errorHandler(409, "Gig already exists"));
-//   }
-//   // TODO :: check if gig already exists?
-//   const { price, description, subCategory, title } = req.body;
-
-//   try {
-//     if (req.user.roles !== "servicer") {
-//       return next(errorHandler(405, "not allowed"));
-//     }
-
-//     let coverImgLocalPath = req.file?.path;
-//     console.log(req.file);
-
-//     if (!coverImgLocalPath) {
-//       return next(errorHandler(204, "No Cover Image Provided"));
-//     }
-
-//     const coverImgRes = await uploadOnCloudinary(coverImgLocalPath);
-
-//     if (!coverImgRes) {
-//       return next(errorHandler(500, "Something went wrong!"));
-//     }
-//     console.log(coverImgRes.url);
-
-//     const gig = await Gig.create({
-//       price,
-//       description,
-//       coverImg: coverImgRes?.url,
-//       servicerId: req.user._id,
-//       subCategory,
-//       title,
-//     });
-//     res.status(201).json(gig);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
 export const getGig = async (req, res, next) => {
   try {
-    const gig = await Gig.findOne({ servicerId: req.params.id });
+    const gig = await Gig.findOne({ servicerId: req.params.id }).populate({
+      path: "servicerId",
+      select: "-password",
+    });
 
     if (!gig) {
       return next(errorHandler(404, "Not found!"));
@@ -91,12 +52,18 @@ export const updateGig = async (req, res, next) => {
     const servicerId = req.user._id;
     const { description, price, subCategory } = req.body;
 
-    let coverImgLocalPath = req.file?.path;
-    let coverImgUrl = null;
+    let { coverImg } = req.body;
 
-    if (coverImgLocalPath) {
-      const coverImage = await uploadOnCloudinary(coverImgLocalPath);
-      coverImgUrl = coverImage.url;
+    const existedGig = await Gig.findOne({ servicerId });
+
+    if (coverImg) {
+      if (existedGig.coverImg) {
+        await cloudinary.uploader.destroy(
+          existedGig.coverImg.split("/").pop().split(".")[0]
+        );
+      }
+      const imgRes = await cloudinary.uploader.upload(coverImg);
+      coverImg = imgRes.secure_url;
     }
 
     const updateGigData = {};
@@ -104,14 +71,11 @@ export const updateGig = async (req, res, next) => {
     if (description) updateGigData.description = description;
     if (price) updateGigData.price = price;
     if (subCategory) updateGigData.subCategory = subCategory;
-    if (coverImgUrl) updateGigData.coverImg = coverImgUrl;
+    if (coverImg) updateGigData.coverImg = coverImg;
 
     const gig = await Gig.findOneAndUpdate(
       { servicerId: servicerId },
-      updateGigData,
-      {
-        new: true,
-      }
+      updateGigData
     );
 
     if (!gig) {

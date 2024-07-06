@@ -37,15 +37,20 @@ const NavbarPerson = () => {
     }
   };
   return (
-    <div className="px-2 relative border-b-[2px]  ">
-      <div className="container lg:px-8 sm:px-6 mx-auto p-2 flex justify-between items-center ">
+    <div className="px-2 z-30 sticky top-0 bg-slate-50 border-b-[2px]  ">
+      <div className="container relative lg:px-8 sm:px-6 mx-auto p-2 flex justify-between items-center ">
         <Link to=".">
           <img src={logo} width="64px" alt="" />
         </Link>
         <div className="flex  items-center">
-          <div className="hidden gap-3 mr-4 sm:flex ">
-            <Link to="message-info">Messages</Link>
-            <Link>Orders</Link>
+          <div className="hidden gap-3 mr-4 sm:flex items-center ">
+            <Link to="/user-home">Home</Link>
+            <Link
+              className=" text-[18px] font-normal text-blue-800"
+              to="message-info"
+            >
+              Messages
+            </Link>
           </div>
 
           <div className="flex items-center gap-3">

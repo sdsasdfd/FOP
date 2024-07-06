@@ -30,8 +30,8 @@ router.get(
 );
 
 router.get("/search-category", verifyUser, searchCategory);
-router.patch("/update-user", verifyUser, updateUser);
-router.patch("/update-servicer", verifyUser, updateServiceProvider);
-router.patch("/update-admin", verifyUser, updateAdminProfile);
+router.post("/update-user", verifyUser, updateUser);
+router.post("/update-servicer", verifyUser, updateServiceProvider);
+router.post("/update-admin", verifyUser, updateAdminProfile);
 
 export default router;

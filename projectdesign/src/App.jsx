@@ -34,30 +34,43 @@ const router = createBrowserRouter([
     path: "login",
     element: <Login />,
   },
+
+  // user Routers
   {
-    path: "/user-home",
-    element: <UserHome />,
+    element: <ProtectRoute />,
     children: [
-      { index: true, element: <UserPage /> },
-      { path: "servicers-list", element: <ServicersList /> },
       {
-        path: "servicers-list/:id",
-        element: <ServicerProfile />,
+        path: "/user-home",
+        element: <UserHome />,
+        children: [
+          { index: true, element: <UserPage /> },
+          { path: "servicers-list", element: <ServicersList /> },
+          {
+            path: "servicers-list/:id",
+            element: <ServicerProfile />,
+          },
+          { path: "user-profile", element: <UserProfile /> },
+          { path: "message-info", element: <MessageInfo /> },
+          { path: "message-info/:conversation", element: <Conversation /> },
+        ],
       },
-      { path: "user-profile", element: <UserProfile /> },
-      { path: "message-info", element: <MessageInfo /> },
-      { path: "message-info/:conversation", element: <Conversation /> },
     ],
   },
+  // Servicer Routers
   {
-    path: "/servicer-home",
-    element: <Servicer />,
+    element: <ProtectRoute />,
     children: [
-      // { index: true, element: <ServicerPage /> },
-      { index: true, element: <SerProfile /> },
-      { path: "message-info", element: <MessageInfo /> },
-      { path: "message-info/:conversation", element: <Conversation /> },
-      { path: "edit-gig", element: <EditGig /> },
+      {
+        path: "/servicer-home",
+        element: <Servicer />,
+        children: [
+          // { index: true, element: <ServicerPage /> },
+          { index: true, element: <SerProfile /> },
+          { path: "message-info", element: <MessageInfo /> },
+          { path: "message-info/:conversation", element: <Conversation /> },
+          { path: "edit-gig", element: <EditGig /> },
+        ],
+      },
     ],
   },
   { path: "gig", element: <Gig /> },

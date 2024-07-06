@@ -10,24 +10,26 @@ import { MdOutlineMessage } from "react-icons/md";
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutSuccess } from "../../store/userSlice";
 
 const Sidebar = () => {
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  // const toggle = useSelector((state) => state.toggle);
-  // const handleLogout = async () => {
-  //   try {
-  //     const res = await fetch("/api/auth/logout", { method: "POST" });
-  //     const data = res.json();
-  //     if (data.success === false) {
-  //       console.log(data.message);
-  //     }
-  //     dispatch(logoutSuccess());
-  //     navigate("/login");
-  //   } catch (error) {
-  //     console.log(data.message);
-  //   }
-  // };
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const toggle = useSelector((state) => state.toggle);
+  const handleLogout = async () => {
+    try {
+      const res = await fetch("/api/auth/logout", { method: "POST" });
+      const data = res.json();
+      if (data.success === false) {
+        console.log(data.message);
+      }
+      dispatch(logoutSuccess());
+      navigate("/login");
+    } catch (error) {
+      console.log(data.message);
+    }
+  };
   return (
     <div>
       <div className="hidden md:block w-[220px] border-r h-screen">
@@ -67,7 +69,7 @@ const Sidebar = () => {
               </span>
             </Link>
             <button
-              // onClick={handleLogout}
+              onClick={handleLogout}
               className="w-full text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2"
             >
               <TbLogout className=" text-lg" />

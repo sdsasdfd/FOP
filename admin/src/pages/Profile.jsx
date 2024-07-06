@@ -1,11 +1,17 @@
 import React, { useRef, useState } from "react";
 import { MdEdit } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import {
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+} from "../store/userSlice";
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const [img, setImg] = useState(null);
   const imgRef = useRef(null);
@@ -26,8 +32,9 @@ const Profile = () => {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
+      dispatch(updateUserStart());
       const res = await fetch("/api/user/update-admin", {
-        method: "PATCH",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           username,
@@ -39,10 +46,13 @@ const Profile = () => {
 
       console.log("fetched data", data);
       if (data.success === false) {
-        console.log(data.message);
+        dispatch(updateUserFailure(data.message));
+        return console.log(data.message);
       }
+      dispatch(updateUserSuccess(data));
     } catch (error) {
       console.log(error.message);
+      dispatch(updateUserFailure(error.message));
     }
   };
 

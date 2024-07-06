@@ -1,5 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const Gig = () => {
@@ -11,6 +12,18 @@ const Gig = () => {
   const [subCat, setSubCat] = useState([]);
 
   const navigate = useNavigate();
+
+  const { currentUser } = useSelector((state) => state.user);
+
+  const checkServicer = () => {
+    if (!currentUser) {
+      return navigate("/");
+    }
+  };
+
+  useEffect(() => {
+    checkServicer();
+  }, []);
 
   const handleImage = (e) => {
     const file = e.target.files[0];

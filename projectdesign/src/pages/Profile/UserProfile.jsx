@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import profileImg from "/img/profileImg.webp";
 import { CiLocationOn } from "react-icons/ci";
 import EditProfile from "../../components/User/EditProfile";
+
 import { useSelector } from "react-redux";
+import TestEdit from "../../components/User/TestEdit";
 
 const UserProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -62,7 +64,7 @@ const UserProfile = () => {
       <div className="flex border lg:justify-between justify-normal flex-col lg:flex-row my-4 shadow-md p-4 md:pb-8  rounded-md bg-white relative ">
         <div className="flex md:justify-normal justify-around items-center mb-4 gap-6 mt-8">
           <img
-            src={profileImg}
+            src={currentUser.image || profileImg}
             className="md:w-32 md:h-32 w-28 h-28 object-cover rounded-full"
             alt=""
           />
@@ -86,12 +88,8 @@ const UserProfile = () => {
               </span>
             </div>
             <div>
-              <button
-                onClick={() => setToggleModal(true)}
-                className=" bg-blue-500 hover:bg-blue-400 py-2 text-white px-2 rounded-md"
-              >
-                Edit Profile
-              </button>
+              <EditProfile />
+              {/* <TestEdit /> */}
             </div>
           </div>
         </div>
@@ -132,7 +130,7 @@ const UserProfile = () => {
           </table>
         </div>
       </div>
-      {toggleModal && <EditProfile setToggleModal={setToggleModal} />}
+      {/* {toggleModal && <EditProfile setToggleModal={setToggleModal} />} */}
     </div>
   );
 };

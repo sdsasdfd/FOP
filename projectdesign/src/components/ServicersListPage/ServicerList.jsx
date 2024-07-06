@@ -3,6 +3,7 @@ import { FaStar } from "react-icons/fa6";
 import { CiStar } from "react-icons/ci";
 import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import profileImg from "/img/profileImg.webp";
 const ServicerList = ({ servicerList }) => {
   console.log(servicerList);
   const description = servicerList?.description;
@@ -13,7 +14,10 @@ const ServicerList = ({ servicerList }) => {
   return (
     <div className="mb-8 flex  flex-col gap-3 rounded-lg border p-6  shadow-lg">
       <div className="flex items-center gap-4">
-        <div className="h-12 w-12 rounded-full bg-slate-400 sm:h-16 sm:w-16 md:h-20 md:w-20 "></div>
+        <img
+          src={profileImg || servicerList.servicerId?.image}
+          className="h-12 border w-12 rounded-full  sm:h-16 sm:w-16 md:h-20 md:w-20 "
+        />
         <div className="w-[80%]">
           <div className="flex items-center justify-between">
             <h3 className="mb-1 pl-1 text-xl sm:text-3xl font-semibold">

@@ -1,6 +1,7 @@
 import { Chat } from "../../model/chat.model.js";
 import { ChatMessage } from "../../model/message.model.js";
 import { errorHandler } from "../../utils/error.js";
+import { v2 as cloudinary } from "cloudinary";
 
 // export const sendMessage = async (req, res, next) => {
 //   try {
@@ -63,6 +64,7 @@ import { errorHandler } from "../../utils/error.js";
 //     console.log(error.message);
 //   }
 // };
+
 export const sendMessage = async (req, res, next) => {
   try {
     const { id: receiverId } = req.params;
@@ -97,10 +99,16 @@ export const sendMessage = async (req, res, next) => {
       res.status(200).json({ newChat: chat, defaultMessage });
     } else {
       const { message } = req.body;
+      let { image } = req.body;
+      if (image) {
+        const imageRes = await cloudinary.uploader.upload(image);
+        image = imageRes.secure_url;
+      }
       const newMessage = new ChatMessage({
         senderId,
         receiverId,
         message,
+        image,
       });
       // console.log(req.body.message);
       // console.log(newMessage.message);
@@ -145,7 +153,7 @@ export const getAllMessages = async (req, res, next) => {
     console.log("Chat messages: ", chat.messages);
 
     if (!chat) {
-      return res.status(200).json([]);
+      return next(errorHandler(404, "not chat found"));
     }
 
     const messages = chat.messages;

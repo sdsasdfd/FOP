@@ -198,11 +198,12 @@ const EditGig = () => {
 
   const handleSubCatChange = (e, index) => {
     const newValue = e.target.value;
-    setDataDetails((prevDetails) => {
-      const updatedSubCat = [...prevDetails.subCategory];
-      updatedSubCat[index] = newValue;
-      return { ...prevDetails, subCategory: updatedSubCat };
-    });
+    setDataDetails((prevDetails) => ({
+      ...prevDetails,
+      subCategory: prevDetails.subCategory.map((value, i) =>
+        i === index ? newValue : value
+      ),
+    }));
   };
 
   const handleImage = (e) => {

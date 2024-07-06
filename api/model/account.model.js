@@ -10,6 +10,10 @@ const accountSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    earning: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

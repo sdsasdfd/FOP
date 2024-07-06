@@ -5,6 +5,7 @@ import "./index.css";
 import { store, persistor } from "./store/store.js";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
+import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -12,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Provider store={store}>
       <React.StrictMode>
         <App />
-        {/* <ToastContainer position="top-center" /> */}
+        <ToastContainer position="top-center" />
       </React.StrictMode>
     </Provider>
   </PersistGate>

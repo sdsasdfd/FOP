@@ -3,6 +3,7 @@ import { Form, Link, redirect, useNavigate } from "react-router-dom";
 // import { customFetch } from "../../utils/customFetch";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../../store/userSlice";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,16 +27,20 @@ const Login = () => {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
+        toast.error(data.message);
         return dispatch(loginFailure(data.message));
       }
       if (data.roles === "user") {
+        toast.success("Logged In!");
         dispatch(loginSuccess(data));
         return navigate("/user-home");
       } else {
+        toast.success("Logged In!");
         dispatch(loginSuccess(data));
         return navigate("/servicer-home");
       }
     } catch (error) {
+      toast.error(data.message);
       return dispatch(loginFailure(error.message));
     }
   };

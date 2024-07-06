@@ -155,7 +155,7 @@ export const searchCategory = async (req, res, next) => {
     const { inputCategoryTitle } = req.query;
 
     const category = await Category.find({
-      title: inputCategoryTitle,
+      title: { $regex: inputCategoryTitle, $options: "i" },
     });
     if (!category) {
       return next(errorHandler(404, "Category does not exist."));
@@ -167,116 +167,143 @@ export const searchCategory = async (req, res, next) => {
   }
 };
 
-export const updateUser = async (req, res, next) => {
-  try {
-    const userId = req.user._id;
-    const { username, email, location } = req.body;
+// export const updateUser = async (req, res, next) => {
+//   try {
+//     const userId = req.user._id;
+//     const { username, email, location } = req.body;
 
-    let { image } = req.body;
+//     let { image } = req.body;
+
+//     if (image) {
+//       const imgRes = await cloudinary.uploader.upload(image);
+//       image = imgRes.secure_url;
+//     }
+
+//     const emailExist = await User.findOne({ email });
+//     if (emailExist) {
+//       return next(errorHandler(409, "Email already exist!"));
+//     }
+
+//     const updateUserData = {};
+
+//     if (username) updateUserData.username = username;
+//     if (email) updateUserData.email = email;
+//     if (location) updateUserData.location = location;
+//     if (image) updateUserData.image = image;
+
+//     const user = await User.findByIdAndUpdate({ _id: userId }, updateUserData, {
+//       new: true,
+//       runValidators: true,
+//     }).select("-password");
+
+//     if (!user) {
+//       return next(errorHandler(404, "User not found"));
+//     }
+
+//     res.status(200).json(user);
+//   } catch (error) {
+//     return next(errorHandler(500, "Error while updating user details"));
+//   }
+// };
+
+export const updateUser = async (req, res, next) => {
+  const userId = req.user._id;
+  const { username, email, location } = req.body;
+
+  let { image } = req.body;
+  try {
+    let user = await User.findById(userId);
+
+    if (!user) return next(errorHandler(404, "user not found"));
 
     if (image) {
+      if (user.image) {
+        // https://res.cloudinary.com/dyfqon1v6/image/upload/v1712997552/zmxorcxexpdbh8r0bkjb.png
+        await cloudinary.uploader.destroy(
+          user.image.split("/").pop().split(".")[0]
+        );
+      }
       const imgRes = await cloudinary.uploader.upload(image);
       image = imgRes.secure_url;
     }
 
-    const updateUserData = {};
+    user.username = username || user.username;
+    user.email = email || user.email;
+    user.location = location || user.location;
+    user.image = image || user.image;
+    await user.save();
 
-    if (username) updateUserData.username = username;
-    if (email) updateUserData.email = email;
-    if (location) updateUserData.location = location;
-    if (image) updateUserData.image = image;
-
-    const user = await User.findByIdAndUpdate({ _id: userId }, updateUserData, {
-      new: true,
-    }).select("-password");
-
-    if (!user) {
-      return next(errorHandler(404, "User not found"));
-    }
-
-    res.status(200).json(user);
+    return res.status(200).json(user);
   } catch (error) {
-    return next(errorHandler(500, "Error while updating user details"));
+    next(error);
   }
 };
-
 export const updateServiceProvider = async (req, res, next) => {
+  const servicerId = req.user._id;
+  const { username, email, location, category } = req.body;
+
+  let { image } = req.body;
   try {
-    const servicerId = req.user._id;
-    const { username, email, location, category } = req.body;
+    let servicer = await User.findById(servicerId);
 
-    let { image } = req.body;
+    if (!servicer) return next(errorHandler(404, "user not found"));
 
+    // const updatedImg = image;
     if (image) {
+      if (servicer.image) {
+        // https://res.cloudinary.com/dyfqon1v6/image/upload/v1712997552/zmxorcxexpdbh8r0bkjb.png
+        await cloudinary.uploader.destroy(
+          servicer.image.split("/").pop().split(".")[0]
+        );
+      }
       const imgRes = await cloudinary.uploader.upload(image);
       image = imgRes.secure_url;
     }
 
-    const updateServicerData = {};
+    servicer.username = username || servicer.username;
+    servicer.email = email || servicer.email;
+    servicer.location = location || servicer.location;
+    servicer.category = category || servicer.category;
+    servicer.image = image || servicer.image;
+    // servicer.image = updatedImg;
 
-    if (username) updateServicerData.username = username;
-    if (email) updateServicerData.email = email;
-    if (location) updateServicerData.location = location;
-    if (category) updateServicerData.category = category;
-    if (image) updateServicerData.image = image;
+    await servicer.save();
 
-    const serviceProvider = await User.findByIdAndUpdate(
-      { _id: servicerId },
-      updateServicerData,
-      {
-        new: true,
-      }
-    ).select("-password");
-
-    if (!serviceProvider) {
-      return next(errorHandler(404, "Service Provider not found"));
-    }
-
-    res.status(200).json(serviceProvider);
+    return res.status(200).json(user);
   } catch (error) {
-    return next(errorHandler(500, "Error while updating user details"));
+    next(error);
   }
 };
 
 export const updateAdminProfile = async (req, res, next) => {
+  const userId = req.user._id;
+  const { username, email } = req.body;
+
+  let { image } = req.body;
   try {
-    const { username, email } = req.body;
-    const adminId = req.user._id;
-    let { image } = req.body;
+    let user = await User.findById(userId);
+
+    if (!user) return next(errorHandler(404, "user not found"));
 
     if (image) {
-      try {
-        const imgRes = await cloudinary.uploader.upload(image);
-        console.log(image);
-        image = imgRes.secure_url;
-      } catch (error) {
-        return next(errorHandler(500, "Error uploading image"));
+      if (user.image) {
+        // https://res.cloudinary.com/dyfqon1v6/image/upload/v1712997552/zmxorcxexpdbh8r0bkjb.png
+        await cloudinary.uploader.destroy(
+          user.image.split("/").pop().split(".")[0]
+        );
       }
+      const imgRes = await cloudinary.uploader.upload(image);
+      image = imgRes.secure_url;
     }
 
-    console.log(username, email, image);
-    if (!username && !email) {
-      return next(errorHandler(400, "Provide Input"));
-    }
+    user.username = username || user.username;
+    user.email = email || user.email;
+    user.image = image || user.image;
 
-    const adminProfileInput = {};
+    await user.save();
 
-    if (username) adminProfileInput.username = username;
-    if (email) adminProfileInput.email = email;
-    if (image) adminProfileInput.image = image;
-
-    const updatedAdmin = await User.findByIdAndUpdate(
-      { _id: adminId },
-      adminProfileInput,
-      {
-        new: true,
-      }
-    ).select("-password");
-
-    console.log(updatedAdmin);
-
-    res.status(200).json(updatedAdmin);
+    return res.status(200).json(user);
   } catch (error) {
-    return next(errorHandler(500, "Error updating profile."));
+    next(error);
   }
 };
