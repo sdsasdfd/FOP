@@ -7,9 +7,10 @@ import { TbCategoryPlus, TbH1 } from "react-icons/tb";
 import { GrUserWorker } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
+import { BsClipboard2CheckFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { hiddenSidebar } from "../store/toggleSidebar";
+
 import { logoutSuccess } from "../store/userSlice";
 
 const Sidebar = () => {
@@ -29,9 +30,11 @@ const Sidebar = () => {
       console.log(data.message);
     }
   };
+
   return (
-    <div>
-      <div className="hidden md:block w-[220px] border-r h-screen">
+    <>
+      {/* larger Device */}
+      <div className="hidden bg-white md:block w-[280px] border-r min-h-screen">
         <Logo />
         <div className="pl-2 mt-4">
           <div className="cursor-pointer my-2">
@@ -63,6 +66,12 @@ const Sidebar = () => {
                 Category
               </span>
             </Link>
+            <Link to="faq">
+              <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
+                <BsClipboard2CheckFill className=" text-lg" />
+                FAQ
+              </span>
+            </Link>
           </div>
 
           <div className="cursor-pointer my-2">
@@ -83,7 +92,7 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

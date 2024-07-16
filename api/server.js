@@ -12,10 +12,28 @@ import paymentRouter from "./routes/payment.route.js";
 import accountRouter from "./routes/account.route.js";
 import transactionRouter from "./routes/transaction.route.js";
 import reviewRouter from "./routes/review.route.js";
+import complainRouter from "./routes/complain.route.js";
+import faqRouter from "./routes/faq.route.js";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
+import cors from "cors";
+import { app, server } from "./socket/index.js";
 
-const app = express();
+import { Server } from "socket.io";
+import http from "http";
+
+// const app = express();
+app.use(cors());
+// const server = http.createServer(app);
+
+// const io = new Server(server, {
+//   cors: {
+//     origin: "http://localhost:5173",
+//     methods: ["GET", "POST"],
+//     credentials: true,
+//   },
+// });
+
 const port = process.env.PORT || 5000;
 
 cloudinary.config({
@@ -37,6 +55,8 @@ app.use("/api/payment", paymentRouter);
 app.use("/api/account", accountRouter);
 app.use("/api/transaction", transactionRouter);
 app.use("/api/review", reviewRouter);
+app.use("/api/faq", faqRouter);
+app.use("/api/complain", complainRouter);
 
 mongoose
   .connect(process.env.MONGO_URL)
@@ -44,8 +64,6 @@ mongoose
     console.log("Connected...");
   })
   .catch((e) => e.message);
-
-app.listen(port, () => console.log("Runn on port", port));
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -56,3 +74,13 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
+// io.on("connection", (socket) => {
+//   console.log("a user connected", socket.id);
+
+//   socket.on("disconnect", () => {
+//     console.log("user disconnected", socket.id);
+//   });
+// });
+
+server.listen(port, () => console.log("Runn on port", port));

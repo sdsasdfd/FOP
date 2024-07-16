@@ -2,9 +2,11 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./userSlice.js";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import toggleReducer from "./toggleSidebar.js";
 
 const rootReducer = combineReducers({
   user: userReducer,
+  toggle: toggleReducer,
 });
 
 const persistConfig = {

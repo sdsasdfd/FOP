@@ -1,5 +1,6 @@
 import { Chat } from "../../model/chat.model.js";
 import { ChatMessage } from "../../model/message.model.js";
+import { getReceiverSocketId, io } from "../../socket/index.js";
 import { errorHandler } from "../../utils/error.js";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -123,7 +124,10 @@ export const sendMessage = async (req, res, next) => {
       // if (receiverSocketId) {
       //   io.to(receiverSocketId).emit("newMessage", newMessage);
       // }
-
+      const receiverSocketId = getReceiverSocketId(receiverId);
+      if (receiverId) {
+        io.to(receiverSocketId).emit("newMessage", newMessage);
+      }
       res.status(200).json(newMessage);
     }
   } catch (error) {
@@ -137,8 +141,8 @@ export const getAllMessages = async (req, res, next) => {
     const { id: userToChatId } = req.params;
     const senderId = req.user._id;
 
-    console.log("Sender ID:", senderId);
-    console.log("User to Chat ID:", userToChatId);
+    // console.log("Sender ID:", senderId);
+    // console.log("User to Chat ID:", userToChatId);
 
     if (!senderId || !userToChatId) {
       return next(errorHandler(400, "Invalid user IDs"));
@@ -150,7 +154,7 @@ export const getAllMessages = async (req, res, next) => {
       },
     }).populate("messages");
 
-    console.log("Chat messages: ", chat.messages);
+    // console.log("Chat messages: ", chat.messages);
 
     if (!chat) {
       return next(errorHandler(404, "not chat found"));
@@ -158,7 +162,7 @@ export const getAllMessages = async (req, res, next) => {
 
     const messages = chat.messages;
 
-    res.status(200).json(messages);
+    res.status(200).json(chat);
   } catch (error) {
     next(error);
   }

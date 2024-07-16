@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import profileImg from "/img/profileImg.webp";
 import { CiLocationOn } from "react-icons/ci";
-import EditProfile from "../../components/Servicer/ServicerEditProfile";
+import ServicerEditProfile from "../../components/Servicer/ServicerEditProfile";
 import { useSelector } from "react-redux";
 
 const SerProfile = () => {
@@ -63,7 +63,7 @@ const SerProfile = () => {
         <div className="flex md:justify-normal justify-around items-center mb-4 gap-6 mt-8">
           <img
             src={currentUser.image || profileImg}
-            className="md:w-32 md:h-32 w-28 h-28 object-cover rounded-full"
+            className="md:w-32 md:h-32 w-28 h-28 object-cover rounded-full "
             alt=""
           />
           <div className="grid grid-cols-1 md:grid-cols-2  gap-6">
@@ -86,12 +86,13 @@ const SerProfile = () => {
               </span>
             </div>
             <div className="flex gap-4">
-              <button
+              {/* <button
                 onClick={() => setToggleModal(true)}
                 className=" bg-blue-500 hover:bg-blue-400 py-2 text-white px-2 rounded-md"
               >
                 Edit Profile
-              </button>
+              </button> */}
+              <ServicerEditProfile />
             </div>
           </div>
         </div>
@@ -132,7 +133,7 @@ const SerProfile = () => {
           </table>
         </div>
       </div>
-      {toggleModal && <EditProfile setToggleModal={setToggleModal} />}
+      {/* {toggleModal && <EditProfile setToggleModal={setToggleModal} />} */}
     </div>
   );
 };

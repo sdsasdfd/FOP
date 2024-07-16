@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const bgImage = "/img/bgImg.jpg";
 const CategoryCard = ({ category }) => {
   return (
-    <div className="flex w-[250px] sm:w-[300px]  border rounded-md p-3 mx-4 flex-col shadow-md ">
+    <div className="flex w-[350px] mb-4 border rounded-md p-3 mx-4 flex-col shadow-md ">
       <img src={category.image} className="rounded-md h-[150px]" alt="" />
       <h4 className="font-semibold text-2xl mt-2"> {category.title} </h4>
       <p className=""> {category.description} </p>

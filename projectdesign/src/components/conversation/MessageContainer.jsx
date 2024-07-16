@@ -4,7 +4,14 @@ import Messages from "./Messages";
 import MessageInput from "./MessageInput";
 import { useParams } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 const MessageContainer = () => {
+  const [socketConnected, setSocketConnected] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+
+  const { conversation } = useParams();
+
   // const { conversation } = useParams();
   // const [messages, setMessages] = useState([]);
 

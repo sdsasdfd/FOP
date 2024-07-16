@@ -13,18 +13,6 @@ const Gig = () => {
 
   const navigate = useNavigate();
 
-  const { currentUser } = useSelector((state) => state.user);
-
-  const checkServicer = () => {
-    if (!currentUser) {
-      return navigate("/");
-    }
-  };
-
-  useEffect(() => {
-    checkServicer();
-  }, []);
-
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -67,7 +55,7 @@ const Gig = () => {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-        console.log(data.message);
+        return console.log(data.message);
       }
       navigate("/login");
     } catch (error) {

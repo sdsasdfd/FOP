@@ -17,7 +17,7 @@ const MessageInfoContainer = () => {
   const dispatch = useDispatch();
 
   const { chats: messages, error } = useSelector((state) => state.chats);
-  console.log(messages);
+  // console.log(messages);
 
   useEffect(() => {
     const fetchMessage = async () => {
@@ -45,8 +45,6 @@ const MessageInfoContainer = () => {
     fetchMessage();
   }, [dispatch]);
 
-  console.log(messages);
-
   if (error) {
     return <div> {error} </div>;
   }
@@ -59,11 +57,14 @@ const MessageInfoContainer = () => {
         {/* {messages.length === 0 && <div>no messages available</div>} */}
 
         {messages?.map((message) => {
+          const otherParticipantName = message.otherParticipantInfo?.username;
+          const otherParticipantId = message.otherParticipantInfo?._id;
+          console.log(otherParticipantName);
           const lastMessageDetails = message?.lastMessage;
           const lastMessage = lastMessageDetails?.message;
           const lastMessageImage = lastMessageDetails?.image;
           const time = lastMessageDetails?.createdAt;
-          const senderName = lastMessageDetails?.senderId.username;
+          const senderId = lastMessageDetails?.senderId._id;
           const receiverId = message.lastMessage?.receiverId;
 
           return (
@@ -72,7 +73,9 @@ const MessageInfoContainer = () => {
               key={message._id}
             >
               <div className="flex justify-between mb-2 ">
-                <span className="text-lg font-semibold">{senderName}</span>
+                <span className="text-lg font-semibold">
+                  {otherParticipantName}
+                </span>
                 <span className="font-semibold">{moment(time).fromNow()}</span>
               </div>
               <div className=" flex items-center gap-2">
@@ -82,7 +85,7 @@ const MessageInfoContainer = () => {
                 {lastMessage ? <span>{lastMessage}</span> : <span>Photo</span>}
               </div>
               <div>
-                <Link to={`${receiverId}`}>
+                <Link to={`${otherParticipantId}`}>
                   <button className=" bg-blue-500 py-2 w-[70px] rounded-lg text-white mt-4">
                     Read
                   </button>
@@ -107,16 +110,21 @@ const MessageInfoContainer = () => {
             {/* {messages.length === 0 && <div>no messages available</div>} */}
 
             {messages?.map((message) => {
+              const otherParticipantName =
+                message.otherParticipantInfo?.username;
+              const otherParticipantId = message.otherParticipantInfo?._id;
               const lastMessageDetails = message?.lastMessage;
               const lastMessageImage = lastMessageDetails?.image;
               const lastMessage = lastMessageDetails?.message;
               const time = lastMessageDetails?.createdAt;
-              const senderName = lastMessageDetails?.senderId.username;
-              const receiverId = message.lastMessage?.receiverId;
-              console.log(receiverId);
+              const senderName = lastMessageDetails?.senderId._id;
+
               return (
                 <tr key={message._id}>
-                  <td className="p-3 font-semibold"> {senderName} </td>
+                  <td className="p-3 font-semibold">
+                    {" "}
+                    {otherParticipantName}{" "}
+                  </td>
                   <td className="p-3 ">
                     <div className=" flex items-center gap-2">
                       {lastMessageImage && (
@@ -131,7 +139,7 @@ const MessageInfoContainer = () => {
                   </td>
                   <td className="p-3">{moment(time).fromNow()}</td>
                   <td className="p-3">
-                    <Link to={`${receiverId}`}>
+                    <Link to={`${otherParticipantId}`}>
                       <button className=" bg-blue-500 py-3 rounded-lg w-[70px] text-white">
                         Read
                       </button>
@@ -143,7 +151,6 @@ const MessageInfoContainer = () => {
           </tbody>
         </table>
       </div>
-      {/* // for small devices */}
     </>
   );
 };

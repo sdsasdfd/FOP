@@ -8,15 +8,13 @@ const toggleSlice = createSlice({
   name: "toggle",
   initialState,
   reducers: {
-    showSidebar: (state) => {
-      state.toggle = true;
-    },
-    hiddenSidebar: (state) => {
-      state.toggle = false;
+    toggleSidebar: (state) => {
+      state.toggle = !state.toggle;
     },
   },
 });
 
-export const { hiddenSidebar, showSidebar } = toggleSlice.actions;
+export const { toggleSidebar } = toggleSlice.actions;
 
-export default toggleSlice.reducer;
+const toggleReducer = toggleSlice.reducer;
+export default toggleReducer;

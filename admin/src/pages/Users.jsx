@@ -40,7 +40,7 @@ const Users = () => {
     <div className="flex-1 p-5 bg-slate-50 min-h-screen">
       <div className="p-4 bg-white flex-1 shadow-md rounded-md">
         <h1 className=" text-3xl font-semibold mb-3">Users</h1>
-        <div className="w-full overflow-auto">
+        <div className="overflow-auto">
           <table className=" rounded-lg w-full  ">
             <thead className="border-b">
               <tr className="text-left">

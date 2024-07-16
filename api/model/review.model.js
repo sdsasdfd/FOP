@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema(
   {
-    gigId: {
+    servicerId: {
       type: mongoose.Types.ObjectId,
-      ref: "Gig",
+      ref: "User",
       required: true,
     },
     userId: {

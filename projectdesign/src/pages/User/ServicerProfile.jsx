@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import bgImg from "/img/tv-mounting.jpg";
 import { IoLocationOutline } from "react-icons/io5";
 
+import profileImg from "/img/profileImg.webp";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 const ServicerProfile = () => {
@@ -9,6 +10,15 @@ const ServicerProfile = () => {
 
   const [servicerInfo, setServicerInfo] = useState({});
   const [reviews, setReviews] = useState([]);
+  const [starCounts, setStarCounts] = useState({
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+  });
+  const [score, setScore] = useState(null);
+  const [reviewCount, setReviewCount] = useState(null);
 
   useEffect(() => {
     const fetchInfo = async () => {
@@ -61,11 +71,40 @@ const ServicerProfile = () => {
     }
   };
 
+  useEffect(() => {
+    const calculateAverageRating = () => {
+      const starCountValues = Object.values(starCounts);
+
+      const totalScore = starCountValues.reduce((total, count, index) => {
+        return total + count * (index + 1);
+      }, 0);
+
+      const sumOfResponses = starCountValues.reduce(
+        (acc, currentStar) => acc + currentStar,
+        0
+      );
+
+      const score = sumOfResponses ? totalScore / sumOfResponses : 0;
+
+      const roundedScore = score.toFixed(1);
+      setScore(roundedScore);
+    };
+
+    calculateAverageRating();
+  }, [reviews, starCounts]);
+
+  //formatting date for reviews
+  function formatDate(createdAt) {
+    const date = new Date(createdAt);
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  }
+
   return (
     <div className="container mx-auto mt-6  px-4">
       {/* //Hero Section with img */}
       <div
-        className=" h-[450px] md:pl-8 pl-4 rounded-lg text-white flex flex-col justify-end"
+        className="h-[450px] md:pl-8 pl-4 rounded-lg text-white flex flex-col justify-end"
         style={{
           backgroundImage: `url(${servicerInfo.coverImg})`,
           backgroundPosition: "center",
@@ -94,7 +133,7 @@ const ServicerProfile = () => {
           <div className="flex mb-4 justify-between">
             <div className="flex gap-4 items-center">
               <img
-                src="https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png"
+                src={servicerInfo?.servicerId?.image || profileImg}
                 alt="user avatar"
                 className="w-24 h-24 border rounded-full"
               />
@@ -155,138 +194,78 @@ const ServicerProfile = () => {
         <h1 className="text-2xl font-semibold mb-4">Reviews</h1>
         <div className="flex flex-col sm:flex-row sm:gap-8 gap-2">
           <div className="flex flex-row items-center sm:flex-col gap-2">
-            <span className="text-4xl mb-4 font-bold">4.8</span>
+            <span className="text-4xl mb-4 font-bold">{score}</span>
             <div className="flex sm:flex-col flex-row gap-2">
-              <div className="rating mb-3">
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                />
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                  defaultChecked
-                />
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                  defaultChecked
-                />
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                />
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                />
+              <div className="rating mb-3 rating-sm gap-[2px]">
+                {Array.from({ length: 5 }).map((_, index) => {
+                  let starClass = "bg-gray-300";
+                  if (index < Math.floor(score)) {
+                    starClass = "bg-yellow-500"; // Full star
+                  } else if (index === Math.floor(score) && score % 1 !== 0) {
+                    starClass = "bg-yellow-500"; // Half star
+                  }
+
+                  return (
+                    <span
+                      key={index}
+                      className={`inline-block w-5 h-5 mask mask-star-2 ${starClass}`}
+                    ></span>
+                  );
+                })}
               </div>
-              <span className="text-lg font-medium">30 reviews</span>
+
+              <span className="text-lg font-medium">{reviewCount} reviews</span>
             </div>
           </div>
-          <div className="flex  flex-col gap-3">
-            <div className="flex gap-4 items-center">
-              <span className="font-semibold">5 Stars</span>
-              <progress
-                className="progress w-56"
-                value={0}
-                max="100"
-              ></progress>
-              <span className="font-semibold">(30)</span>
-            </div>
-            <div className="flex gap-4 items-center">
-              <span className="font-semibold">4 Stars</span>
-              <progress
-                className="progress w-56"
-                value="10"
-                max="100"
-              ></progress>
-              <span className="font-semibold">(10)</span>
-            </div>
-            <div className="flex gap-4 items-center">
-              <span className="font-semibold">3 Stars</span>
-              <progress
-                className="progress w-56"
-                value="40"
-                max="100"
-              ></progress>
-              <span className="font-semibold">(10)</span>
-            </div>
-            <div className="flex gap-4 items-center">
-              <span className="font-semibold">2 Stars</span>
-              <progress
-                className="progress w-56"
-                value="40"
-                max="100"
-              ></progress>
-              <span className="font-semibold">(10)</span>
-            </div>
-            <div className="flex gap-4 items-center">
-              <span className="font-semibold">1 Stars</span>
-              <progress
-                className="progress w-56"
-                value="40"
-                max="100"
-              ></progress>
-              <span className="font-semibold">(10)</span>
-            </div>
+          <div className="flex flex-col gap-3">
+            {[5, 4, 3, 2, 1].map((star) => (
+              <div className="flex gap-4 items-center" key={star}>
+                <span className="font-semibold">{star} Stars</span>
+                <progress
+                  className="progress w-56"
+                  value={starCounts[star]}
+                  max={reviews.length}
+                ></progress>
+                <span className="font-semibold">({starCounts[star]})</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-      {/* user Reviews */}
-      {/* first */}
 
+      {/* user Reviews */}
       <div className="md:w-[70%] w-full">
         {reviews.length === 0 && (
           <span className=" font-medium text-xl">No Reviews</span>
         )}
         {reviews.map((review) => (
-          <div className="mb-4  flex flex-col">
-            <div className="flex mb-4 items-center">
+          <div key={review._id} className="mb-4  flex flex-col">
+            <div className="flex mb-4 gap-4 items-center">
               <img
-                src="https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png"
+                src={servicerInfo?.servicerId?.image || profileImg}
                 alt=""
-                className="w-20 h-20"
+                className="w-20 h-20 rounded-full object-cover"
               />{" "}
               <div className="flex flex-col">
                 <span className="font-bold text-[18px] ">
                   {review.userId.username}{" "}
                 </span>
-                <span> {review.createdAt} </span>
+                <span> {formatDate(review.createdAt)} </span>
               </div>
             </div>
             <div className="rating mb-4 rating-sm gap-[2px]">
-              <input
-                type="radio"
-                name="rating-4"
-                className="mask mask-star-2 bg-gray-700"
-                checked
-              />
-              <input
-                type="radio"
-                name="rating-4"
-                className="mask mask-star-2 bg-gray-700"
-              />
-              <input
-                type="radio"
-                name="rating-4"
-                className="mask mask-star-2 bg-gray-700"
-              />
-              <input
-                type="radio"
-                name="rating-4"
-                className="mask mask-star-2 bg-gray-700"
-              />
-              <input
-                type="radio"
-                name="rating-4"
-                className="mask mask-star-2 bg-gray-700"
-              />
+              {Array.from({ length: 5 }).map((_, index) => (
+                <input
+                  key={index}
+                  type="radio"
+                  name={`rating-${review._id}`}
+                  className={`mask mask-star-2 ${
+                    index < review.star ? "bg-yellow-500" : "bg-gray-300"
+                  }`}
+                  checked={index < review.star}
+                  readOnly
+                />
+              ))}
             </div>
             <p className="font-semibold">{review.desc}</p>
           </div>

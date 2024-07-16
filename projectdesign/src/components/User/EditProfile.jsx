@@ -73,9 +73,6 @@ const EditProfile = () => {
       <dialog id="my_modal_3" ref={dialogRef} className="modal">
         <div className="modal-box">
           <form onSubmit={handleUpdateProfile} className="flex flex-col">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-              ✕
-            </button>
             <div className="flex  justify-center items-center">
               <div className=" relative">
                 <img

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
-import img from "../assets/profileImg.webp";
+
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const EditCategory = () => {

@@ -217,14 +217,23 @@ export const updateUser = async (req, res, next) => {
     if (!user) return next(errorHandler(404, "user not found"));
 
     if (image) {
-      if (user.image) {
+      let userImage = user.image;
+      if (user.image && image !== user.image) {
         // https://res.cloudinary.com/dyfqon1v6/image/upload/v1712997552/zmxorcxexpdbh8r0bkjb.png
         await cloudinary.uploader.destroy(
           user.image.split("/").pop().split(".")[0]
         );
+        if (image !== userImage) {
+          const imgRes = await cloudinary.uploader.upload(image);
+          image = imgRes.secure_url;
+        }
+        console.log("image ", image);
+      } else if (!user.image) {
+        const imgRes = await cloudinary.uploader.upload(image);
+        image = imgRes.secure_url;
       }
-      const imgRes = await cloudinary.uploader.upload(image);
-      image = imgRes.secure_url;
+    } else {
+      image = user.image || "";
     }
 
     user.username = username || user.username;
@@ -238,6 +247,7 @@ export const updateUser = async (req, res, next) => {
     next(error);
   }
 };
+
 export const updateServiceProvider = async (req, res, next) => {
   const servicerId = req.user._id;
   const { username, email, location, category } = req.body;
@@ -250,14 +260,23 @@ export const updateServiceProvider = async (req, res, next) => {
 
     // const updatedImg = image;
     if (image) {
-      if (servicer.image) {
+      let serImage = servicer.image;
+      if (servicer.image && image !== servicer.image) {
         // https://res.cloudinary.com/dyfqon1v6/image/upload/v1712997552/zmxorcxexpdbh8r0bkjb.png
         await cloudinary.uploader.destroy(
           servicer.image.split("/").pop().split(".")[0]
         );
+        if (image !== serImage) {
+          const imgRes = await cloudinary.uploader.upload(image);
+          image = imgRes.secure_url;
+        }
+        console.log("image ", image);
+      } else if (!user.image) {
+        const imgRes = await cloudinary.uploader.upload(image);
+        image = imgRes.secure_url;
       }
-      const imgRes = await cloudinary.uploader.upload(image);
-      image = imgRes.secure_url;
+    } else {
+      image = user.image || "";
     }
 
     servicer.username = username || servicer.username;
@@ -269,7 +288,7 @@ export const updateServiceProvider = async (req, res, next) => {
 
     await servicer.save();
 
-    return res.status(200).json(user);
+    return res.status(200).json(servicer);
   } catch (error) {
     next(error);
   }

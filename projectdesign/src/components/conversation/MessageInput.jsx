@@ -1,29 +1,39 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsSend } from "react-icons/bs";
 import { CiSquarePlus } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { setMessages } from "../../store/messageSlice";
+import { toast } from "react-toastify";
+
 import { IoCloseSharp } from "react-icons/io5";
+import { IoMdSend } from "react-icons/io";
+import { useSocketContext } from "../../context/SocketContext";
+import { IoMdClose } from "react-icons/io";
 
 const MessageInput = () => {
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { messages } = useSelector((state) => state.message);
 
   // const [message, setMessage] = useState("");
   const [newMessageText, setNewMessageText] = useState("");
-  const { conversation } = useParams();
-  const [popupPay, setPopupPay] = useState(false);
-  const [amount, setAmount] = useState();
-  const [amountSentByServicer, setAmountSentByServicer] = useState(false);
+  const { id } = useParams();
+
   const [togglePriceCardForUser, setTogglePriceCardForUser] = useState(false);
-  const [amountSentByUser, setAmountSentByUser] = useState(null);
+
   const [toggleUploadImage, setToggleUploadImage] = useState(false);
+  const [toggleComplainModal, setToggleComplainModal] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [reviewDesc, setReviewDesc] = useState("");
+  const [rating, setRating] = useState(1);
 
   const [img, setImg] = useState(null);
   const imgRef = useRef(null);
-  console.log(img);
+  // console.log(img);
+
+  const [servicerCompletedTask, setServicerCompletedTask] = useState(false);
 
   const handleImgChange = (e) => {
     const file = e.target.files[0];
@@ -33,27 +43,6 @@ const MessageInput = () => {
         setImg(reader.result);
       };
       reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmitAmount = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch(`/api/payment/generate-slip/${conversation}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: +amount }),
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        return console.log(data.message);
-      }
-      console.log(data);
-      setPopupPay(false);
-      setAmountSentByServicer(true);
-      console.log(amountSentByServicer);
-    } catch (error) {
-      console.log(error.message);
     }
   };
 
@@ -76,7 +65,9 @@ const MessageInput = () => {
         }
 
         console.log(data);
+
         dispatch(setMessages([...messages, data]));
+
         setNewMessageText(""); // Clear the message input after sending
         setToggleUploadImage(false);
       } catch (error) {
@@ -84,97 +75,245 @@ const MessageInput = () => {
       }
     }
   };
+  const { socket } = useSocketContext();
+
+  useEffect(() => {
+    socket?.on("newMessage", (newMessage) => {
+      dispatch(setMessages((prevMessages) => [...prevMessages, newMessage]));
+    });
+  }, [messages, socket, dispatch]);
+
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const handleSubmitAmountByUser = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/payment/make-payment/${conversation}`, {
+      const res = await fetch(`/api/payment/make-payment/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: +amount }),
+        body: JSON.stringify(),
       });
       const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
+      } else {
+        toast.success("Payment done successfully!");
+        setTogglePriceCardForUser(false);
+        setShowReviewModal(true);
       }
-      console.log(data);
-      setTogglePriceCardForUser(false);
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  // handle Review function
+  const reviewHandle = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`/api/review/create/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ star: rating, desc: reviewDesc }),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+      }
+      // console.log(data);
+      toast.success("review sent");
+      navigate("/user-home");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // get slip
+  const [slipDetails, setSlipDetails] = useState({});
+  useEffect(() => {
+    const fetchSlip = async () => {
+      try {
+        const res = await fetch(`/api/payment/generate-slip/${id}`);
+        const data = await res.json();
+        if (data.success === false) {
+          console.log(data.message);
+        }
+        console.log(data);
+        setSlipDetails(data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchSlip();
+  }, []);
+
   return (
     <div className="w-full overflow-hidden">
+      {/* Payment Modal */}
       {togglePriceCardForUser && (
-        <div className=" absolute top-0 w-[80%] flex items-center justify-center  h-screen border z-50">
-          <form
-            onSubmit={handleSubmitAmountByUser}
-            className="flex flex-col bg-slate-200 w-[250px] p-6 card"
-          >
-            <label className="label" htmlFor="">
-              check the amount
-            </label>
-            <input
-              type="number"
-              className=" input"
-              min={0}
-              placeholder="Price..."
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <button className="btn mt-2" type="submit">
-              Send
+        <div className=" absolute  top-0 w-[80%] flex items-center justify-center  h-screen border z-50">
+          <div className="modal-box relative">
+            <button
+              className="btn border-1 border-slate-400  btn-sm btn-circle absolute right-2 top-2"
+              onClick={() => setTogglePriceCardForUser(false)}
+            >
+              ✕
             </button>
-          </form>
-        </div>
-      )}
-      {popupPay && (
-        <div className=" absolute top-0 w-[80%] flex items-center justify-center  h-screen border z-50">
-          <form
-            onSubmit={handleSubmitAmount}
-            className="flex flex-col bg-slate-200 w-[250px] p-6 card"
-          >
-            <label className="label" htmlFor="">
-              Payment
-            </label>
-            <input
-              type="number"
-              className=" input"
-              min={0}
-              placeholder="Price..."
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <button className="btn mt-2" type="submit">
-              Send
-            </button>
-          </form>
+            <form
+              onSubmit={handleSubmitAmountByUser}
+              className="flex flex-col  p-6 "
+            >
+              <span className=" font-bold text-3xl my-2">Check the slip</span>
+              <div className="flex gap-4 items-center my-1">
+                <span className=" text-lg font-medium">Sender Name:</span>
+                <span className="text-lg font-medium">
+                  {slipDetails.senderName}
+                </span>
+              </div>
+              <div className="flex gap-4 items-center my-1">
+                <span className=" text-lg font-medium">Sender Email:</span>
+                <span className="text-lg font-medium">
+                  {slipDetails.senderEmail}
+                </span>
+              </div>
+              <div className="flex gap-4 items-center my-1">
+                <span className=" text-lg font-medium">Receiver Name:</span>
+                <span className="text-lg font-medium">
+                  {slipDetails.receiverName}
+                </span>
+              </div>
+              <div className="flex gap-4 items-center my-1">
+                <span className=" text-lg font-medium">Category Name</span>
+                <span className="text-lg font-medium">
+                  {slipDetails.serviceCategory}
+                </span>
+              </div>
+
+              <div className="flex gap-4 items-center my-1">
+                <span className=" text-lg font-medium">Fee Amount:</span>
+                <span className="text-lg font-medium">
+                  {" "}
+                  {slipDetails.feeAmount}{" "}
+                </span>
+              </div>
+              <div className="flex gap-4 items-center my-1">
+                <span className=" text-lg font-medium">
+                  After deduction of fee net amount:
+                </span>
+                <span className="text-lg font-medium">
+                  {" "}
+                  {slipDetails.netAmount}
+                </span>
+              </div>
+              <div className="flex gap-4 items-center my-1">
+                <span className=" text-lg font-medium">Total Amount:</span>
+                <span className="text-lg font-medium">
+                  {slipDetails.totalAmount}
+                </span>
+              </div>
+              <button
+                className="btn mt-2 bg-blue-600 text-lg hover:bg-blue-500 text-white"
+                type="submit"
+              >
+                Confirm Payment
+              </button>
+            </form>
+          </div>
         </div>
       )}
 
-      {toggleUploadImage && (
-        <div className=" absolute top-[60px] w-[400px] sm:w-[500px] md:w-[600px] lg:w-[900px] h-[400px] bg-slate-500 bg-opacity-30 flex items-center z-20 justify-center ">
-          <div
-            className="w-fit p-2 absolute top-0 right-0 cursor-pointer hover:text-red-600"
-            onClick={(e) => {
-              setImg(null);
-              e.target.value = null;
-            }}
-          >
-            <IoCloseSharp size={30} />
-          </div>
-          <div className=" bg-white p-3">
-            <img
-              className="aspect-square m-2 object-scale-down"
-              src={img}
-              width={250}
-              height={250}
-              alt=""
-            />
+      {/* Review Modal */}
+      {showReviewModal && (
+        <div className=" w-[90%] h-screen bg-opacity-20 z-30 bg-slate-400 absolute top-0 flex items-center justify-center">
+          <div className="modal-box bg-blue-50 ">
+            <h1 className=" font-extrabold  text-3xl my-4">
+              We appreciate your feedback
+            </h1>
+            <p className=" text-lg font-medium">
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugiat,
+              accusantium.
+            </p>
+
+            <button
+              className="btn border-1 border-slate-400  btn-sm btn-circle btn-ghost absolute right-2 top-2"
+              onClick={() => setShowReviewModal(false)}
+            >
+              ✕
+            </button>
+            <form
+              className="flex w-full mt-5 items-center flex-col gap-4"
+              onSubmit={reviewHandle}
+            >
+              <div className="rating rating-lg">
+                <input
+                  type="radio"
+                  name="rating-9"
+                  className="mask mask-star-2 bg-blue-500"
+                  onChange={() => setRating(1)}
+                  defaultChecked
+                />
+                <input
+                  type="radio"
+                  name="rating-9"
+                  className="mask mask-star-2 bg-blue-500"
+                  onChange={() => setRating(2)}
+                />
+                <input
+                  type="radio"
+                  name="rating-9"
+                  className="mask mask-star-2 mx-2 bg-blue-500"
+                  onChange={() => setRating(3)}
+                />
+
+                <input
+                  type="radio"
+                  name="rating-9"
+                  className="mask mask-star-2 mx-2 bg-blue-500"
+                  onChange={() => setRating(4)}
+                />
+                <input
+                  type="radio"
+                  name="rating-9"
+                  className="mask mask-star-2 bg-blue-500"
+                  onChange={() => setRating(5)}
+                />
+              </div>
+
+              <textarea
+                className="w-full textarea focus:border-0 placeholder:text-lg"
+                placeholder="what can i do to improve your experience"
+                rows={3}
+                onChange={(e) => setReviewDesc(e.target.value)}
+                value={reviewDesc}
+              />
+              <button
+                type="submit"
+                className="btn bg-blue-500 text-white text-lg hover:bg-blue-400"
+              >
+                Submit my feedback
+              </button>
+            </form>
+            <div className="border-t-2 my-4">
+              <p className=" mt-3 cursor-pointer text-xl">
+                Write your complain{" "}
+                <span
+                  className="hover:text-blue-600"
+                  onClick={() => setToggleComplainModal(true)}
+                >
+                  Click here!
+                </span>
+              </p>
+            </div>
+            {toggleComplainModal && (
+              <form>
+                <textarea name="" id="" placeholder="complain" />
+                <button>Submit</button>
+              </form>
+            )}
           </div>
         </div>
       )}
+
+      {/* Sending Message */}
       <form onSubmit={handleMessageSubmit} className="my-3 relative">
         <div className="w-full gap-3 flex border-t-2 items-center py-2 relative">
           <button className="text-black" type="button">
@@ -196,21 +335,21 @@ const MessageInput = () => {
           <textarea
             className="border w-[80%] h-[100px] outline-none px-2"
             placeholder="Write a message"
-            cols="30"
-            rows="10"
+            cols="10"
+            rows="5"
             onChange={(e) => setNewMessageText(e.target.value)}
             value={newMessageText}
           />
           <button
             type="submit"
-            className="bg-blue-500 text-white py-3 px-6 rounded-lg"
+            className="bg-blue-500 text-white py-2 px-3 rounded-lg"
           >
-            Send
+            <IoMdSend />
           </button>
           {currentUser.roles === "servicer" ? (
             <button
               type="button"
-              onClick={() => setPopupPay(!popupPay)}
+              onClick={() => setServicerCompletedTask(true)}
               className="bg-blue-500 text-white py-3 px-6 rounded-lg"
             >
               Request for completion
@@ -218,44 +357,14 @@ const MessageInput = () => {
           ) : (
             <button
               type="button"
-              className="bg-blue-500 text-white py-3 px-6 rounded-lg"
-              onClick={() => setTogglePriceCardForUser(!togglePriceCardForUser)}
+              className={`${
+                servicerCompletedTask ? "bg-blue-500" : "bg-slate-200"
+              } text-white  py-3 px-6 rounded-lg`}
+              onClick={() => setTogglePriceCardForUser(true)}
             >
               Mark as completed
             </button>
           )}
-          <button
-            className="btn"
-            onClick={() => document.getElementById("my_modal").showModal()}
-          >
-            test
-          </button>
-          <dialog id="my_modal" className="modal">
-            <div className="modal-box">
-              <h3 className=" font-medium">Add Amount</h3>
-
-              <form
-                method="dialog"
-                onSubmit={handleSubmitAmountByUser}
-                className="flex mt-5 items-center  gap-4"
-              >
-                <button className="btn  btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                  ✕
-                </button>
-                <input
-                  type="number"
-                  className=" input border-1 border-gray-300 focus:border-0"
-                  min={0}
-                  placeholder="Enter Price..."
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                />
-                <button className="btn mt-2" type="submit">
-                  Send
-                </button>
-              </form>
-            </div>
-          </dialog>
         </div>
       </form>
     </div>

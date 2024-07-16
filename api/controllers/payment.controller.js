@@ -3,6 +3,7 @@ import { Account } from "../model/account.model.js";
 import { Chat } from "../model/chat.model.js";
 import { errorHandler } from "../utils/error.js";
 import User from "../model/userModel.js";
+import Gig from "../model/gig.model.js";
 
 const processPayment = (amount) => {
   const fee = 0.025;
@@ -48,6 +49,7 @@ const updateAccounts = async (
     senderAccount.balance -= paymentDetails.totalAmount;
     receiverAccount.balance += paymentDetails.netAmount;
     adminAccount.balance += paymentDetails.feeAmount;
+    adminAccount.earning += paymentDetails.feeAmount;
 
     await senderAccount.save();
     await receiverAccount.save();
@@ -58,9 +60,17 @@ const updateAccounts = async (
 };
 
 export const makePayment = async (req, res, next) => {
-  const { amount } = req.body;
+  // const { amount } = req.body;
   const { id: receiverId } = req.params;
   const senderId = req.user._id;
+
+  const gigData = await Gig.findOne({ servicerId: receiverId }).select(
+    "-coverImg -description"
+  );
+
+  const amount = gigData.price;
+
+  console.log(`amount from gig: ${amount}`);
 
   if (!amount || amount <= 0) {
     return next(errorHandler(400, "Invalid Amount"));
@@ -101,12 +111,15 @@ export const makePayment = async (req, res, next) => {
 
 export const generatePaymentSlip = async (req, res, next) => {
   try {
-    const { amount } = req.body;
-    const receiverId = req.user._id;
-    const { id: senderId } = req.params;
-    if (!amount || amount <= 0) {
-      return next(errorHandler(400, "Invalid Amount"));
-    }
+    const senderId = req.user._id;
+    const { id: receiverId } = req.params;
+
+    const gigData = await Gig.findOne({ servicerId: receiverId }).select(
+      "-coverImg -description"
+    );
+    console.log(gigData);
+    const amount = gigData.price;
+
     const paymentDetails = processPayment(amount);
 
     // we can capture receiver's name and category
@@ -123,8 +136,10 @@ export const generatePaymentSlip = async (req, res, next) => {
     console.log(sender);
     console.log(receiver);
     const paymentSlipDetails = {
-      sender: sender.username,
+      senderName: sender.username,
+      senderEmail: sender.email,
       receiverName: receiver.username,
+      receiverEmail: receiver.email,
       serviceCategory: receiver.category,
       totalAmount: paymentDetails.totalAmount,
       feeAmount: paymentDetails.feeAmount,

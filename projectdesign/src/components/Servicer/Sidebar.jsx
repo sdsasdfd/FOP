@@ -1,11 +1,12 @@
 import React from "react";
-import Logo from "../Logo";
+import Logo from "../Logo/Logo";
 import { MdDashboard } from "react-icons/md";
 
 import { HiMiniUsers } from "react-icons/hi2";
 import { TbCategoryPlus, TbH1 } from "react-icons/tb";
 import { GrUserWorker } from "react-icons/gr";
 import { MdOutlineMessage } from "react-icons/md";
+import { BsClipboard2CheckFill } from "react-icons/bs";
 
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
@@ -16,7 +17,7 @@ import { logoutSuccess } from "../../store/userSlice";
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const toggle = useSelector((state) => state.toggle);
+
   const handleLogout = async () => {
     try {
       const res = await fetch("/api/auth/logout", { method: "POST" });
@@ -32,7 +33,7 @@ const Sidebar = () => {
   };
   return (
     <div>
-      <div className="hidden md:block w-[220px] border-r h-screen">
+      <div className="hidden sticky top-0 md:block w-[220px] border-r min-h-full">
         <Logo />
         <div className="pl-2 mt-4">
           <div className="cursor-pointer my-2">
@@ -58,16 +59,17 @@ const Sidebar = () => {
                 Gig
               </span>
             </Link>
+            <Link to="faq">
+              <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
+                <BsClipboard2CheckFill className=" text-lg" />
+                FAQ
+              </span>
+            </Link>
           </div>
 
           <div className="cursor-pointer my-2">
-            <span className=" text-[12px] text-gray-400">USER</span>
-            <Link to="profile">
-              <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                <FaRegUserCircle className=" text-lg" />
-                Profile
-              </span>
-            </Link>
+            <span className=" text-[12px] text-gray-400">ACTIONS</span>
+
             <button
               onClick={handleLogout}
               className="w-full text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2"

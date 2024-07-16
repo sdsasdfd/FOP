@@ -8,6 +8,6 @@ import {
 const router = Router();
 
 router.post("/make-payment/:id", verifyUser, makePayment);
-router.post("/generate-slip/:id", verifyUser, generatePaymentSlip);
+router.get("/generate-slip/:id", verifyUser, generatePaymentSlip);
 
 export default router;

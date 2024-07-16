@@ -39,14 +39,31 @@ const NavbarPerson = () => {
   return (
     <div className="px-2 z-30 sticky top-0 bg-slate-50 border-b-[2px]  ">
       <div className="container relative lg:px-8 sm:px-6 mx-auto p-2 flex justify-between items-center ">
-        <Link to=".">
+        <Link to="." className="flex items-center gap-2">
           <img src={logo} width="64px" alt="" />
+          <p className=" text-2xl font-semibold text-blue-600">
+            Serve <span className=" text-blue-400">Ease</span>
+          </p>
         </Link>
         <div className="flex  items-center">
           <div className="hidden gap-3 mr-4 sm:flex items-center ">
-            <Link to="/user-home">Home</Link>
             <Link
-              className=" text-[18px] font-normal text-blue-800"
+              to="/user-home"
+              className=" text-slate-600 text-[18px] font-[400]"
+            >
+              Home
+            </Link>
+            <Link
+              to="services"
+              className=" text-slate-600 text-[18px] font-[400]"
+            >
+              Services
+            </Link>
+            <Link to="faq" className=" text-slate-600 text-[18px] font-[400]">
+              FAQ
+            </Link>
+            <Link
+              className=" text-slate-600 text-[18px] font-[400]"
               to="message-info"
             >
               Messages
@@ -61,9 +78,9 @@ const NavbarPerson = () => {
             <div className=" relative">
               {" "}
               <img
-                src={profileImg}
+                src={currentUser.image || profileImg}
                 onClick={() => setToggleProfile(!toggleProfile)}
-                className="w-8 cursor-pointer rounded-full h-8"
+                className="w-10 cursor-pointer object-cover rounded-full h-10"
                 alt=""
               />{" "}
               {/* sidebar */}{" "}
@@ -101,13 +118,39 @@ const NavbarPerson = () => {
           ></div>
         )}
         <div
-          className={` sm:hidden absolute w-[250px] h-screen bg-slate-600 top-0 transition-all ${
-            toggle ? "left-0" : "left-[-250px]"
+          className={` sm:hidden absolute w-[250px] h-screen bg-blue-600 top-0 transition-all ${
+            toggle ? "left-[-10px]" : "left-[-280px]"
           } text-white `}
         >
           <div className="flex flex-col p-8 ">
-            <Link to="message-info">Messages</Link>
-            <Link to="">Orders</Link>
+            <Link
+              onClick={() => setToggle(false)}
+              to="/user-home"
+              className="   font-[400]"
+            >
+              Home
+            </Link>
+            <Link
+              onClick={() => setToggle(false)}
+              to="services"
+              className="   font-[400]"
+            >
+              Services
+            </Link>
+            <Link
+              onClick={() => setToggle(false)}
+              to="faq"
+              className="   font-[400]"
+            >
+              FAQ
+            </Link>
+            <Link
+              onClick={() => setToggle(false)}
+              className="   font-[400]"
+              to="message-info"
+            >
+              Messages
+            </Link>
           </div>
         </div>
       </div>

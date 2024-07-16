@@ -5,6 +5,7 @@ import Home from "./pages/Landing/Home";
 
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
+import Faq from "./pages/FAQ/Faq";
 
 import UserHome from "./pages/User/UserHome";
 import UserPage from "./pages/User/UserPage";
@@ -21,12 +22,20 @@ import SerProfile from "./pages/Servicer/SerProfile";
 import Gig from "./pages/Servicer/Gig";
 import ProtectRoute from "../../admin/src/components/ProtectRoute";
 import EditGig from "./pages/Servicer/EditGig";
+import { useSelector } from "react-redux";
+import CheckUserExistProtectedRoute from "./components/protected/CheckUserExistProtectedRoute";
+import Services from "./pages/Services/Services";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Root />,
-    children: [{ index: true, element: <Home /> }],
+    element: <CheckUserExistProtectedRoute />,
+    children: [
+      {
+        path: "/",
+        element: <Root />,
+        children: [{ index: true, element: <Home /> }],
+      },
+    ],
   },
 
   { path: "/register", element: <Register /> },
@@ -51,7 +60,9 @@ const router = createBrowserRouter([
           },
           { path: "user-profile", element: <UserProfile /> },
           { path: "message-info", element: <MessageInfo /> },
-          { path: "message-info/:conversation", element: <Conversation /> },
+          { path: "message-info/:id", element: <Conversation /> },
+          { path: "services", element: <Services /> },
+          { path: "faq", element: <Faq /> },
         ],
       },
     ],
@@ -67,8 +78,9 @@ const router = createBrowserRouter([
           // { index: true, element: <ServicerPage /> },
           { index: true, element: <SerProfile /> },
           { path: "message-info", element: <MessageInfo /> },
-          { path: "message-info/:conversation", element: <Conversation /> },
+          { path: "message-info/:id", element: <Conversation /> },
           { path: "edit-gig", element: <EditGig /> },
+          { path: "faq", element: <Faq /> },
         ],
       },
     ],

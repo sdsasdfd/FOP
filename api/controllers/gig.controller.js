@@ -50,21 +50,43 @@ export const getGig = async (req, res, next) => {
 export const updateGig = async (req, res, next) => {
   try {
     const servicerId = req.user._id;
-    const { description, price, subCategory } = req.body;
+    const { description, price, subCategory, title } = req.body;
 
     let { coverImg } = req.body;
 
     const existedGig = await Gig.findOne({ servicerId });
 
+    if (!existedGig) return next(errorHandler(404, "Gig not found"));
+
     if (coverImg) {
-      if (existedGig.coverImg) {
+      let existingCoverImage = existedGig.coverImg;
+      if (existedGig.coverImg && coverImg !== existedGig.coverImg) {
+        // https://res.cloudinary.com/dyfqon1v6/image/upload/v1712997552/zmxorcxexpdbh8r0bkjb.png
         await cloudinary.uploader.destroy(
           existedGig.coverImg.split("/").pop().split(".")[0]
         );
+        if (coverImg !== existingCoverImage) {
+          const imgRes = await cloudinary.uploader.upload(coverImg);
+          coverImg = imgRes.secure_url;
+        }
+        console.log("cover image ", coverImg);
+      } else if (!existedGig.coverImg) {
+        const imgRes = await cloudinary.uploader.upload(coverImg);
+        coverImg = imgRes.secure_url;
       }
-      const imgRes = await cloudinary.uploader.upload(coverImg);
-      coverImg = imgRes.secure_url;
+    } else {
+      coverImg = existedGig.coverImg || "";
     }
+
+    // if (coverImg) {
+    //   if (existedGig.coverImg) {
+    //     await cloudinary.uploader.destroy(
+    //       existedGig.coverImg.split("/").pop().split(".")[0]
+    //     );
+    //   }
+    //   const imgRes = await cloudinary.uploader.upload(coverImg);
+    //   coverImg = imgRes.secure_url;
+    // }
 
     const updateGigData = {};
 
@@ -72,6 +94,7 @@ export const updateGig = async (req, res, next) => {
     if (price) updateGigData.price = price;
     if (subCategory) updateGigData.subCategory = subCategory;
     if (coverImg) updateGigData.coverImg = coverImg;
+    if (title) updateGigData.title = title;
 
     const gig = await Gig.findOneAndUpdate(
       { servicerId: servicerId },

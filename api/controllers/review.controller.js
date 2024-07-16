@@ -5,7 +5,7 @@ import { errorHandler } from "../utils/error.js";
 export const addNewReview = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const { id: gigId } = req.params;
+    const { id: servicerId } = req.params;
     const { star, desc } = req.body;
 
     if (!desc || star > 5 || star < 1) {
@@ -13,7 +13,7 @@ export const addNewReview = async (req, res, next) => {
     }
 
     const review = await Review.create({
-      gigId,
+      servicerId,
       userId,
       star,
       desc,
@@ -31,9 +31,9 @@ export const addNewReview = async (req, res, next) => {
 
 export const getAllReviews = async (req, res, next) => {
   try {
-    const { id: gigId } = req.params;
+    const { id: servicerId } = req.params;
 
-    const reviews = await Review.find({ gigId }).populate({
+    const reviews = await Review.find({ servicerId }).populate({
       path: "userId",
       select: "-password",
     });
