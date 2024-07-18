@@ -61,10 +61,10 @@ import { FaRegStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import profileImg from "/img/profileImg.webp";
 const ServicerList = ({ servicerList }) => {
-  console.log(servicerList);
+  // console.log(servicerList.price);
   const description = servicerList?.description;
   const id = servicerList?.servicerId._id;
-  console.log(servicerList.servicerId);
+
   const price = servicerList?.price;
 
   const [reviews, setReviews] = useState([]);

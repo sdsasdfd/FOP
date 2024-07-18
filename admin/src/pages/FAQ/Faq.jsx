@@ -7,24 +7,6 @@ import FaqForUser from "./FAQForUser/FaqForUser";
 import FaqForServicer from "./FAQForServicer/FaqForServicer";
 
 const Faq = () => {
-  const dummyFaq = [
-    {
-      answer: "Lorem ipsum dolor sit amet consectetur.",
-      question:
-        "Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.",
-    },
-    {
-      answer: "Lorem ipsum dolor sit amet consectetur.",
-      question:
-        "Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.",
-    },
-    {
-      answer: "Lorem ipsum dolor sit amet consectetur.",
-      question:
-        "Lorem ipsum dolor sit amet consectetur.Lorem ipsum dolor sit amet consectetur.",
-    },
-  ];
-
   return (
     <>
       {/* FAQ FOR User */}
@@ -37,7 +19,7 @@ const Faq = () => {
             </Link>
           </div>
         </div>
-        <FaqForUser dummyFaq={dummyFaq} />
+        <FaqForUser />
       </div>
 
       {/* FAQ FOR SERVICER */}
@@ -50,7 +32,7 @@ const Faq = () => {
             </Link>
           </div>
         </div>
-        <FaqForServicer dummyFaq={dummyFaq} />
+        <FaqForServicer />
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Logo from "./Logo";
 import { IoMenu } from "react-icons/io5";
-
+import profileImg from "../assets/profileImg.webp";
 import { MdDashboard } from "react-icons/md";
 
 import { HiMiniUsers } from "react-icons/hi2";
@@ -10,14 +10,16 @@ import { GrUserWorker } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 import { TbLogout } from "react-icons/tb";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../store/userSlice";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const [toggleProfile, setToggleProfile] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleLogout = async () => {
     try {
@@ -35,9 +37,41 @@ const Navbar = () => {
   return (
     <div className=" md:hidden  px-6 flex items-center justify-between max-w-full border-b shadow-md sticky top-0 z-30 bg-white ">
       <Logo />
-      <button onClick={() => setToggle(true)}>
-        <IoMenu size={26} className=" text-blue-700" />
-      </button>
+      <div className="flex items-center">
+        <button onClick={() => setToggle(true)}>
+          <IoMenu size={26} className=" text-blue-700" />
+        </button>
+        <div
+          className="hover:bg-blue-100 px-2 rounded-md py-[1px]   cursor-pointer relative flex items-center gap-3"
+          onClick={() => setToggleProfile(!toggleProfile)}
+        >
+          {" "}
+          <img
+            src={currentUser.image || profileImg}
+            className="w-12 cursor-pointer object-cover rounded-full h-12"
+            alt=""
+          />
+          {toggleProfile && (
+            <div className=" absolute right-[-15px] top-14 w-[150px] h-[95px] bg-white shadow-lg flex flex-col items-center border pt-2 rounded-md ">
+              {" "}
+              <Link
+                className=" font-semibold border px-2 py-1 rounded-md cursor-pointer bg-gray-100"
+                onClick={() => setToggleProfile(false)}
+                to={"user-profile"}
+              >
+                View Profile
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="cursor-pointer bg-blue-500 text-white px-2 py-1 rounded-md mt-3 "
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
       {toggle && (
         <div
           onClick={() => setToggle(false)}
@@ -54,49 +88,85 @@ const Navbar = () => {
           <div className="pl-2 mt-4">
             <div className="cursor-pointer my-2">
               <span className=" text-[12px] text-gray-400">MAIN</span>
-              <Link to="/" onClick={() => setToggle(false)}>
-                <span className=" text-blue-500 hover:bg-blue-100 p-2 flex items-center gap-2">
-                  <MdDashboard className=" text-lg" />
-                  Dashboard
-                </span>
-              </Link>
+              <NavLink
+                to="/"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <MdDashboard className=" text-lg" />
+                Dashboard
+              </NavLink>
             </div>
             <div className="cursor-pointer">
               <span className=" text-[12px] text-gray-400">LISTS</span>
-              <Link to="users" onClick={() => setToggle(false)}>
-                <span className=" text-blue-500 hover:bg-blue-100 p-2 flex items-center gap-2">
-                  <HiMiniUsers className=" text-lg" />
-                  Users
-                </span>
-              </Link>
-              <Link to="servicers" onClick={() => setToggle(false)}>
-                <span className=" text-blue-500 hover:bg-blue-100 p-2 flex items-center gap-2">
-                  <GrUserWorker className=" text-lg" />
-                  Servicers
-                </span>
-              </Link>
-              <Link to="category" onClick={() => setToggle(false)}>
-                <span className=" text-blue-500 hover:bg-blue-100 p-2 flex items-center gap-2">
-                  <TbCategoryPlus className=" text-lg" />
-                  Category
-                </span>
-              </Link>
-              <Link to="faq" onClick={() => setToggle(false)}>
-                <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                  <BsClipboard2CheckFill className=" text-lg" />
-                  FAQ
-                </span>
-              </Link>
+              <NavLink
+                to="users"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <HiMiniUsers className=" text-lg" />
+                Users
+              </NavLink>
+              <NavLink
+                to="servicers"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <GrUserWorker className=" text-lg" />
+                Servicers
+              </NavLink>
+              <NavLink
+                to="category"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <TbCategoryPlus className=" text-lg" />
+                Category
+              </NavLink>
+              <NavLink
+                to="faq"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <BsClipboard2CheckFill className=" text-lg" />
+                FAQ
+              </NavLink>
             </div>
 
             <div className="cursor-pointer my-2">
               <span className=" text-[12px] text-gray-400">USER</span>
-              <Link to="profile" onClick={() => setToggle(false)}>
-                <span className=" text-blue-500 hover:bg-blue-100 p-2 flex items-center gap-2">
-                  <FaRegUserCircle className=" text-lg" />
-                  Profile
-                </span>
-              </Link>
+              <NavLink
+                to="profile"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <FaRegUserCircle className=" text-lg" />
+                Profile
+              </NavLink>
               <button
                 onClick={handleLogout}
                 className="w-full text-blue-500 hover:bg-blue-100 p-2 flex items-center gap-2"

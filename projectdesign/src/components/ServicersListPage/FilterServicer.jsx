@@ -6,13 +6,22 @@ const FilterServicer = ({ sortingOption, setSortingOption }) => {
       <span className="font-semibold text-lg">Sorted by:</span>
 
       <select
-        className="rounded-lg md:px-1 outline-none border py-2 "
+        className="rounded-lg cursor-pointer md:px-1 outline-none border py-2 "
         value={sortingOption}
         onChange={(e) => setSortingOption(e.target.value)}
       >
-        <option value="">recommended options</option>
-        <option value="asc">Price (Lowest to Highest)</option>
-        <option value="desc">Price (Highest to lowest)</option>
+        <option className="cursor-pointer" value="">
+          Recommended options
+        </option>
+        <option className="cursor-pointer" value="asc">
+          Price (Lowest to Highest)
+        </option>
+        <option className="cursor-pointer" value="desc">
+          Price (Highest to lowest)
+        </option>
+        <option className="cursor-pointer" value="top">
+          Top Rated
+        </option>
       </select>
     </div>
   );

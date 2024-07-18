@@ -29,14 +29,14 @@ const ServicerProfile = () => {
         if (data.success === false) {
           console.log(data.message);
         }
-        console.log(data);
+        // console.log(data);
         setServicerInfo(data);
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchInfo();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -47,13 +47,17 @@ const ServicerProfile = () => {
           console.log(data.message);
         }
         console.log(data);
-        setReviews(data);
+        setReviews(data.reviews || []);
+        setStarCounts(data.starCounts || { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
+        setReviewCount(data.reviewCount || 0);
       } catch (error) {
         console.log(error.message);
       }
     };
-    fetchReviews();
-  }, []);
+    if (servicerInfo._id) {
+      fetchReviews();
+    }
+  }, [servicerInfo]);
 
   const handleSendRequest = async () => {
     try {
@@ -87,6 +91,7 @@ const ServicerProfile = () => {
       const score = sumOfResponses ? totalScore / sumOfResponses : 0;
 
       const roundedScore = score.toFixed(1);
+      console.log(roundedScore);
       setScore(roundedScore);
     };
 
@@ -153,7 +158,7 @@ const ServicerProfile = () => {
                 </span>
               </span>
               <span className="bg-blue-600 text-white py-1 px-1 rounded-md">
-                4.9 (30)
+                {score} ({reviewCount})
               </span>
             </div>
           </div>
@@ -214,6 +219,35 @@ const ServicerProfile = () => {
                 })}
               </div>
 
+              {/* <div className="rating mb-3">
+                <input
+                  type="radio"
+                  name="rating-4"
+                  className="mask mask-star-2 bg-green-500"
+                />
+                <input
+                  type="radio"
+                  name="rating-4"
+                  className="mask mask-star-2 bg-green-500"
+                  defaultChecked
+                />
+                <input
+                  type="radio"
+                  name="rating-4"
+                  className="mask mask-star-2 bg-green-500"
+                  defaultChecked
+                />
+                <input
+                  type="radio"
+                  name="rating-4"
+                  className="mask mask-star-2 bg-green-500"
+                />
+                <input
+                  type="radio"
+                  name="rating-4"
+                  className="mask mask-star-2 bg-green-500"
+                />
+              </div> */}
               <span className="text-lg font-medium">{reviewCount} reviews</span>
             </div>
           </div>
@@ -242,7 +276,7 @@ const ServicerProfile = () => {
           <div key={review._id} className="mb-4  flex flex-col">
             <div className="flex mb-4 gap-4 items-center">
               <img
-                src={servicerInfo?.servicerId?.image || profileImg}
+                src={review.userId.image || profileImg}
                 alt=""
                 className="w-20 h-20 rounded-full object-cover"
               />{" "}

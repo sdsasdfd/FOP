@@ -10,7 +10,7 @@ import { BsClipboard2CheckFill } from "react-icons/bs";
 
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../store/userSlice";
 
@@ -26,7 +26,7 @@ const Sidebar = () => {
         console.log(data.message);
       }
       dispatch(logoutSuccess());
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       console.log(data.message);
     }
@@ -38,33 +38,54 @@ const Sidebar = () => {
         <div className="pl-2 mt-4">
           <div className="cursor-pointer my-2">
             <span className=" text-[12px] text-gray-400">MAIN</span>
-            <Link to="/servicer-home">
-              <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                <FaRegUserCircle className=" text-lg" />
-                Profile
-              </span>
-            </Link>
+            <NavLink
+              to="/servicer-home"
+              className={({ isActive }) => {
+                return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                  isActive ? "bg-blue-100 " : ""
+                }`;
+              }}
+              end
+            >
+              <FaRegUserCircle className=" text-lg" />
+              Profile
+            </NavLink>
           </div>
           <div className="cursor-pointer">
             <span className=" text-[12px] text-gray-400">LISTS</span>
-            <Link to="message-info">
-              <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                <MdOutlineMessage className=" text-lg" />
-                Message
-              </span>
-            </Link>
-            <Link to="edit-gig">
-              <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                <TbCategoryPlus className=" text-lg" />
-                Gig
-              </span>
-            </Link>
-            <Link to="faq">
-              <span className=" text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2">
-                <BsClipboard2CheckFill className=" text-lg" />
-                FAQ
-              </span>
-            </Link>
+            <NavLink
+              to="message-info"
+              className={({ isActive }) => {
+                return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                  isActive ? "bg-blue-100 " : ""
+                }`;
+              }}
+            >
+              <MdOutlineMessage className=" text-lg" />
+              Message
+            </NavLink>
+            <NavLink
+              to="edit-gig"
+              className={({ isActive }) => {
+                return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                  isActive ? "bg-blue-100 " : ""
+                }`;
+              }}
+            >
+              <TbCategoryPlus className=" text-lg" />
+              Gig
+            </NavLink>
+            <NavLink
+              to="faq"
+              className={({ isActive }) => {
+                return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                  isActive ? "bg-blue-100 " : ""
+                }`;
+              }}
+            >
+              <BsClipboard2CheckFill className=" text-lg" />
+              FAQ
+            </NavLink>
           </div>
 
           <div className="cursor-pointer my-2">

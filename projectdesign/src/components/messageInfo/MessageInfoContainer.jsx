@@ -4,8 +4,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 
 import moment from "moment";
-
-import { convertTimestamp } from "../../utils/DateTime";
+import { useSocketContext } from "../../context/SocketContext";
+import useConversation from "../../zustand/useConversation";
+import useGetConversations from "../../hooks/useGetConversations";
 import {
   fetchMessageFailure,
   fetchMessageSuccess,
@@ -15,39 +16,37 @@ const MessageInfoContainer = () => {
   const { currentUser } = useSelector((state) => state.user);
   // const [messages, setMessages] = useState([]);
   const dispatch = useDispatch();
+  const { selectedConversation, setSelectedConversation } = useConversation();
 
-  const { chats: messages, error } = useSelector((state) => state.chats);
+  // const { chats: messages, error } = useSelector((state) => state.chats);
   // console.log(messages);
 
-  useEffect(() => {
-    const fetchMessage = async () => {
-      try {
-        dispatch(fetchMessagesStart());
-        const res = await fetch(`/api/chat/all`);
-        const data = await res.json();
+  const { conversations } = useGetConversations();
+  // useEffect(() => {
+  //   const fetchMessage = async () => {
+  //     try {
+  //       dispatch(fetchMessagesStart());
+  //       const res = await fetch(`/api/chat/all`);
+  //       const data = await res.json();
 
-        // console.log(data);
+  //       // console.log(data);
 
-        if (data.success === false) {
-          dispatch(fetchMessageFailure(data.message));
-          console.log(data.message);
-          return;
-        }
+  //       if (data.success === false) {
+  //         dispatch(fetchMessageFailure(data.message));
+  //         console.log(data.message);
+  //         return;
+  //       }
 
-        dispatch(fetchMessageSuccess(data));
-        console.log(data);
-        // setMessages(data);
-      } catch (error) {
-        dispatch(fetchMessageFailure(error.message));
-        console.log(error.message);
-      }
-    };
-    fetchMessage();
-  }, [dispatch]);
-
-  if (error) {
-    return <div> {error} </div>;
-  }
+  //       dispatch(fetchMessageSuccess(data));
+  //       console.log(data);
+  //       // setMessages(data);
+  //     } catch (error) {
+  //       dispatch(fetchMessageFailure(error.message));
+  //       console.log(error.message);
+  //     }
+  //   };
+  //   fetchMessage();
+  // }, [dispatch]);
 
   return (
     // <h1>fd</h1>
@@ -56,7 +55,7 @@ const MessageInfoContainer = () => {
       <div className="md:hidden mt-6 gap-4 grid grid-col-1 sm:grid-cols-2">
         {/* {messages.length === 0 && <div>no messages available</div>} */}
 
-        {messages?.map((message) => {
+        {conversations?.map((message) => {
           const otherParticipantName = message.otherParticipantInfo?.username;
           const otherParticipantId = message.otherParticipantInfo?._id;
           console.log(otherParticipantName);
@@ -109,7 +108,7 @@ const MessageInfoContainer = () => {
           <tbody className="divide-y">
             {/* {messages.length === 0 && <div>no messages available</div>} */}
 
-            {messages?.map((message) => {
+            {conversations?.map((message) => {
               const otherParticipantName =
                 message.otherParticipantInfo?.username;
               const otherParticipantId = message.otherParticipantInfo?._id;

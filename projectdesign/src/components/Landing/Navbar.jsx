@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 
-import logo from "../../assets/logo.jpeg";
+import logo from "../../assets/logo.png";
 
 const Navbar = ({ userExist }) => {
   const [toggle, setToggle] = useState(false);

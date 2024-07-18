@@ -25,6 +25,10 @@ const gigSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  averageRating: {
+    type: String,
+    default: "0.0",
+  },
 });
 
 const Gig = mongoose.model("Gig", gigSchema);

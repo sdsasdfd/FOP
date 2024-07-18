@@ -6,7 +6,7 @@ const Conversation = () => {
   return (
     <>
       {/* <NavbarPerson /> */}
-      <div className="px-6 sm:px-20 w-full">
+      <div className="px-4 md:px-20 w-full">
         <MessageContainer />
       </div>
     </>

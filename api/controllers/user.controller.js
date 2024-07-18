@@ -93,9 +93,17 @@ export const getLocationCategory = async (req, res, next) => {
   try {
     const { category, sortingOrder } = req.query;
 
-    const order = sortingOrder
-      ? { price: sortingOrder === "asc" ? 1 : -1 }
-      : { createdAt: -1 };
+    let order = { createdAt: -1 }; // Default order
+
+    if (sortingOrder) {
+      if (sortingOrder === "top") {
+        order = { averageRating: -1 };
+      } else if (sortingOrder === "asc") {
+        order = { price: 1 };
+      } else if (sortingOrder === "desc") {
+        order = { price: -1 };
+      }
+    }
 
     const servicers = await User.find({
       roles: "servicer",

@@ -46,7 +46,9 @@ const ServicesOffer = () => {
   };
   return (
     <div className="my-6">
-      <h2 className="text-center text-5xl mb-8 font-bold">Services Offer</h2>
+      <h2 className="lg:px-12 my-8 text-4xl md:text-5xl mb-8 font-bold">
+        Services Offer
+      </h2>
 
       <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
         {categories.map((category) => (

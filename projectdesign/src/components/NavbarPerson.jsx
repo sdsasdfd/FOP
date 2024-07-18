@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, NavLink } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 
-import logo from "../assets/logo.jpeg";
+import logo from "../assets/logo.png";
 import profileImg from "/img/profileImg.webp";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -36,6 +36,7 @@ const NavbarPerson = () => {
       toast.error(error.message);
     }
   };
+
   return (
     <div className="px-2 z-30 sticky top-0 bg-slate-50 border-b-[2px]  ">
       <div className="container relative lg:px-8 sm:px-6 mx-auto p-2 flex justify-between items-center ">
@@ -45,56 +46,88 @@ const NavbarPerson = () => {
             Serve <span className=" text-blue-400">Ease</span>
           </p>
         </Link>
+        <div className="hidden gap-5 mr-4 sm:flex  items-center ">
+          <NavLink
+            to="/user-home"
+            // className=" "
+            className={({ isActive }) => {
+              return `text-blue-500 text-[18px]  font-medium ${
+                isActive
+                  ? "bg-blue-500 text-white   py-[2px] px-[4px] rounded-md"
+                  : ""
+              }`;
+            }}
+            end
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="services"
+            className={({ isActive }) => {
+              return `text-blue-500 text-[18px]  font-medium ${
+                isActive
+                  ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                  : ""
+              }`;
+            }}
+          >
+            Services
+          </NavLink>
+          <NavLink
+            to="faq"
+            className={({ isActive }) => {
+              return `text-blue-500 text-[18px]  font-medium ${
+                isActive
+                  ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                  : ""
+              }`;
+            }}
+          >
+            FAQ
+          </NavLink>
+          <NavLink
+            className={({ isActive }) => {
+              return `text-blue-500 text-[18px]  font-medium ${
+                isActive
+                  ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                  : ""
+              }`;
+            }}
+            to="message-info"
+          >
+            Messages
+          </NavLink>
+        </div>
         <div className="flex  items-center">
-          <div className="hidden gap-3 mr-4 sm:flex items-center ">
-            <Link
-              to="/user-home"
-              className=" text-slate-600 text-[18px] font-[400]"
-            >
-              Home
-            </Link>
-            <Link
-              to="services"
-              className=" text-slate-600 text-[18px] font-[400]"
-            >
-              Services
-            </Link>
-            <Link to="faq" className=" text-slate-600 text-[18px] font-[400]">
-              FAQ
-            </Link>
-            <Link
-              className=" text-slate-600 text-[18px] font-[400]"
-              to="message-info"
-            >
-              Messages
-            </Link>
-          </div>
-
           <div className="flex items-center gap-3">
             <IoMdMenu
               className="sm:hidden block text-lg  cursor-pointer "
               onClick={() => setToggle(!toggle)}
             />
-            <div className=" relative">
+
+            <div
+              className="hover:bg-blue-100 px-2 rounded-md py-[1px]   cursor-pointer relative flex items-center gap-3"
+              onClick={() => setToggleProfile(!toggleProfile)}
+            >
               {" "}
               <img
                 src={currentUser.image || profileImg}
-                onClick={() => setToggleProfile(!toggleProfile)}
-                className="w-10 cursor-pointer object-cover rounded-full h-10"
+                className="w-12 cursor-pointer object-cover rounded-full h-12"
                 alt=""
-              />{" "}
-              {/* sidebar */}{" "}
+              />
+              <div className="hidden  sm:flex flex-col">
+                <span className=" font-semibold text-lg">
+                  {currentUser.username}
+                </span>
+                <span className=" text-sm">{currentUser.location}</span>
+              </div>
               {toggleProfile && (
-                <div className=" absolute right-[-20px] top-9 w-[150px] h-[95px] bg-white shadow-lg flex flex-col items-center border pt-2 rounded-md ">
+                <div className=" absolute right-[-15px] top-14 w-[150px] h-[95px] bg-white shadow-lg flex flex-col items-center border pt-2 rounded-md ">
                   {" "}
                   <Link
                     className=" font-semibold border px-2 py-1 rounded-md cursor-pointer bg-gray-100"
                     onClick={() => setToggleProfile(false)}
-                    to={
-                      currentUser.roles === "servicer"
-                        ? "ser-profile"
-                        : "user-profile"
-                    }
+                    to={"user-profile"}
                   >
                     View Profile
                   </Link>
@@ -111,46 +144,72 @@ const NavbarPerson = () => {
           </div>
         </div>
 
+        {/* Sidebar */}
         {toggle && (
           <div
             onClick={() => setToggle(false)}
-            className="top-0 left-0 bg-black/10 absolute w-full h-screen backdrop-blur-[1px]"
+            className="top-0 left-0 bg-black/10 absolute cursor-pointer w-full h-screen backdrop-blur-[1px]"
           ></div>
         )}
         <div
-          className={` sm:hidden absolute w-[250px] h-screen bg-blue-600 top-0 transition-all ${
+          className={` sm:hidden absolute w-[250px] h-screen bg-slate-50 top-0 transition-all ${
             toggle ? "left-[-10px]" : "left-[-280px]"
           } text-white `}
         >
-          <div className="flex flex-col p-8 ">
-            <Link
+          <div className="flex flex-col gap-6 px-4 py-8 ">
+            <NavLink
               onClick={() => setToggle(false)}
               to="/user-home"
-              className="   font-[400]"
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
+              end
             >
               Home
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               onClick={() => setToggle(false)}
               to="services"
-              className="   font-[400]"
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
             >
               Services
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               onClick={() => setToggle(false)}
               to="faq"
-              className="   font-[400]"
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
             >
               FAQ
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               onClick={() => setToggle(false)}
-              className="   font-[400]"
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
               to="message-info"
             >
               Messages
-            </Link>
+            </NavLink>
           </div>
         </div>
       </div>

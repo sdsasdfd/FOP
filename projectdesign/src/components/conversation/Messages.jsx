@@ -3,15 +3,20 @@ import Message from "./Message";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, setMessages } from "../../store/messageSlice";
+import useConversation from "../../zustand/useConversation";
+import useGetMessages from "../../hooks/useGetMessages";
+import useListenMessages from "../../hooks/useListenMessages";
 
 const Messages = () => {
+  const { messages, setMessages, selectedConversation } = useConversation();
+  // console.log("MESSAGES :::::: ", messages);
+  // const { messages, loading } = useGetMessages()
+  useListenMessages();
+  const lastMessageRef = useRef();
+
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const { id } = useParams();
-
-  const { messages } = useSelector((state) => state.message);
-  const lastMessageRef = useRef();
-  // console.log(messages);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -21,35 +26,28 @@ const Messages = () => {
         if (data.success === false) {
           console.log(data.message);
         }
-        console.log(data);
-
-        dispatch(setMessages(data.messages));
+        console.log(data.messages);
+        setMessages(data.messages);
       } catch (error) {
         console.log(error.message);
       }
     };
     fetchMessages();
-  }, [id, dispatch]);
+  }, [id]);
 
-  // useEffect(() => {
-  //   if (lastMessageRef) {
-  //     lastMessageRef.current.scrollIntoView({
-  //       behavior: "smooth",
-  //       block: "end",
-  //     });
-  //   }
-  //   // setTimeout(() => {
-  //   //   lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-  //   // }, 100);
-  // }, [messages]);
+  useEffect(() => {
+    setTimeout(() => {
+      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }, [messages]);
 
   return (
-    <div className="h-[420px] overflow-auto">
-      {/* {messages?.map((message) => (
+    <div className="px-4 h-[390px] overflow-auto">
+      {messages?.map((message) => (
         <div key={message._id} ref={lastMessageRef}>
-          <Message message={message} isImage={!!message.image} />
+          <Message message={message} />
         </div>
-      ))} */}
+      ))}
     </div>
   );
 };
