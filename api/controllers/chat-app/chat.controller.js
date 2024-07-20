@@ -69,7 +69,8 @@ const getAllChats = async (req, res, next) => {
       });
 
     if (chats.length === 0) {
-      return next(errorHandler(404, "Chats not found"));
+      // return next(errorHandler(404, "Chats not found"));
+      return res.status(404).json([]);
     }
 
     const formattedChats = chats.map((chat) => {

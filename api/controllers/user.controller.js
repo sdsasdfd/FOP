@@ -1,5 +1,5 @@
 import User from "../model/userModel.js";
-import Category from "../model/category.model.js";
+import Service from "../model/service.model.js";
 import { errorHandler } from "../utils/error.js";
 import { v2 as cloudinary } from "cloudinary";
 import Gig from "../model/gig.model.js";
@@ -148,7 +148,7 @@ export const getCategoriesBasedOnLocation = async (req, res, next) => {
       (servicer) => servicer.category
     );
 
-    const categories = await Category.find({
+    const categories = await Service.find({
       title: { $in: categoriesAvailable },
     });
 
@@ -162,11 +162,11 @@ export const searchCategory = async (req, res, next) => {
   try {
     const { inputCategoryTitle } = req.query;
 
-    const category = await Category.find({
+    const category = await Service.find({
       title: { $regex: inputCategoryTitle, $options: "i" },
     });
     if (!category) {
-      return next(errorHandler(404, "Category does not exist."));
+      return next(errorHandler(404, "Service does not exist."));
     }
 
     res.status(200).json(category);
@@ -313,14 +313,23 @@ export const updateAdminProfile = async (req, res, next) => {
     if (!user) return next(errorHandler(404, "user not found"));
 
     if (image) {
-      if (user.image) {
+      let userImage = user.image;
+      if (user.image && image !== user.image) {
         // https://res.cloudinary.com/dyfqon1v6/image/upload/v1712997552/zmxorcxexpdbh8r0bkjb.png
         await cloudinary.uploader.destroy(
           user.image.split("/").pop().split(".")[0]
         );
+        if (image !== userImage) {
+          const imgRes = await cloudinary.uploader.upload(image);
+          image = imgRes.secure_url;
+        }
+        console.log("image ", image);
+      } else if (!user.image) {
+        const imgRes = await cloudinary.uploader.upload(image);
+        image = imgRes.secure_url;
       }
-      const imgRes = await cloudinary.uploader.upload(image);
-      image = imgRes.secure_url;
+    } else {
+      image = user.image || "";
     }
 
     user.username = username || user.username;

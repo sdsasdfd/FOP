@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 import { IoMdAddCircle } from "react-icons/io";
 import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
-const GeneralComplain = () => {
-  const [complains, setComplains] = useState([]);
+const Testimonials = () => {
+  const [testimonials, setTestimonials] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchGeneralComplain = async () => {
       try {
-        const res = await fetch("/api/complain/get-general-complains");
+        const res = await fetch("/api/testimonial/get-all-testimonials");
 
         const data = await res.json();
         if (data.success === false) {
@@ -20,7 +20,7 @@ const GeneralComplain = () => {
           console.log(data.message);
           return;
         }
-        setComplains(data);
+        setTestimonials(data);
         console.log(data);
       } catch (error) {
         console.log(error.message);
@@ -31,8 +31,8 @@ const GeneralComplain = () => {
   }, []);
   return (
     <>
-      {complains.length === 0 ? (
-        <h1>No Complains available</h1>
+      {testimonials.length === 0 ? (
+        <h1>No Testimonials available</h1>
       ) : (
         <div className=" bg-white shadow-lg  rounded-md  overflow-auto">
           <table className="  w-full   ">
@@ -40,32 +40,21 @@ const GeneralComplain = () => {
               <tr>
                 <td className="font-semibold p-3 whitespace-nowrap ">No.</td>
                 <td className="font-semibold p-3">Username</td>
-                <td className="font-semibold p-3 whitespace-nowrap">
+                <td className="font-semibold p-3 whitespace-nowrap ">
                   Complain
                 </td>
-
-                <td className="font-semibold p-3">Action</td>
               </tr>
             </thead>
             <tbody>
-              {complains.map((complain, index) => {
+              {testimonials.map((testimonial, index) => {
                 return (
                   <tr
-                    key={complain._id}
+                    key={testimonial._id}
                     className=" border-b hover:bg-gray-100 whitespace-nowrap"
                   >
                     <td className=" p-3  whitespace-nowrap"> {index + 1} </td>
-                    <td className=" p-3  ">{complain.userId.username}</td>
-                    <td className=" p-3 ">{complain.complainDesc}...</td>
-
-                    <td className=" p-3 items-center gap-4 ">
-                      <Link to={`/complain/${complain.userId._id}`}>
-                        <button className=" text-blue-600 mr-4 flex items-center gap-2">
-                          <FiEdit size={22} />{" "}
-                          <span className=" text-[16px]">Email</span>
-                        </button>
-                      </Link>
-                    </td>
+                    <td className=" p-3  ">{testimonial.user.username}</td>
+                    <td className=" p-3 ">{testimonial.description}</td>
                   </tr>
                 );
               })}
@@ -77,4 +66,4 @@ const GeneralComplain = () => {
   );
 };
 
-export default GeneralComplain;
+export default Testimonials;

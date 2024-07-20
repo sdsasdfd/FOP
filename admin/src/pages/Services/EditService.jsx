@@ -3,7 +3,7 @@ import { IoIosCloseCircle } from "react-icons/io";
 
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-const EditCategory = () => {
+const EditService = () => {
   const [image, setImage] = useState(null);
   const imageRef = useRef(null);
   const { id } = useParams();
@@ -30,7 +30,7 @@ const EditCategory = () => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await fetch(`/api/category/${id}`);
+        const res = await fetch(`/api/service/${id}`);
         const data = await res.json();
         // setDescription(data.description);
         // setTitle(data.title);
@@ -46,7 +46,7 @@ const EditCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/category/update/${id}`, {
+      const res = await fetch(`/api/service/update/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, image }),
@@ -55,7 +55,7 @@ const EditCategory = () => {
       if (data.success === false) {
         console.log(data.message);
       }
-      navigate("/category");
+      navigate("/services");
     } catch (error) {
       console.log(error.message);
     }
@@ -63,7 +63,7 @@ const EditCategory = () => {
   return (
     <div className="flex justify-center  min-h-[500px] bg-slate-50 ">
       <div className=" bg-white p-4 w-[350px] my-4 flex shadow-md flex-col border rounded-md">
-        <h1 className=" text-3xl font-semibold mb-3">Update Category</h1>
+        <h1 className=" text-3xl font-semibold mb-3">Update Service</h1>
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="flex flex-col my-2">
             <label className=" font-semibold text-lg mb-1">Image</label>
@@ -88,15 +88,6 @@ const EditCategory = () => {
                 className="w-full h-36 rounded-md object-cover my-2 border-2   p-2"
                 alt=""
               />
-              <span>
-                <IoIosCloseCircle
-                  className=" absolute top-0 right-[-10px] text-3xl cursor-pointer text-gray-500"
-                  onClick={(e) => {
-                    setImage(null);
-                    e.target.value = null;
-                  }}
-                />
-              </span>
             </div>
           </div>
           <div className="flex flex-col my-2">
@@ -128,7 +119,7 @@ const EditCategory = () => {
             type="submit"
             className="bg-blue-500 text-white rounded-md py-2 mt-2 "
           >
-            Update Category
+            Update Service
           </button>
         </form>
       </div>
@@ -136,4 +127,4 @@ const EditCategory = () => {
   );
 };
 
-export default EditCategory;
+export default EditService;

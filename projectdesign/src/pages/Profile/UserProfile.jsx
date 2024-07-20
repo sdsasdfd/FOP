@@ -5,23 +5,11 @@ import { CiLocationOn } from "react-icons/ci";
 import EditProfile from "../../components/User/EditProfile";
 
 import { useSelector } from "react-redux";
-import TestEdit from "../../components/User/TestEdit";
 
 const UserProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
-  // console.log(currentUser);
+
   const [toggleModal, setToggleModal] = useState(false);
-  // const navigate = useNavigate();
-  // const [user, setUser] = useState(null);
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const res = await fetch("/api/users/current-user");
-  //     const data = await res.json();
-  //     setUser(data);
-  //     console.log(data);
-  //   };
-  //   fetchUser();
-  // }, []);
 
   const [accountDetails, setAccountDetails] = useState(null);
   const [transactions, setTransactions] = useState([]);
@@ -89,7 +77,6 @@ const UserProfile = () => {
             </div>
             <div>
               <EditProfile />
-              {/* <TestEdit /> */}
             </div>
           </div>
         </div>
@@ -104,7 +91,7 @@ const UserProfile = () => {
         </div>
       </div>
       <div className="bg-white rounded-md shadow-sm p-4">
-        <h2 className="text-3xl font-bold">Transaction History</h2>
+        <h2 className="text-3xl font-bold">Order History</h2>
         <div className="mt-4">
           <table className="w-full text-left">
             <thead className=" bg-slate-200">

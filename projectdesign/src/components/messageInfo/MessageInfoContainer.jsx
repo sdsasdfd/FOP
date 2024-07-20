@@ -7,92 +7,70 @@ import moment from "moment";
 import { useSocketContext } from "../../context/SocketContext";
 import useConversation from "../../zustand/useConversation";
 import useGetConversations from "../../hooks/useGetConversations";
-import {
-  fetchMessageFailure,
-  fetchMessageSuccess,
-  fetchMessagesStart,
-} from "../../store/chatSlice";
+
 const MessageInfoContainer = () => {
   const { currentUser } = useSelector((state) => state.user);
-  // const [messages, setMessages] = useState([]);
-  const dispatch = useDispatch();
+
   const { selectedConversation, setSelectedConversation } = useConversation();
 
-  // const { chats: messages, error } = useSelector((state) => state.chats);
-  // console.log(messages);
-
-  const { conversations } = useGetConversations();
-  // useEffect(() => {
-  //   const fetchMessage = async () => {
-  //     try {
-  //       dispatch(fetchMessagesStart());
-  //       const res = await fetch(`/api/chat/all`);
-  //       const data = await res.json();
-
-  //       // console.log(data);
-
-  //       if (data.success === false) {
-  //         dispatch(fetchMessageFailure(data.message));
-  //         console.log(data.message);
-  //         return;
-  //       }
-
-  //       dispatch(fetchMessageSuccess(data));
-  //       console.log(data);
-  //       // setMessages(data);
-  //     } catch (error) {
-  //       dispatch(fetchMessageFailure(error.message));
-  //       console.log(error.message);
-  //     }
-  //   };
-  //   fetchMessage();
-  // }, [dispatch]);
+  const { conversations, loading } = useGetConversations();
 
   return (
-    // <h1>fd</h1>
     <>
       {/* //for small screen */}
       <div className="md:hidden mt-6 gap-4 grid grid-col-1 sm:grid-cols-2">
-        {/* {messages.length === 0 && <div>no messages available</div>} */}
+        {conversations.length === 0 ? (
+          <div>no messages available</div>
+        ) : (
+          <>
+            {conversations &&
+              conversations.map((message) => {
+                const otherParticipantName =
+                  message.otherParticipantInfo?.username;
+                const otherParticipantId = message.otherParticipantInfo?._id;
+                console.log(otherParticipantName);
+                const lastMessageDetails = message?.lastMessage;
+                const lastMessage = lastMessageDetails?.message;
+                const lastMessageImage = lastMessageDetails?.image;
+                const time = lastMessageDetails?.createdAt;
+                const senderId = lastMessageDetails?.senderId._id;
+                const receiverId = message.lastMessage?.receiverId;
 
-        {conversations?.map((message) => {
-          const otherParticipantName = message.otherParticipantInfo?.username;
-          const otherParticipantId = message.otherParticipantInfo?._id;
-          console.log(otherParticipantName);
-          const lastMessageDetails = message?.lastMessage;
-          const lastMessage = lastMessageDetails?.message;
-          const lastMessageImage = lastMessageDetails?.image;
-          const time = lastMessageDetails?.createdAt;
-          const senderId = lastMessageDetails?.senderId._id;
-          const receiverId = message.lastMessage?.receiverId;
-
-          return (
-            <div
-              className="flex flex-col p-4 rounded-lg shadow"
-              key={message._id}
-            >
-              <div className="flex justify-between mb-2 ">
-                <span className="text-lg font-semibold">
-                  {otherParticipantName}
-                </span>
-                <span className="font-semibold">{moment(time).fromNow()}</span>
-              </div>
-              <div className=" flex items-center gap-2">
-                {lastMessageImage && (
-                  <MdOutlinePhotoSizeSelectActual size={22} />
-                )}
-                {lastMessage ? <span>{lastMessage}</span> : <span>Photo</span>}
-              </div>
-              <div>
-                <Link to={`${otherParticipantId}`}>
-                  <button className=" bg-blue-500 py-2 w-[70px] rounded-lg text-white mt-4">
-                    Read
-                  </button>
-                </Link>
-              </div>
-            </div>
-          );
-        })}
+                return (
+                  <div
+                    className="flex flex-col p-4 rounded-lg shadow"
+                    key={message._id}
+                  >
+                    <div className="flex justify-between mb-2 ">
+                      <span className="text-lg font-semibold">
+                        {otherParticipantName}
+                      </span>
+                      <span className="font-semibold">
+                        {moment(time).fromNow()}
+                      </span>
+                    </div>
+                    <div className=" flex items-center gap-2">
+                      {lastMessageImage && (
+                        <MdOutlinePhotoSizeSelectActual size={22} />
+                      )}
+                      {lastMessage ? (
+                        <span>{lastMessage}</span>
+                      ) : (
+                        <span>Photo</span>
+                      )}
+                    </div>
+                    <div>
+                      <Link to={`${otherParticipantId}`}>
+                        <button className=" bg-blue-500 py-2 w-[70px] rounded-lg text-white mt-4">
+                          Read
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+          </>
+        )}
       </div>
       {/* //for larger screen */}
       <div className="hidden md:block mt-6">
@@ -106,47 +84,51 @@ const MessageInfoContainer = () => {
             </tr>
           </thead>
           <tbody className="divide-y">
-            {/* {messages.length === 0 && <div>no messages available</div>} */}
+            {conversations.length === 0 ? (
+              <div>no messages available</div>
+            ) : (
+              <>
+                {conversations.map((message) => {
+                  const otherParticipantName =
+                    message.otherParticipantInfo?.username;
+                  const otherParticipantId = message.otherParticipantInfo?._id;
+                  const lastMessageDetails = message?.lastMessage;
+                  const lastMessageImage = lastMessageDetails?.image;
+                  const lastMessage = lastMessageDetails?.message;
+                  const time = lastMessageDetails?.createdAt;
+                  const senderName = lastMessageDetails?.senderId._id;
 
-            {conversations?.map((message) => {
-              const otherParticipantName =
-                message.otherParticipantInfo?.username;
-              const otherParticipantId = message.otherParticipantInfo?._id;
-              const lastMessageDetails = message?.lastMessage;
-              const lastMessageImage = lastMessageDetails?.image;
-              const lastMessage = lastMessageDetails?.message;
-              const time = lastMessageDetails?.createdAt;
-              const senderName = lastMessageDetails?.senderId._id;
-
-              return (
-                <tr key={message._id}>
-                  <td className="p-3 font-semibold">
-                    {" "}
-                    {otherParticipantName}{" "}
-                  </td>
-                  <td className="p-3 ">
-                    <div className=" flex items-center gap-2">
-                      {lastMessageImage && (
-                        <MdOutlinePhotoSizeSelectActual size={22} />
-                      )}
-                      {lastMessage ? (
-                        <span>{lastMessage}</span>
-                      ) : (
-                        <span>Photo</span>
-                      )}
-                    </div>
-                  </td>
-                  <td className="p-3">{moment(time).fromNow()}</td>
-                  <td className="p-3">
-                    <Link to={`${otherParticipantId}`}>
-                      <button className=" bg-blue-500 py-3 rounded-lg w-[70px] text-white">
-                        Read
-                      </button>
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
+                  return (
+                    <tr key={message._id}>
+                      <td className="p-3 font-semibold">
+                        {" "}
+                        {otherParticipantName}{" "}
+                      </td>
+                      <td className="p-3 ">
+                        <div className=" flex items-center gap-2">
+                          {lastMessageImage && (
+                            <MdOutlinePhotoSizeSelectActual size={22} />
+                          )}
+                          {lastMessage ? (
+                            <span>{lastMessage}</span>
+                          ) : (
+                            <span>Photo</span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-3">{moment(time).fromNow()}</td>
+                      <td className="p-3">
+                        <Link to={`${otherParticipantId}`}>
+                          <button className=" bg-blue-500 py-3 rounded-lg w-[70px] text-white">
+                            Read
+                          </button>
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </>
+            )}
           </tbody>
         </table>
       </div>

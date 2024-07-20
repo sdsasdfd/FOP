@@ -9,7 +9,6 @@ const Message = ({ message }) => {
   const formattedTime = extractTime(message.createdAt);
   const { selectedConversation } = useConversation();
   const fromMe = message.senderId === currentUser._id;
-  console.log(message.image);
 
   return (
     <div

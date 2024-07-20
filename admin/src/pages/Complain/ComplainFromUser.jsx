@@ -2,9 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { IoMdAddCircle } from "react-icons/io";
-import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+
+import { CiMail } from "react-icons/ci";
+
 const ComplainFromUser = () => {
   const [complains, setComplains] = useState([]);
   const [error, setError] = useState(null);
@@ -64,7 +64,7 @@ const ComplainFromUser = () => {
                     <td className=" p-3 items-center gap-4 ">
                       <Link to={`/complain/${complain.servicerId._id}`}>
                         <button className=" text-blue-600 mr-4 flex items-center gap-2">
-                          <FiEdit size={22} />{" "}
+                          <CiMail size={22} />{" "}
                           <span className=" text-[16px]">Email</span>
                         </button>
                       </Link>

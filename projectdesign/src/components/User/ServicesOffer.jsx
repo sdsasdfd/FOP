@@ -7,19 +7,19 @@ import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 
 const ServicesOffer = () => {
-  const [categories, setCategories] = useState([]);
+  const [services, setServices] = useState([]);
 
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await fetch("/api/category/all-category");
+        const res = await fetch("/api/service/all-services");
         const data = await res.json();
 
         if (data.success === false) {
           console.log(data.message);
         }
 
-        setCategories(data.categories);
+        setServices(data.categories);
       } catch (error) {
         console.log(error.message);
       }
@@ -51,12 +51,10 @@ const ServicesOffer = () => {
       </h2>
 
       <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-        {categories.map((category) => (
-          <div key={category._id}>
-            <Link
-              to={`servicers-list?category=${category.title.toLowerCase()}`}
-            >
-              <CategoryCard category={category} />
+        {services.map((service) => (
+          <div key={service._id}>
+            <Link to={`servicers-list?category=${service.title.toLowerCase()}`}>
+              <CategoryCard service={service} />
             </Link>
           </div>
         ))}

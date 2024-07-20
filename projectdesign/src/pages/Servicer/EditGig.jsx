@@ -14,6 +14,7 @@ const EditGig = () => {
     description: "",
     subCategory: [],
   });
+  const [loading, setLoading] = useState(false);
 
   const handleSubCatChange = (e, index) => {
     const newValue = e.target.value;
@@ -40,6 +41,7 @@ const EditGig = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const res = await fetch(`/api/gig/update-gig`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -51,8 +53,10 @@ const EditGig = () => {
         console.log(data.message);
       } else {
         console.log(data);
+        setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
     }
   };
@@ -199,10 +203,11 @@ const EditGig = () => {
         </div>
       </div>
       <button
+        disabled={loading}
         type="submit"
         className=" bg-blue-500 text-white w-[200px] py-2 rounded-md font-medium text-lg"
       >
-        Update
+        {loading ? "Editing..." : "Edit"}
       </button>
     </form>
   );

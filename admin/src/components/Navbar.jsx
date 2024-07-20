@@ -13,6 +13,7 @@ import { TbLogout } from "react-icons/tb";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../store/userSlice";
+import { BsFillQuestionCircleFill } from "react-icons/bs";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
@@ -57,7 +58,7 @@ const Navbar = () => {
               <Link
                 className=" font-semibold border px-2 py-1 rounded-md cursor-pointer bg-gray-100"
                 onClick={() => setToggleProfile(false)}
-                to={"user-profile"}
+                to={"profile"}
               >
                 View Profile
               </Link>
@@ -128,7 +129,7 @@ const Navbar = () => {
                 Servicers
               </NavLink>
               <NavLink
-                to="category"
+                to="services"
                 onClick={() => setToggle(false)}
                 className={({ isActive }) => {
                   return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
@@ -137,7 +138,7 @@ const Navbar = () => {
                 }}
               >
                 <TbCategoryPlus className=" text-lg" />
-                Category
+                Services
               </NavLink>
               <NavLink
                 to="faq"
@@ -148,13 +149,25 @@ const Navbar = () => {
                   }`;
                 }}
               >
-                <BsClipboard2CheckFill className=" text-lg" />
+                <BsFillQuestionCircleFill className=" text-lg" />
                 FAQ
+              </NavLink>
+              <NavLink
+                to="complain"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <BsClipboard2CheckFill className=" text-lg" />
+                Complains / Testimonials
               </NavLink>
             </div>
 
             <div className="cursor-pointer my-2">
-              <span className=" text-[12px] text-gray-400">USER</span>
+              <span className=" text-[12px] text-gray-400">ADMIN</span>
               <NavLink
                 to="profile"
                 onClick={() => setToggle(false)}

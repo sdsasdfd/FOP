@@ -13,6 +13,7 @@ const useGetConversations = () => {
         const data = await res.json();
         if (data.error) {
           console.log(data.message);
+
           return;
         }
         setConversations(data);

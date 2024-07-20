@@ -54,7 +54,7 @@ const ServicerNavbar = () => {
             className="w-12 cursor-pointer object-cover rounded-full h-12"
             alt=""
           />
-          <div className=" flex flex-col">
+          <div className="hidden sm:flex flex-col">
             <span className=" font-semibold text-lg">
               {currentUser.username}
             </span>

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
-const NewCategory = () => {
+const NewService = () => {
   const [image, setImage] = useState(null);
   const imageRef = useRef(null);
   const [error, setError] = useState(null);
@@ -16,7 +16,7 @@ const NewCategory = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch("/api/category/create", {
+      const res = await fetch("/api/service/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, description, image }),
@@ -28,7 +28,7 @@ const NewCategory = () => {
       }
       console.log(data);
       setLoading(false);
-      navigate("/category");
+      navigate("/services");
     } catch (error) {
       setError(error.message);
     }
@@ -47,7 +47,7 @@ const NewCategory = () => {
   return (
     <div className="flex justify-center  min-h-[500px] bg-slate-50 ">
       <div className=" bg-white p-4 w-[350px] my-4 flex shadow-md flex-col border rounded-md">
-        <h1 className=" text-3xl font-semibold mb-3">New Category</h1>
+        <h1 className=" text-3xl font-semibold mb-3">New Service</h1>
         <form onSubmit={handleSubmit} className="flex flex-col">
           <div className="flex flex-col my-2">
             <label className=" font-semibold text-lg mb-1">Image</label>
@@ -116,4 +116,4 @@ const NewCategory = () => {
   );
 };
 
-export default NewCategory;
+export default NewService;

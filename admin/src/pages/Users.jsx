@@ -55,10 +55,10 @@ const Users = () => {
               {users.map((user) => (
                 <tr key={user._id} className=" border-b hover:bg-gray-100">
                   <td className="w-32 p-3">{user._id}</td>
-                  <td className=" p-3 flex items-center gap-3">
+                  <td className=" p-3 w-40 flex items-center gap-3">
                     <img
-                      className="w-9 object-cover rounded-full"
-                      src={img}
+                      className="w-9 h-9 object-cover rounded-full"
+                      src={user.image || img}
                       alt=""
                     />
                     <span> {user.username} </span>

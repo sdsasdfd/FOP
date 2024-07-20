@@ -1,5 +1,5 @@
 import React from "react";
-import GeneralComplain from "./GeneralComplain";
+import Testimonials from "./Testimonials";
 import ComplainFromUser from "./ComplainFromUser";
 
 const Complain = () => {
@@ -8,10 +8,10 @@ const Complain = () => {
       <div className=" md:mx-8  p-5  ">
         <div className="p-4 bg-white flex-1 shadow-md rounded-md mb-4 ">
           <div className="flex justify-between items-center">
-            <h1 className=" text-3xl font-semibold mb-3">General Complain</h1>
+            <h1 className=" text-3xl font-semibold mb-3">Testimonials</h1>
           </div>
         </div>
-        <GeneralComplain />
+        <Testimonials />
       </div>
       <div className=" md:mx-8  p-5  ">
         <div className="p-4 bg-white flex-1 shadow-md rounded-md mb-4 ">

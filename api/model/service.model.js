@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const categorySchema = new mongoose.Schema(
+const serviceSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -18,5 +18,5 @@ const categorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Category = mongoose.model("Category", categorySchema);
-export default Category;
+const Service = mongoose.model("Service", serviceSchema);
+export default Service;

@@ -17,7 +17,7 @@ const Home = () => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await fetch("/api/category/all-category");
+        const res = await fetch("/api/service/all-services");
         const data = await res.json();
 
         if (data.success === false) {
@@ -81,6 +81,9 @@ const Home = () => {
     fetchUsers();
   }, []);
 
+  const num = 3.4544;
+  console.log(num.toFixed(2));
+
   return (
     <div className="pt-4 px-4 flex-1 bg-slate-50 min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5 ">
@@ -96,9 +99,9 @@ const Home = () => {
           bgColor="bg-yellow-200"
           icon={<GrServices className="text-yellow-800 m-2 text-lg" />}
           values={categoriesNumbers}
-          text="Category"
+          text="Services"
           see="see all category"
-          link="/category"
+          link="/services"
         />
         <Widget
           bgColor="bg-green-200"
@@ -115,7 +118,7 @@ const Home = () => {
             <span className=" rounded-md bg-purple-300">
               <SiFuturelearn className="text-purple-500 text-lg  m-2" />
             </span>
-            <span className=" text-2xl mt-auto"> {earning} </span>
+            <span className=" text-2xl mt-auto"> {earning?.toFixed(2)} </span>
           </div>
         </div>
         <div className="flex flex-col  border flex-1 h-[120px] p-3 rounded-md shadow-lg bg-white">

@@ -3,20 +3,19 @@ import Logo from "./Logo";
 import { MdDashboard } from "react-icons/md";
 
 import { HiMiniUsers } from "react-icons/hi2";
-import { TbCategoryPlus, TbH1 } from "react-icons/tb";
+import { TbCategoryPlus } from "react-icons/tb";
 import { GrUserWorker } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
 import { BsClipboard2CheckFill } from "react-icons/bs";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { BsFillQuestionCircleFill } from "react-icons/bs";
 
 import { logoutSuccess } from "../store/userSlice";
 
 const Sidebar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const toggle = useSelector((state) => state.toggle);
+
   const handleLogout = async () => {
     try {
       const res = await fetch("/api/auth/logout", { method: "POST" });
@@ -77,7 +76,7 @@ const Sidebar = () => {
               Servicers
             </NavLink>
             <NavLink
-              to="category"
+              to="services"
               className={({ isActive }) => {
                 return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
                   isActive ? "bg-blue-100 " : ""
@@ -85,7 +84,7 @@ const Sidebar = () => {
               }}
             >
               <TbCategoryPlus className=" text-lg" />
-              Category
+              Services
             </NavLink>
             <NavLink
               to="faq"
@@ -95,7 +94,7 @@ const Sidebar = () => {
                 }`;
               }}
             >
-              <BsClipboard2CheckFill className=" text-lg" />
+              <BsFillQuestionCircleFill className=" text-lg" />
               FAQ
             </NavLink>
             <NavLink
@@ -107,12 +106,12 @@ const Sidebar = () => {
               }}
             >
               <BsClipboard2CheckFill className=" text-lg" />
-              Complains
+              Complains / Testimonials
             </NavLink>
           </div>
 
           <div className="cursor-pointer my-2">
-            <span className=" text-[12px] text-gray-400">USER</span>
+            <span className=" text-[12px] text-gray-400">ADMIN</span>
             <NavLink
               to="profile"
               className={({ isActive }) => {

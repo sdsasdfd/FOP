@@ -7,13 +7,15 @@ import userRouter from "./routes/user.route.js";
 import gigRouter from "./routes/gig.route.js";
 import messageRouter from "./routes/message.route.js";
 import chatRouter from "./routes/chat.route.js";
-import categoryRouter from "./routes/category.route.js";
+import serviceRouter from "./routes/service.route.js";
 import paymentRouter from "./routes/payment.route.js";
 import accountRouter from "./routes/account.route.js";
 import transactionRouter from "./routes/transaction.route.js";
 import reviewRouter from "./routes/review.route.js";
 import complainRouter from "./routes/complain.route.js";
 import faqRouter from "./routes/faq.route.js";
+import testimonialRouter from "./routes/testimonial.route.js";
+import orderRouter from "./routes/order.route.js";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
@@ -34,7 +36,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
-app.use("/api/category", categoryRouter);
+app.use("/api/service", serviceRouter);
 app.use("/api/gig", gigRouter);
 app.use("/api/message", messageRouter);
 app.use("/api/chat", chatRouter);
@@ -44,6 +46,8 @@ app.use("/api/transaction", transactionRouter);
 app.use("/api/review", reviewRouter);
 app.use("/api/faq", faqRouter);
 app.use("/api/complain", complainRouter);
+app.use("/api/testimonial", testimonialRouter);
+app.use("/api/order", orderRouter);
 
 mongoose
   .connect(process.env.MONGO_URL)

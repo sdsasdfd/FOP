@@ -111,7 +111,8 @@ const Gig = () => {
                 onChange={(e) => setPrice(e.target.value)}
                 value={price}
                 min={1000}
-                placeholder="Price eg. 1200Rs per day"
+                max={1500}
+                placeholder="Price eg. 1000Rs to 1500Rs per day"
                 type="number"
                 className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
               />

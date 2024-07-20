@@ -3,6 +3,7 @@ import { MdEdit } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import profileImg from "../assets/profileImg.webp";
 import {
   updateUserFailure,
   updateUserStart,
@@ -63,7 +64,7 @@ const Profile = () => {
         <div className="flex  justify-center items-center">
           <div className=" relative">
             <img
-              src={img}
+              src={currentUser.image || profileImg}
               className=" w-40 h-40 relative rounded-full  object-cover"
               alt=""
             />

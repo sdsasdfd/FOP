@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { BsSend } from "react-icons/bs";
 import { CiSquarePlus } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { setMessages } from "../../store/messageSlice";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import useListenServiceStatus from "../../hooks/useListenServiceStatus";
+
 import { toast } from "react-toastify";
 
 import { IoCloseSharp } from "react-icons/io5";
@@ -15,7 +16,6 @@ const MessageInput = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const [newMessageText, setNewMessageText] = useState("");
   const { id } = useParams();
@@ -94,7 +94,6 @@ const MessageInput = () => {
       }
       // console.log(data);
       toast.success("review sent");
-      navigate("/user-home");
     } catch (error) {
       console.log(error.message);
     }
@@ -141,11 +140,31 @@ const MessageInput = () => {
     fetchSlip();
   }, []);
 
+  const serviceCompletionHandler = async () => {
+    try {
+      const res = await fetch(`/api/order/complete-order/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+      }
+      console.log(data);
+      // setServicerCompletedTask(data.isCompleted)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useListenServiceStatus({ servicerCompletedTask, setServicerCompletedTask });
+  console.log("COMPLETED TASK :::: ", servicerCompletedTask);
+
   return (
     <div className="w-full overflow-hidden">
       {/* Payment Modal */}
       {togglePriceCardForUser && (
-        <div className=" absolute  top-0 w-[80%] flex items-center justify-center  h-screen border z-50">
+        <div className=" absolute  top-0 w-[90%] flex items-center justify-center  h-screen border bg-opacity-20  bg-slate-400 z-50">
           <div className="modal-box relative">
             <button
               className="btn border-1 border-slate-400  btn-sm btn-circle absolute right-2 top-2"
@@ -219,7 +238,7 @@ const MessageInput = () => {
       {/* Review Modal */}
       {showReviewModal && (
         <div className=" w-[90%] h-screen bg-opacity-20 z-30 bg-slate-400 absolute top-0 flex items-center justify-center">
-          <div className="modal-box bg-blue-50 ">
+          <div className="modal-box bg-blue-50 max-h-screen ">
             <h1 className=" font-extrabold  text-3xl my-4">
               We appreciate your feedback
             </h1>
@@ -228,12 +247,12 @@ const MessageInput = () => {
               accusantium.
             </p>
 
-            <button
+            {/* <button
               className="btn border-1 border-slate-400  btn-sm btn-circle btn-ghost absolute right-2 top-2"
               onClick={() => setShowReviewModal(false)}
             >
               ✕
-            </button>
+            </button> */}
             <form
               className="flex w-full mt-5 items-center flex-col gap-4"
               onSubmit={reviewHandle}
@@ -291,7 +310,7 @@ const MessageInput = () => {
               <p className=" mt-3 cursor-pointer text-xl">
                 Write your complain{" "}
                 <span
-                  className="hover:text-blue-600"
+                  className="text-blue-600"
                   onClick={() => setToggleComplainModal(true)}
                 >
                   Click here!
@@ -299,24 +318,30 @@ const MessageInput = () => {
               </p>
             </div>
             {toggleComplainModal && (
-              <form onSubmit={handleComplain} className=" w-full flex  ">
+              <form onSubmit={handleComplain} className=" w-full flex mb-3 ">
                 <textarea
                   value={complainDesc}
                   onChange={(e) => setComplainDesc(e.target.value)}
                   name=""
                   id=""
-                  className="w-[70%]  focus:border-0 placeholder:text-lg focus:outline-none p-2 rounded-md"
+                  className="w-[70%]  focus:border-0 placeholder:text-lg focus:outline-none mb-2 p-2 rounded-md"
                   placeholder="Complain..."
                   rows={2}
                 />
                 <button
                   type="submit"
-                  className=" w-[30%] rounded-r-md bg-blue-600 text-xl text-white font-semibold"
+                  className=" w-[30%] rounded-r-md bg-blue-600 text-xl hover:bg-blue-500 mb-2 text-white font-semibold"
                 >
                   Submit
                 </button>
               </form>
             )}
+            <Link
+              to={"/user-home"}
+              className=" text-lg mt-2 bg-slate-600 text-white p-2 rounded-md hover:bg-slate-500"
+            >
+              Back to Home
+            </Link>
           </div>
         </div>
       )}
@@ -378,7 +403,7 @@ const MessageInput = () => {
           >
             <IoMdSend />
           </button>
-          {currentUser.roles === "servicer" ? (
+          {/* {currentUser.roles === "servicer" ? (
             <button
               type="button"
               onClick={() => setServicerCompletedTask(true)}
@@ -393,8 +418,29 @@ const MessageInput = () => {
                 servicerCompletedTask ? "bg-blue-500" : "bg-slate-200"
               } text-white  py-3 px-6 rounded-lg`}
               onClick={() => setTogglePriceCardForUser(true)}
+              // disabled={!servicerCompletedTask}
             >
               Mark as completed
+            </button>
+          )} */}
+          {currentUser.roles === "servicer" ? (
+            <button
+              type="button"
+              onClick={serviceCompletionHandler}
+              className="bg-blue-500 text-white py-3 px-6 rounded-lg"
+            >
+              Mark as completed
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={`${
+                servicerCompletedTask ? "bg-blue-500" : "bg-slate-200"
+              } text-white  py-3 px-6 rounded-lg`}
+              onClick={() => setTogglePriceCardForUser(true)}
+              disabled={!servicerCompletedTask}
+            >
+              Proceed to payment
             </button>
           )}
         </div>

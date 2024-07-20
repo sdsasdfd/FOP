@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const UserHero = () => {
   const [inputCategoryTitle, setInputCategoryTitle] = useState("");
   const [results, setResults] = useState([]);
-  console.log(inputCategoryTitle);
+
   const handleSearchCategory = async () => {
     try {
       const res = await fetch(
@@ -31,14 +31,14 @@ const UserHero = () => {
       className="bg-cover bg-center h-[calc(100vh-4.5rem)] flex justify-start items-center dark:bg-neutral-700 px-4 sm:pl-14"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
-      <div className="flex relative flex-col">
+      <div className="flex  flex-col">
         <h1 className="text-white text-2xl sm:text-4xl font-bold">
           Home Servicer made easy
         </h1>
         <p className="text-white text-[16px] sm:text-[18px] mb-4">
           book top-rates professional for all your home needs
         </p>
-        <div className="bg-slate-100 rounded-md flex items-center py-4 px-2 gap-4 sm:w-[400px] md:w-[550px] lg:w-[680px]">
+        <div className="bg-slate-100 rounded-md flex items-center relative py-4 px-2 gap-4 sm:w-[400px] md:w-[550px] lg:w-[680px]">
           <CiSearch className="text-2xl" />
           <input
             type="text"
@@ -49,12 +49,12 @@ const UserHero = () => {
           />
         </div>
 
-        <div className="absolute sm:w-[400px] w-[360px]  md:w-[550px] lg:w-[680px] bottom-[-100%]">
+        <div className="absolute bottom-[-60px] sm:w-[400px] w-[360px]  md:w-[550px] lg:w-[680px] ">
           {results.map((result) => (
             <Link
-              to={`servicers-list?category=${result.title.toLowerCase()}`}
               key={result._id}
-              className=" bg-slate-200 flex  p-4 rounded-md  gap-4"
+              to={`servicers-list?category=${result.title.toLowerCase()}`}
+              className=" bg-slate-200 flex mb-3 p-4 rounded-md  gap-4"
             >
               <img
                 className="w-20 h-20 object-cover"

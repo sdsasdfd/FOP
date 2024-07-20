@@ -58,8 +58,8 @@ const Servicers = () => {
                   <td className="w-32 p-3">{servicer._id}</td>
                   <td className=" p-3 flex items-center gap-3">
                     <img
-                      className="w-8 object-cover rounded-full"
-                      src={img}
+                      className="w-9 h-9 object-cover rounded-full"
+                      src={servicer.image || img}
                       alt=""
                     />
                     <span> {servicer.username} </span>

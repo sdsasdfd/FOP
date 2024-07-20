@@ -19,42 +19,13 @@ const MessageContainer = () => {
     return () => setSelectedConversation(null);
   }, [setSelectedConversation]);
 
-  // const { conversation } = useParams();
-  // const [messages, setMessages] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchMessages = async () => {
-  //     try {
-  //       const res = await fetch(/api/message/${conversation});
-  //       const data = await res.json();
-  //       if (data.success === false) {
-  //         console.log(data.message);
-  //       }
-  //       console.log(data);
-
-  //       setMessages(data);
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   };
-  //   fetchMessages();
-  // }, []);
   return (
     <>
-      {/* Header */}
-      {/* <div className='bg-slate-500 px-4 py-2 mb-2'>
-						<span className='label-text'>To:</span>{" "}
-						<span className='text-gray-900 font-bold'>{selectedConversation.fullName}</span>
-					</div> */}
       <div className="container mx-auto md:px-4 ">
         <Messages />
         <MessageInput />
       </div>
     </>
-    // <div className="container mx-auto md:px-4 ">
-    //   <Messages />
-    //   <MessageInput />
-    // </div>
   );
 };
 

@@ -11,10 +11,10 @@ import Home from "./pages/Home";
 import Root from "./pages/Root";
 import Users from "./pages/Users";
 import Servicers from "./pages/Servicers";
-import Category from "./pages/Category/Category";
+import Services from "./pages/Services/Services";
 import Profile from "./pages/Profile";
-import NewCategory from "./pages/Category/NewCategory";
-import EditCategory from "./pages/Category/EditCategory";
+import NewService from "./pages/Services/NewService";
+import EditService from "./pages/Services/EditService";
 import Login from "./pages/Login";
 import ProtectRoute from "./components/ProtectRoute";
 import Testing from "./pages/Testing";
@@ -57,12 +57,12 @@ const App = () => {
         <Route element={<ProtectRoute />}>
           <Route path="/" element={<Root />}>
             <Route index element={<Home />} />
-            <Route path="category" element={<Category />} />
+            <Route path="services" element={<Services />} />
             <Route path="users" element={<Users />} />
             <Route path="servicers" element={<Servicers />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="category/:id" element={<EditCategory />} />
-            <Route path="category/new-category" element={<NewCategory />} />
+            <Route path="services/:id" element={<EditService />} />
+            <Route path="services/new-category" element={<NewService />} />
             <Route path="faq" element={<Faq />} />
             <Route path="faq/new/servicer" element={<CreateFaqForServicer />} />
             <Route path="faq/new/user" element={<CreateFaqForUser />} />

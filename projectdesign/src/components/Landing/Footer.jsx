@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../Logo";
-import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [serviceNames, setServiceNames] = useState([]);
@@ -20,15 +19,9 @@ const Footer = () => {
   }, []);
   return (
     <div className=" px-6 md:px-20 border-t-2 py-5">
-      <div className="grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-start justify-between">
+      <div className="grid  grid-cols-2 md:grid-cols-3 items-start justify-between">
         <div className="mt-4 flex-1 ">
           <Logo />
-        </div>
-        <div className=" flex flex-col gap-3 mb-4">
-          <Link to="/user-home">Home</Link>
-          <Link to="services">Services</Link>
-          <Link to="faq">FAQ</Link>
-          <Link to="message-info">Messages</Link>
         </div>
         <div className=" flex flex-col gap-3">
           <span className=" font-semibold text-lg">Location</span>

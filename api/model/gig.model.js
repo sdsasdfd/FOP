@@ -12,6 +12,8 @@ const gigSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
+    min: 1000,
+    max: 1200,
   },
   servicerId: {
     type: mongoose.Schema.Types.ObjectId,

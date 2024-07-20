@@ -1,30 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
+const bgImage = "/img/bg1.jpg";
+import { FaArrowRight } from "react-icons/fa";
 
-const img =
-  "https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/c_scale,w_440,h_300,f_auto,q_auto,dpr_2.0/brontes/hero/searching-talent@2x.png";
 const Hero = () => {
   return (
-    <div className="flex gap-4     ">
-      <div className=" sm:mt-20 ">
-        <h4 className=" sm:text-[40px] text-[24px] font-semibold sm:font-bold  ">
+    <div
+      style={{ backgroundImage: `url(${bgImage})` }}
+      className="flex bg-cover h-[calc(100vh-4rem)] bg-center gap-4 px-4 sm:px-8 md:px-14 lg:px-24    "
+    >
+      <div className=" mt-28 sm:mt-24">
+        <h4 className=" sm:text-[56px] text-[40px] font-bold sm:font-[700]  ">
           How work <br /> should work
         </h4>
-        <p className="my-4">
+        <p className="my-4 font-medium text-[17px]">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ea, vel.
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. A, vero.
         </p>
         <Link to="/register">
           <button
-            className="px-3 text-white bg-blue-600 py-1 rounded-lg
+            className="px-5 font-medium text-white bg-blue-600 hover:bg-blue-500 py-3 text-[17px] gap-3 rounded-md flex items-center
 
         "
           >
-            Get Started
+            <span>Get Started</span> <FaArrowRight />
           </button>
         </Link>
-      </div>
-      <div className="hidden sm:flex">
-        <img src={img} className=" h-[400px] " alt="" />
       </div>
     </div>
   );

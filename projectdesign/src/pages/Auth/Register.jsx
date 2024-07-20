@@ -62,7 +62,7 @@ const Register = () => {
   useEffect(() => {
     const fetchNames = async () => {
       try {
-        const res = await fetch("/api/category/names");
+        const res = await fetch("/api/service/names");
         const data = await res.json();
 
         setCategoryNames(data);

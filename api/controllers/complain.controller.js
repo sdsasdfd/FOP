@@ -54,7 +54,7 @@ export const getServicerComplain = async (req, res, next) => {
   }
 };
 
-export const makeGeneralComplain = async (req, res, next) => {
+export const testimonialFromUser = async (req, res, next) => {
   const { _id: userId } = req.user;
   const { complainDesc } = req.body;
   const generalComplain = true;
@@ -75,16 +75,14 @@ export const makeGeneralComplain = async (req, res, next) => {
   }
 };
 
-export const getGeneralComplain = async (req, res, next) => {
-  const { isAdmin } = req.user;
-  if (!isAdmin) {
-    return next(errorHandler(403, "Forbidden"));
-  }
+export const getTestimonials = async (req, res, next) => {
   try {
-    const complains = await Complain.find({ generalComplain: true }).populate({
-      path: "userId",
-      select: "-password",
-    });
+    const complains = await Complain.find({ generalComplain: true })
+      .populate({
+        path: "userId",
+        select: "-password",
+      })
+      .sort({ createdAt: -1 });
 
     if (!complains) {
       return next(errorHandler(404, "Not available!"));
