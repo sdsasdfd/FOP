@@ -132,7 +132,7 @@ const ServicerList = ({ servicerList }) => {
     <div className="mb-8 flex  flex-col gap-3 rounded-lg border p-6  shadow-lg">
       <div className="flex items-center gap-4">
         <img
-          src={profileImg || servicerList.servicerId?.image}
+          src={servicerList.servicerId?.image || profileImg}
           className="h-12 border w-12 rounded-full  sm:h-16 sm:w-16 md:h-20 md:w-20 "
         />
         <div className="w-[80%]">

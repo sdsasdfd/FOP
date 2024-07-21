@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "../Logo/Logo";
 import { MdDashboard } from "react-icons/md";
-
+import { CiSquareQuestion } from "react-icons/ci";
 import { HiMiniUsers } from "react-icons/hi2";
 import { TbCategoryPlus, TbH1 } from "react-icons/tb";
 import { GrUserWorker } from "react-icons/gr";
@@ -53,6 +53,17 @@ const Sidebar = () => {
           </div>
           <div className="cursor-pointer">
             <span className=" text-[12px] text-gray-400">LISTS</span>
+            <NavLink
+              to="request"
+              className={({ isActive }) => {
+                return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                  isActive ? "bg-blue-100 " : ""
+                }`;
+              }}
+            >
+              <CiSquareQuestion className=" text-lg" />
+              Request
+            </NavLink>
             <NavLink
               to="message-info"
               className={({ isActive }) => {

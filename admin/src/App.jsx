@@ -28,6 +28,7 @@ import EditFaqForServicer from "./pages/FAQ/FAQForServicer/EditFaqForServicer";
 import EditFaqForUser from "./pages/FAQ/FAQForUser/EditFaqForUser";
 import Complain from "./pages/Complain/Complain";
 import SendResponse from "./pages/Complain/SendResponse";
+import Testimonials from "./pages/Testimonials";
 
 // const router = createBrowserRouter([
 //   {
@@ -72,6 +73,7 @@ const App = () => {
             <Route path="faq/user/:id" element={<EditFaqForUser />} />
             <Route path="complain" element={<Complain />} />
             <Route path="complain/:id" element={<SendResponse />} />
+            <Route path="testimonial" element={<Testimonials />} />
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />

@@ -46,100 +46,114 @@ const NavbarPerson = () => {
             Serve <span className=" text-blue-400">Ease</span>
           </p>
         </Link>
-        <div className="hidden gap-5 mr-4 sm:flex  items-center ">
-          <NavLink
-            to="/user-home"
-            // className=" "
-            className={({ isActive }) => {
-              return `text-blue-500 text-[18px]  font-medium ${
-                isActive
-                  ? "bg-blue-500 text-white   py-[2px] px-[4px] rounded-md"
-                  : ""
-              }`;
-            }}
-            end
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="services"
-            className={({ isActive }) => {
-              return `text-blue-500 text-[18px]  font-medium ${
-                isActive
-                  ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
-                  : ""
-              }`;
-            }}
-          >
-            Services
-          </NavLink>
-          <NavLink
-            to="faq"
-            className={({ isActive }) => {
-              return `text-blue-500 text-[18px]  font-medium ${
-                isActive
-                  ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
-                  : ""
-              }`;
-            }}
-          >
-            FAQ
-          </NavLink>
-          <NavLink
-            className={({ isActive }) => {
-              return `text-blue-500 text-[18px]  font-medium ${
-                isActive
-                  ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
-                  : ""
-              }`;
-            }}
-            to="message-info"
-          >
-            Messages
-          </NavLink>
-        </div>
-        <div className="flex  items-center">
-          <div className="flex items-center gap-3">
-            <IoMdMenu
-              className="sm:hidden block text-lg  cursor-pointer "
-              onClick={() => setToggle(!toggle)}
-            />
-
-            <div
-              className="hover:bg-blue-100 px-2 rounded-md py-[1px]   cursor-pointer relative flex items-center gap-3"
-              onClick={() => setToggleProfile(!toggleProfile)}
+        <div className=" flex items-center gap-4">
+          <div className="hidden gap-5 mr-4 sm:flex  items-center ">
+            <NavLink
+              to="/user-home"
+              // className=" "
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white   py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
+              end
             >
-              {" "}
-              <img
-                src={currentUser.image || profileImg}
-                className="w-12 cursor-pointer object-cover rounded-full h-12"
-                alt=""
+              Home
+            </NavLink>
+            <NavLink
+              to="services"
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
+            >
+              Services
+            </NavLink>
+            <NavLink
+              to="faq"
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
+            >
+              FAQ
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
+              to="message-info"
+            >
+              Messages
+            </NavLink>
+            <NavLink
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
+              to="request"
+            >
+              Requests
+            </NavLink>
+          </div>
+          <div className="flex  items-center">
+            <div className="flex items-center gap-3">
+              <IoMdMenu
+                className="sm:hidden block text-lg  cursor-pointer "
+                onClick={() => setToggle(!toggle)}
               />
-              <div className="hidden  sm:flex flex-col">
-                <span className=" font-semibold text-lg">
-                  {currentUser.username}
-                </span>
-                <span className=" text-sm">{currentUser.location}</span>
-              </div>
-              {toggleProfile && (
-                <div className=" absolute right-[-15px] top-14 w-[150px] h-[95px] bg-white shadow-lg flex flex-col items-center border pt-2 rounded-md ">
-                  {" "}
-                  <Link
-                    className=" font-semibold border px-2 py-1 rounded-md cursor-pointer bg-gray-100"
-                    onClick={() => setToggleProfile(false)}
-                    to={"user-profile"}
-                  >
-                    View Profile
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={handleLogout}
-                    className="cursor-pointer bg-blue-500 text-white px-2 py-1 rounded-md mt-3 "
-                  >
-                    Sign Out
-                  </button>
+
+              <div
+                className="hover:bg-blue-100 px-2 rounded-md py-[1px]   cursor-pointer relative flex items-center gap-3"
+                onClick={() => setToggleProfile(!toggleProfile)}
+              >
+                {" "}
+                <img
+                  src={currentUser.image || profileImg}
+                  className="w-12 cursor-pointer object-cover rounded-full h-12"
+                  alt=""
+                />
+                <div className="hidden  sm:flex flex-col">
+                  <span className=" font-semibold text-lg">
+                    {currentUser.username}
+                  </span>
+                  <span className=" text-sm">{currentUser.location}</span>
                 </div>
-              )}
+                {toggleProfile && (
+                  <div className=" absolute right-[-15px] top-14 w-[150px] h-[95px] bg-white shadow-lg flex flex-col items-center border pt-2 rounded-md ">
+                    {" "}
+                    <Link
+                      className=" font-semibold border px-2 py-1 rounded-md cursor-pointer bg-gray-100"
+                      onClick={() => setToggleProfile(false)}
+                      to={"user-profile"}
+                    >
+                      View Profile
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleLogout}
+                      className="cursor-pointer bg-blue-500 text-white px-2 py-1 rounded-md mt-3 "
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

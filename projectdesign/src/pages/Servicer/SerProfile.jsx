@@ -7,19 +7,6 @@ import { useSelector } from "react-redux";
 
 const SerProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
-  // console.log(currentUser);
-  const [toggleModal, setToggleModal] = useState(false);
-  // const navigate = useNavigate();
-  // const [user, setUser] = useState(null);
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const res = await fetch("/api/users/current-user");
-  //     const data = await res.json();
-  //     setUser(data);
-  //     console.log(data);
-  //   };
-  //   fetchUser();
-  // }, []);
 
   const [accountDetails, setAccountDetails] = useState(null);
   const [transactions, setTransactions] = useState([]);
@@ -86,12 +73,6 @@ const SerProfile = () => {
               </span>
             </div>
             <div className="flex gap-4">
-              {/* <button
-                onClick={() => setToggleModal(true)}
-                className=" bg-blue-500 hover:bg-blue-400 py-2 text-white px-2 rounded-md"
-              >
-                Edit Profile
-              </button> */}
               <ServicerEditProfile />
             </div>
           </div>
@@ -133,7 +114,6 @@ const SerProfile = () => {
           </table>
         </div>
       </div>
-      {/* {toggleModal && <EditProfile setToggleModal={setToggleModal} />} */}
     </div>
   );
 };

@@ -22,9 +22,11 @@ import SerProfile from "./pages/Servicer/SerProfile";
 import Gig from "./pages/Servicer/Gig";
 import ProtectRoute from "../../admin/src/components/ProtectRoute";
 import EditGig from "./pages/Servicer/EditGig";
-import { useSelector } from "react-redux";
+
 import CheckUserExistProtectedRoute from "./components/protected/CheckUserExistProtectedRoute";
 import Services from "./pages/Services/Services";
+import Requests from "./pages/Requests/ServicerRequests";
+import UserRequest from "./pages/Requests/UserRequest";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +68,7 @@ const router = createBrowserRouter([
           { path: "message-info/:id", element: <Conversation /> },
           { path: "services", element: <Services /> },
           { path: "faq", element: <Faq /> },
+          { path: "request", element: <UserRequest /> },
         ],
       },
     ],
@@ -84,6 +87,7 @@ const router = createBrowserRouter([
           { path: "message-info/:id", element: <Conversation /> },
           { path: "edit-gig", element: <EditGig /> },
           { path: "faq", element: <Faq /> },
+          { path: "request", element: <Requests /> },
         ],
       },
     ],

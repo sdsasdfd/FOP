@@ -164,6 +164,18 @@ const Navbar = () => {
                 <BsClipboard2CheckFill className=" text-lg" />
                 Complains / Testimonials
               </NavLink>
+              <NavLink
+                to="testimonial"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <BsClipboard2CheckFill className=" text-lg" />
+                Testimonials
+              </NavLink>
             </div>
 
             <div className="cursor-pointer my-2">

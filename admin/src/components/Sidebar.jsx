@@ -33,7 +33,7 @@ const Sidebar = () => {
   return (
     <>
       {/* larger Device */}
-      <div className="hidden bg-white md:block w-[280px] border-r min-h-screen">
+      <div className="hidden  bg-white md:block w-[280px] border-r min-h-screen">
         <Logo />
         <div className="pl-2 mt-4">
           <div className="cursor-pointer my-2">
@@ -106,7 +106,18 @@ const Sidebar = () => {
               }}
             >
               <BsClipboard2CheckFill className=" text-lg" />
-              Complains / Testimonials
+              Complains
+            </NavLink>
+            <NavLink
+              to="testimonial"
+              className={({ isActive }) => {
+                return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                  isActive ? "bg-blue-100 " : ""
+                }`;
+              }}
+            >
+              <BsClipboard2CheckFill className=" text-lg" />
+              Testimonials
             </NavLink>
           </div>
 

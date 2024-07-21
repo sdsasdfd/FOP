@@ -108,7 +108,7 @@ const NewService = () => {
             type="submit"
             className="bg-blue-500 text-white rounded-md py-2 mt-2 "
           >
-            {loading ? "Creating Category..." : "Create Category"}
+            {loading ? "Creating Service..." : "Create Service"}
           </button>
         </form>
       </div>

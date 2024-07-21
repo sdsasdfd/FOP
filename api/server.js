@@ -16,6 +16,7 @@ import complainRouter from "./routes/complain.route.js";
 import faqRouter from "./routes/faq.route.js";
 import testimonialRouter from "./routes/testimonial.route.js";
 import orderRouter from "./routes/order.route.js";
+import messageRequestRouter from "./routes/messageRequest.route.js";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 import cors from "cors";
@@ -48,6 +49,7 @@ app.use("/api/faq", faqRouter);
 app.use("/api/complain", complainRouter);
 app.use("/api/testimonial", testimonialRouter);
 app.use("/api/order", orderRouter);
+app.use("/api/request", messageRequestRouter);
 
 mongoose
   .connect(process.env.MONGO_URL)

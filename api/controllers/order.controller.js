@@ -45,3 +45,18 @@ export const orderCompleted = async (req, res, next) => {
     return next(errorHandler(500, "Something went wrong"));
   }
 };
+
+export const getCompletedOrder = async (req, res, next) => {
+  try {
+    const { id: servicer } = req.params;
+
+    const order = await Order.findOne({
+      user: req.user._id,
+      servicer,
+    });
+
+    res.status(200).json(order);
+  } catch (error) {
+    return next(errorHandler(500, "Something went wrong"));
+  }
+};

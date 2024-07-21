@@ -59,16 +59,32 @@ const ServicerProfile = () => {
     }
   }, [servicerInfo]);
 
+  // const handleSendRequest = async () => {
+  //   try {
+  //     const res = await fetch(`/api/message/create/${id}`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(),
+  //     });
+  //     const data = await res.json();
+  //     toast.success("Request message send!");
+  //     // console.log(data);
+  //   } catch (error) {
+  //     toast.error(error.message);
+  //     console.log(error.message);
+  //   }
+  // };
+
   const handleSendRequest = async () => {
     try {
-      const res = await fetch(`/api/message/create/${id}`, {
+      const res = await fetch(`/api/request//send-request/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(),
       });
       const data = await res.json();
       toast.success("Request message send!");
-      // console.log(data);
+      console.log(data);
     } catch (error) {
       toast.error(error.message);
       console.log(error.message);

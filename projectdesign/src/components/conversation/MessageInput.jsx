@@ -35,6 +35,7 @@ const MessageInput = () => {
   // console.log(img);
 
   const [servicerCompletedTask, setServicerCompletedTask] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
 
   const handleImgChange = (e) => {
     const file = e.target.files[0];
@@ -138,7 +139,7 @@ const MessageInput = () => {
       }
     };
     fetchSlip();
-  }, []);
+  }, [isCompleted]);
 
   const serviceCompletionHandler = async () => {
     try {
@@ -159,6 +160,20 @@ const MessageInput = () => {
   };
   useListenServiceStatus({ servicerCompletedTask, setServicerCompletedTask });
   console.log("COMPLETED TASK :::: ", servicerCompletedTask);
+
+  useEffect(() => {
+    const getCompletedOrder = async () => {
+      const res = await fetch(`/api/order/get-completed-order/${id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+      }
+      console.log(data);
+      setIsCompleted(data.isCompleted);
+    };
+
+    getCompletedOrder();
+  }, [isCompleted]);
 
   return (
     <div className="w-full overflow-hidden">
@@ -400,29 +415,15 @@ const MessageInput = () => {
           <button
             type="submit"
             className="bg-blue-500 text-white py-2 px-3 rounded-lg"
+            disabled={loading}
           >
-            <IoMdSend />
+            {loading ? (
+              <span className="loading loading-spinner loading-xs"></span>
+            ) : (
+              <IoMdSend />
+            )}
           </button>
-          {/* {currentUser.roles === "servicer" ? (
-            <button
-              type="button"
-              onClick={() => setServicerCompletedTask(true)}
-              className="bg-blue-500 text-white py-3 px-6 rounded-lg"
-            >
-              Request for completion
-            </button>
-          ) : (
-            <button
-              type="button"
-              className={`${
-                servicerCompletedTask ? "bg-blue-500" : "bg-slate-200"
-              } text-white  py-3 px-6 rounded-lg`}
-              onClick={() => setTogglePriceCardForUser(true)}
-              // disabled={!servicerCompletedTask}
-            >
-              Mark as completed
-            </button>
-          )} */}
+
           {currentUser.roles === "servicer" ? (
             <button
               type="button"
@@ -435,10 +436,12 @@ const MessageInput = () => {
             <button
               type="button"
               className={`${
-                servicerCompletedTask ? "bg-blue-500" : "bg-slate-200"
+                isCompleted || servicerCompletedTask
+                  ? "bg-blue-500"
+                  : "bg-slate-200"
               } text-white  py-3 px-6 rounded-lg`}
               onClick={() => setTogglePriceCardForUser(true)}
-              disabled={!servicerCompletedTask}
+              disabled={!isCompleted}
             >
               Proceed to payment
             </button>

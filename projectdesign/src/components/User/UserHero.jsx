@@ -49,12 +49,12 @@ const UserHero = () => {
           />
         </div>
 
-        <div className="absolute bottom-[-60px] sm:w-[400px] w-[360px]  md:w-[550px] lg:w-[680px] ">
+        <div className="absolute bottom-[-20px]  h-[200px] sm:w-[400px] w-[360px]  md:w-[550px] lg:w-[680px] ">
           {results.map((result) => (
             <Link
               key={result._id}
               to={`servicers-list?category=${result.title.toLowerCase()}`}
-              className=" bg-slate-200 flex mb-3 p-4 rounded-md  gap-4"
+              className=" bg-slate-200 h-[80px] flex mb-3 p-4 rounded-md  gap-4"
             >
               <img
                 className="w-20 h-20 object-cover"
@@ -62,10 +62,7 @@ const UserHero = () => {
                 alt=""
               />
               <div className=" flex flex-col">
-                <span className=" font-semibold text-3xl">
-                  {" "}
-                  {result.title}{" "}
-                </span>
+                <span className=" font-semibold text-3xl">{result.title}</span>
                 <p> {result.description} </p>
               </div>
             </Link>
