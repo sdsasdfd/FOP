@@ -7,6 +7,8 @@ import { IoWalletOutline } from "react-icons/io5";
 import { SiFuturelearn } from "react-icons/si";
 
 import Widget from "../components/Widget";
+import StatusRequests from "../components/StatusRequests";
+import OrderHistory from "../components/OrderHistory";
 
 const Home = () => {
   const [categoriesNumbers, setCategoriesNumbers] = useState(0);
@@ -85,7 +87,7 @@ const Home = () => {
   console.log(num.toFixed(2));
 
   return (
-    <div className="pt-4 px-4 flex-1 bg-slate-50 min-h-screen">
+    <div className="pt-4 px-4 w-full bg-slate-50 min-h-screen">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5 ">
         <Widget
           bgColor="bg-red-200"
@@ -118,7 +120,7 @@ const Home = () => {
             <span className=" rounded-md bg-purple-300">
               <SiFuturelearn className="text-purple-500 text-lg  m-2" />
             </span>
-            <span className=" text-2xl mt-auto"> {earning?.toFixed(2)} </span>
+            <span className=" text-2xl mt-auto"> {earning?.toFixed(2)} Rs</span>
           </div>
         </div>
         <div className="flex flex-col  border flex-1 h-[120px] p-3 rounded-md shadow-lg bg-white">
@@ -128,11 +130,13 @@ const Home = () => {
               <IoWalletOutline className="text-blue-500 text-lg  m-2" />
             </span>
             <span className=" text-2xl mt-auto">
-              Rs {accountDetails?.balance.toFixed(2)}
+              {accountDetails?.balance.toFixed(2)} Rs
             </span>
           </div>
         </div>
       </div>
+      <OrderHistory />
+      <StatusRequests />
     </div>
   );
 };

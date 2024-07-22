@@ -11,6 +11,7 @@ const SerProfile = () => {
   const [accountDetails, setAccountDetails] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchAccountDetails = async () => {
       try {
@@ -107,7 +108,7 @@ const SerProfile = () => {
                   <td className="p-3">
                     {new Date(transaction.createdAt).toLocaleDateString()}
                   </td>
-                  <td className="p-3">{transaction.totalAmount}</td>
+                  <td className="p-3">{transaction.netAmount?.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

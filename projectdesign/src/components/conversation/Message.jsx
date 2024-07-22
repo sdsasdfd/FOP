@@ -25,7 +25,7 @@ const Message = ({ message }) => {
         </div>
       </div>
       <div
-        className={`chat-bubble chat-bubble-info  w-fit max-w-[280px] md:max-w-sm lg:max-w-md text-white max-h-[500px]  pb-2`}
+        className={`chat-bubble chat-bubble-info  w-fit max-w-[280px] md:max-w-sm lg:max-w-md text-white pb-2`}
       >
         {message.image && (
           <img

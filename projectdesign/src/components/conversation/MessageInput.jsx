@@ -132,13 +132,15 @@ const MessageInput = () => {
         if (data.success === false) {
           console.log(data.message);
         }
-        console.log(data);
+        // console.log(data);
         setSlipDetails(data);
       } catch (error) {
         console.log(error.message);
       }
     };
-    fetchSlip();
+    if (currentUser.roles === "user") {
+      fetchSlip();
+    }
   }, [isCompleted]);
 
   const serviceCompletionHandler = async () => {
@@ -153,7 +155,7 @@ const MessageInput = () => {
         console.log(data.message);
       }
       console.log(data);
-      // setServicerCompletedTask(data.isCompleted)
+      setServicerCompletedTask(true);
     } catch (error) {
       console.log(error);
     }
@@ -163,16 +165,20 @@ const MessageInput = () => {
 
   useEffect(() => {
     const getCompletedOrder = async () => {
-      const res = await fetch(`/api/order/get-completed-order/${id}`);
-      const data = await res.json();
-      if (data.success === false) {
-        console.log(data.message);
+      try {
+        const res = await fetch(`/api/order/get-completed-order/${id}`);
+        const data = await res.json();
+        if (data.success === false) {
+          return console.log(data.message);
+        }
+        console.log(data);
+        setIsCompleted(data.isCompleted);
+      } catch (error) {
+        console.log(error.message);
       }
-      console.log(data);
-      setIsCompleted(data.isCompleted);
     };
 
-    getCompletedOrder();
+    if (currentUser.roles === "user") getCompletedOrder();
   }, [isCompleted]);
 
   return (
@@ -262,12 +268,6 @@ const MessageInput = () => {
               accusantium.
             </p>
 
-            {/* <button
-              className="btn border-1 border-slate-400  btn-sm btn-circle btn-ghost absolute right-2 top-2"
-              onClick={() => setShowReviewModal(false)}
-            >
-              ✕
-            </button> */}
             <form
               className="flex w-full mt-5 items-center flex-col gap-4"
               onSubmit={reviewHandle}
@@ -362,7 +362,15 @@ const MessageInput = () => {
       )}
 
       {img && toggleUploadImage && (
-        <div className=" absolute top-[70px] w-[450px] sm:w-[620px] md:w-[600px] lg:w-[1150px] h-[430px] bg-slate-800 bg-opacity-50 flex items-center z-20 justify-center ">
+        <div
+          className={` absolute ${
+            currentUser.roles === "user" ? "top-[70px]" : "top-[0px]"
+          } w-[450px] ${
+            currentUser.roles === "user" ? "lg:w-[1150px]" : "lg:w-[1050px]"
+          }  ${
+            currentUser.roles === "user" ? "sm:w-[620px]" : "sm:w-[620px]"
+          } h-[430px] bg-slate-800 bg-opacity-50 flex items-center z-20 justify-center `}
+        >
           <div
             className="w-fit p-2 absolute top-0 right-0 cursor-pointer  text-white"
             onClick={(e) => {

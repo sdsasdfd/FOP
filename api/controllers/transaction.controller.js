@@ -25,3 +25,19 @@ export const getTransactionRecord = async (req, res, next) => {
     return next(errorHandler(500, "Error while getting transaction record."));
   }
 };
+
+export const getAllTransactionRecords = async (req, res, next) => {
+  try {
+    const records = await Payment.find().populate({
+      path: "participantsFromChat",
+      populate: {
+        path: "participants",
+        select: "-password",
+      },
+    });
+
+    res.status(200).json(records);
+  } catch (error) {
+    next(error);
+  }
+};

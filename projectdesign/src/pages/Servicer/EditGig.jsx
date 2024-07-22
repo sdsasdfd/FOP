@@ -115,7 +115,7 @@ const EditGig = () => {
               }
               value={dataDetails.title || ""}
               type="text"
-              className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+              className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
             />
           </div>
 
@@ -153,7 +153,7 @@ const EditGig = () => {
                 value={dataDetails.price || 0}
                 min={1000}
                 type="number"
-                className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+                className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
               />
             </div>
           </div>
@@ -166,7 +166,7 @@ const EditGig = () => {
               cols="50"
               type="text"
               value={dataDetails.description || ""}
-              className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+              className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
               onChange={(e) =>
                 setDataDetails({ ...dataDetails, description: e.target.value })
               }
@@ -178,7 +178,7 @@ const EditGig = () => {
               <div key={index} className="relative">
                 <input
                   type="text"
-                  className="border-2 border-gray-400 w-full py-2 px-2 focus:outline-none"
+                  className="w-full border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
                   placeholder={`eg. Cleaning ${index + 1}`}
                   onChange={(e) => handleSubCatChange(e, index)}
                   value={subCat || ""}
@@ -186,7 +186,7 @@ const EditGig = () => {
                 <button
                   type="button"
                   onClick={() => removeSubCategory(index)}
-                  className="absolute top-0 right-0 m-2"
+                  className="absolute top-0 right-0 m-2 border-[2px] border-red-400 text-red-400 hover:bg-red-400 hover:text-white hover:border-red-200 rounded-full   px-2"
                 >
                   X
                 </button>
@@ -205,9 +205,13 @@ const EditGig = () => {
       <button
         disabled={loading}
         type="submit"
-        className=" bg-blue-500 text-white w-[200px] py-2 rounded-md font-medium text-lg"
+        className=" bg-blue-500  text-white w-full md:w-[200px] py-2 rounded-md font-medium text-lg"
       >
-        {loading ? "Editing..." : "Edit"}
+        {loading ? (
+          <div className="loading loading-spinner loading-md" />
+        ) : (
+          "Edit"
+        )}
       </button>
     </form>
   );

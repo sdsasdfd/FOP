@@ -45,7 +45,7 @@ const TestimonialsFromClient = () => {
               src={testimonialIcon}
               alt=""
             />
-            <p className=" text-gray-400 text-[19px]">
+            <p className=" font-medium text-gray-500 text-[19px]">
               {testimonial.description}
             </p>
             <span className="font-bold text-blue-600 text-[20px]">

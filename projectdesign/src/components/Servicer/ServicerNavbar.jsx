@@ -16,25 +16,26 @@ import { TbLogout } from "react-icons/tb";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { logoutSuccess } from "../../store/userSlice";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 const ServicerNavbar = () => {
   const [toggleProfile, setToggleProfile] = useState(false);
   const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleLogout = async () => {
     try {
       const res = await fetch("/api/auth/logout", { method: "POST" });
-      const data = res.json();
+      const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
       }
       dispatch(logoutSuccess());
-      navigate("/login");
+      navigate("/");
     } catch (error) {
-      console.log(data.message);
+      console.log(error.message);
     }
   };
   return (
@@ -115,6 +116,18 @@ const ServicerNavbar = () => {
             </div>
             <div className="cursor-pointer">
               <span className=" text-[12px] text-gray-400">LISTS</span>
+              <NavLink
+                to="request"
+                onClick={() => setToggle(false)}
+                className={({ isActive }) => {
+                  return ` text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2   ${
+                    isActive ? "bg-blue-100 " : ""
+                  }`;
+                }}
+              >
+                <MdOutlineMessage className=" text-lg" />
+                Requests
+              </NavLink>
               <NavLink
                 to="message-info"
                 onClick={() => setToggle(false)}

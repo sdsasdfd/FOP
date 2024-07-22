@@ -125,7 +125,7 @@ const ServicerProfile = () => {
     <div className="container mx-auto mt-6  px-4">
       {/* //Hero Section with img */}
       <div
-        className="h-[450px] md:pl-8 pl-4 rounded-lg text-white flex flex-col justify-end"
+        className="h-[450px] md:pl-8  brightness-50 pl-4 rounded-lg text-white flex flex-col justify-end"
         style={{
           backgroundImage: `url(${servicerInfo.coverImg})`,
           backgroundPosition: "center",
@@ -159,7 +159,7 @@ const ServicerProfile = () => {
                 className="w-24 h-24 border rounded-full"
               />
 
-              <h1 className="text-xl font-bold">
+              <h1 className="text-xl z-20 text-white font-bold">
                 {servicerInfo?.servicerId?.username}
               </h1>
             </div>

@@ -21,7 +21,7 @@ const MessageContainer = () => {
 
   return (
     <>
-      <div className="container mx-auto md:px-4 ">
+      <div className="container mx-auto  ">
         <Messages />
         <MessageInput />
       </div>

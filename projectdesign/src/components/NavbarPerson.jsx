@@ -39,7 +39,7 @@ const NavbarPerson = () => {
 
   return (
     <div className="px-2 z-30 sticky top-0 bg-slate-50 border-b-[2px]  ">
-      <div className="container relative lg:px-8 sm:px-6 mx-auto p-2 flex justify-between items-center ">
+      <div className="container relative lg:mx-8 sm:mx-6 mx-auto  flex justify-between items-center ">
         <Link to="." className="flex items-center gap-2">
           <img src={logo} width="64px" alt="" />
           <p className=" text-2xl font-semibold text-blue-600">
@@ -47,10 +47,9 @@ const NavbarPerson = () => {
           </p>
         </Link>
         <div className=" flex items-center gap-4">
-          <div className="hidden gap-5 mr-4 sm:flex  items-center ">
+          <div className="hidden gap-5 mr-4 md:flex  items-center ">
             <NavLink
               to="/user-home"
-              // className=" "
               className={({ isActive }) => {
                 return `text-blue-500 text-[18px]  font-medium ${
                   isActive
@@ -114,7 +113,7 @@ const NavbarPerson = () => {
           <div className="flex  items-center">
             <div className="flex items-center gap-3">
               <IoMdMenu
-                className="sm:hidden block text-lg  cursor-pointer "
+                className="md:hidden block text-lg  cursor-pointer "
                 onClick={() => setToggle(!toggle)}
               />
 
@@ -135,7 +134,7 @@ const NavbarPerson = () => {
                   <span className=" text-sm">{currentUser.location}</span>
                 </div>
                 {toggleProfile && (
-                  <div className=" absolute right-[-15px] top-14 w-[150px] h-[95px] bg-white shadow-lg flex flex-col items-center border pt-2 rounded-md ">
+                  <div className=" absolute right-[-5px] top-14 w-[150px] h-[95px] bg-white shadow-lg flex flex-col items-center border pt-2 rounded-md ">
                     {" "}
                     <Link
                       className=" font-semibold border px-2 py-1 rounded-md cursor-pointer bg-gray-100"
@@ -166,8 +165,8 @@ const NavbarPerson = () => {
           ></div>
         )}
         <div
-          className={` sm:hidden absolute w-[250px] h-screen bg-slate-50 top-0 transition-all ${
-            toggle ? "left-[-10px]" : "left-[-280px]"
+          className={` md:hidden absolute w-[250px] h-screen bg-slate-50 top-0 transition-all ${
+            toggle ? "left-[-10px]" : "left-[-300px]"
           } text-white `}
         >
           <div className="flex flex-col gap-6 px-4 py-8 ">
@@ -223,6 +222,19 @@ const NavbarPerson = () => {
               to="message-info"
             >
               Messages
+            </NavLink>
+            <NavLink
+              onClick={() => setToggle(false)}
+              className={({ isActive }) => {
+                return `text-blue-500 text-[18px]  font-medium ${
+                  isActive
+                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
+                    : ""
+                }`;
+              }}
+              to="request"
+            >
+              Requests
             </NavLink>
           </div>
         </div>

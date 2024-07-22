@@ -45,7 +45,7 @@ const ServicesOffer = () => {
     );
   };
   return (
-    <div className="my-6">
+    <div className="my-6 px-6 sm:px-14">
       <h2 className="lg:px-12 my-8 text-4xl md:text-5xl mb-8 font-bold">
         Services Offer
       </h2>

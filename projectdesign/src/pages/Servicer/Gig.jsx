@@ -10,6 +10,7 @@ const Gig = () => {
   const [price, setPrice] = useState();
   const [desc, setDesc] = useState("");
   const [subCat, setSubCat] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -36,6 +37,7 @@ const Gig = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const res = await fetch("/api/gig/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -58,7 +60,9 @@ const Gig = () => {
         return console.log(data.message);
       }
       navigate("/login");
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
     }
   };
@@ -75,7 +79,7 @@ const Gig = () => {
               onChange={(e) => setTitle(e.target.value)}
               value={title}
               type="text"
-              className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+              className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
               placeholder="eg. I will do something I am really good at... "
             />
           </div>
@@ -114,7 +118,7 @@ const Gig = () => {
                 max={1500}
                 placeholder="Price eg. 1000Rs to 1500Rs per day"
                 type="number"
-                className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+                className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
               />
             </div>
           </div>
@@ -129,7 +133,7 @@ const Gig = () => {
               cols="50"
               type="text"
               placeholder="Brief description to introduce your service to customer"
-              className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+              className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
               onChange={(e) => setDesc(e.target.value)}
               value={desc}
             />
@@ -138,28 +142,28 @@ const Gig = () => {
             <label className="mb-3 font-medium text-xl ">Sub Categories</label>
             <input
               type="text"
-              className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+              className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
               placeholder="eg. Cleaning Office "
               onChange={(e) => handleSubCatChange(e, 0)}
               value={subCat[0] || ""}
             />
             <input
               type="text"
-              className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+              className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
               placeholder="eg. Cleaning Garden "
               onChange={(e) => handleSubCatChange(e, 1)}
               value={subCat[1] || ""}
             />
             <input
               type="text"
-              className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+              className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lge"
               placeholder="eg. Cleaning Garden "
               onChange={(e) => handleSubCatChange(e, 2)}
               value={subCat[2] || ""}
             />
             <input
               type="text"
-              className="border-2 border-gray-400 py-2 px-2 focus:outline-none"
+              className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"
               placeholder="eg. Cleaning Garden "
               onChange={(e) => handleSubCatChange(e, 3)}
               value={subCat[3] || ""}
@@ -168,10 +172,15 @@ const Gig = () => {
         </div>
       </div>
       <button
+        disabled={loading}
         type="submit"
-        className=" bg-blue-500 text-white w-[200px] py-2 rounded-md font-medium text-lg"
+        className=" bg-blue-500 text-white w-full md:w-[200px] py-2 rounded-md font-medium text-lg"
       >
-        Create
+        {loading ? (
+          <div className="loading loading-spinner loading-md" />
+        ) : (
+          "Create"
+        )}
       </button>
     </form>
   );

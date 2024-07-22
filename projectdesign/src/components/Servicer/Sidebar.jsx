@@ -21,7 +21,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       const res = await fetch("/api/auth/logout", { method: "POST" });
-      const data = res.json();
+      const data = await res.json();
       if (data.success === false) {
         console.log(data.message);
       }

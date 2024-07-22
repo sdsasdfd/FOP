@@ -54,7 +54,7 @@ const Login = () => {
         <h3 className="text-2xl mb-10 font-bold text-center ">
           Login to your account
         </h3>
-        <Form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler}>
           <div className="flex flex-col">
             <label className="text-left font-normal " htmlFor="">
               Email Address
@@ -89,7 +89,7 @@ const Login = () => {
           >
             Login
           </button>
-        </Form>
+        </form>
         <p className="text-lg font-semibold mt-2">
           Do not have an account?{" "}
           <Link to="/register" className=" font-normal text-blue-600">

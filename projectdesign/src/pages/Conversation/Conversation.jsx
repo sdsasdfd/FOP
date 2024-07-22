@@ -1,12 +1,17 @@
 import React from "react";
-import NavbarPerson from "../../components/NavbarPerson";
+
 import MessageContainer from "../../components/conversation/MessageContainer";
+import { useSelector } from "react-redux";
 
 const Conversation = () => {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <>
-      {/* <NavbarPerson /> */}
-      <div className="px-4 md:px-20 w-full">
+      <div
+        className={`px-4 md:px-12 ${
+          currentUser.roles === "servicer" ? "h-screen" : ""
+        } w-full`}
+      >
         <MessageContainer />
       </div>
     </>

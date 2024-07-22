@@ -7,12 +7,13 @@ import Footer from "../../components/footer/Footer";
 const UserPage = () => {
   return (
     <>
-      <div className=" px-6 sm:px-14">
+      <div className=" ">
         <UserHero />
         <ServicesOffer />
         <HowItWork />
         <Suggestion />
       </div>
+
       <Footer />
     </>
   );
