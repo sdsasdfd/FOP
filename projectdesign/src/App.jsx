@@ -13,12 +13,11 @@ import ServicersList from "./pages/User/ServicersListPage";
 import ServicerProfile from "./pages/User/ServicerProfile";
 
 import Servicer from "./pages/Servicer/Servicer";
-import ServicerPage from "./pages/Servicer/ServicerPage";
 
 import Conversation from "./pages/Conversation/Conversation";
 import UserProfile from "./pages/Profile/UserProfile";
 import MessageInfo from "./pages/MessageInfo/MessageInfo";
-import SerProfile from "./pages/Servicer/SerProfile";
+import ServicerHome from "./pages/Servicer/ServicerHome";
 import Gig from "./pages/Servicer/Gig";
 import ProtectRoute from "../../admin/src/components/ProtectRoute";
 import EditGig from "./pages/Servicer/EditGig";
@@ -81,8 +80,7 @@ const router = createBrowserRouter([
         path: "/servicer-home",
         element: <Servicer />,
         children: [
-          // { index: true, element: <ServicerPage /> },
-          { index: true, element: <SerProfile /> },
+          { index: true, element: <ServicerHome /> },
           { path: "message-info", element: <MessageInfo /> },
           { path: "message-info/:id", element: <Conversation /> },
           { path: "edit-gig", element: <EditGig /> },

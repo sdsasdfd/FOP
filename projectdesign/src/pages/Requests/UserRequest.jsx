@@ -6,7 +6,7 @@ const UserRequest = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await fetch("/api/request/get-all-requests");
+        const res = await fetch("/api/request/get-requests-user");
         const data = await res.json();
 
         if (data.success === false) {

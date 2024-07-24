@@ -1,6 +1,8 @@
 import {
-  getAllMessageRequests,
+  // getAllMessageRequests,
   getAllMessageRequestsForAdmin,
+  getAllMessageRequestsForServicer,
+  getAllMessageRequestsForUser,
   getStatusOfRequest,
   sendMessageRequest,
   sendResponseOfMessageRequest,
@@ -11,7 +13,13 @@ const router = express.Router();
 
 router.post("/send-request/:id", verifyUser, sendMessageRequest);
 router.patch("/send-response/:id", verifyUser, sendResponseOfMessageRequest);
-router.get("/get-all-requests", verifyUser, getAllMessageRequests);
+// router.get("/get-all-requests", verifyUser, getAllMessageRequests);
+router.get(
+  "/get-requests-servicer",
+  verifyUser,
+  getAllMessageRequestsForServicer
+);
+router.get("/get-requests-user", verifyUser, getAllMessageRequestsForUser);
 router.get("/status/:id", verifyUser, getStatusOfRequest);
 router.get(
   "/get-all-requests-for-admin",

@@ -27,7 +27,7 @@ const OrderHistory = () => {
   return (
     <div className="w-full bg-slate-50 mt-6 ">
       <div className="p-4 bg-white flex-1 shadow-md rounded-md">
-        <h1 className=" text-3xl font-semibold mb-3">Status Request</h1>
+        <h1 className=" text-3xl font-semibold mb-3">Orders History</h1>
         <div className=" overflow-auto">
           <table className=" rounded-lg w-full  ">
             <thead className="border-b">

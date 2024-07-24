@@ -1,11 +1,18 @@
 import Gig from "../model/gig.model.js";
-import { uploadOnCloudinary } from "../utils/cloudinary.js";
+
 import { errorHandler } from "../utils/error.js";
 import { v2 as cloudinary } from "cloudinary";
 
 export const createGig = async (req, res, next) => {
   const { price, description, subCategory, title } = req.body;
   let { coverImg } = req.body;
+  if (!price || !description || !subCategory || !title || !coverImg) {
+    return next(errorHandler(400, "All Fields Are Required!"));
+  }
+
+  if (price < 1000 || price > 1500) {
+    return next(errorHandler(400, "Price Amount Must Be From 1000 To 1500 "));
+  }
   try {
     if (req.user.roles !== "servicer") {
       return next(errorHandler(405, "not allowed"));
@@ -48,11 +55,17 @@ export const getGig = async (req, res, next) => {
 };
 
 export const updateGig = async (req, res, next) => {
+  const { description, price, subCategory, title } = req.body;
+  let { coverImg } = req.body;
+  if (!price || !description || !subCategory || !title || !coverImg) {
+    return next(errorHandler(400, "All Fields Are Required!"));
+  }
+
+  if (price < 1000 || price > 1500) {
+    return next(errorHandler(400, "Price Amount Must Be From 1000 To 1500 "));
+  }
   try {
     const servicerId = req.user._id;
-    const { description, price, subCategory, title } = req.body;
-
-    let { coverImg } = req.body;
 
     const existedGig = await Gig.findOne({ servicerId });
 
@@ -77,16 +90,6 @@ export const updateGig = async (req, res, next) => {
     } else {
       coverImg = existedGig.coverImg || "";
     }
-
-    // if (coverImg) {
-    //   if (existedGig.coverImg) {
-    //     await cloudinary.uploader.destroy(
-    //       existedGig.coverImg.split("/").pop().split(".")[0]
-    //     );
-    //   }
-    //   const imgRes = await cloudinary.uploader.upload(coverImg);
-    //   coverImg = imgRes.secure_url;
-    // }
 
     const updateGigData = {};
 

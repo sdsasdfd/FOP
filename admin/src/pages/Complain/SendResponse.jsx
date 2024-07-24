@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SendResponse = () => {
   const [error, setError] = useState(null);
@@ -23,12 +24,16 @@ const SendResponse = () => {
       const data = await res.json();
 
       if (data.success === false) {
+        setLoading(false);
+        toast.error(data.message);
         setError(data.message);
+        return;
       }
       console.log(data);
       setLoading(false);
       navigate("/complain");
     } catch (error) {
+      setLoading(false);
       setError(error.message);
     }
   };

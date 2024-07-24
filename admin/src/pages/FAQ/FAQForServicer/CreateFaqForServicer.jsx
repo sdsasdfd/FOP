@@ -22,6 +22,8 @@ const CreateFaqForServicer = () => {
 
       const data = await res.json();
       if (data.success === false) {
+        toast.error(data.message);
+        setLoading(false);
         setError(data.message);
         console.log(data.message);
         return;
@@ -31,6 +33,7 @@ const CreateFaqForServicer = () => {
       navigate("/faq");
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
       setError(error.message);
     }
   };

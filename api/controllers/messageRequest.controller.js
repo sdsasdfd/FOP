@@ -9,15 +9,23 @@ export const sendMessageRequest = async (req, res, next) => {
     const { id: servicer } = req.params;
     const user = req.user._id;
 
-    const request = await MessageRequest.create({
+    const newRequest = await MessageRequest.create({
       servicer,
       user,
     });
 
-    if (!request) {
+    if (!newRequest) {
       return next(errorHandler(500, "Error while sending message request."));
     }
 
+    const request = await MessageRequest.findById(newRequest._id).populate({
+      path: "user",
+      select: "-password",
+    });
+
+    if (!request) {
+      return next(errorHandler(404, "Not found"));
+    }
     // if (servicer) {
     //     const servicerSocketId = getReceiverSocketId(servicer)
     //     io.to(servicerSocketId).emit("sendMessageRequest", request.message)
@@ -74,49 +82,89 @@ export const sendResponseOfMessageRequest = async (req, res, next) => {
   }
 };
 
-export const getAllMessageRequests = async (req, res, next) => {
+export const getAllMessageRequestsForServicer = async (req, res, next) => {
+  const currentUser = req.user._id;
   try {
-    const currentUser = req.user._id;
-    console.log(currentUser);
-    let requests;
-    const user = await User.findOne({
-      _id: currentUser,
-    });
-
-    if (user.roles === "user") {
-      requests = await MessageRequest.find({
-        user: currentUser,
+    const requests = await MessageRequest.find({ servicer: currentUser })
+      .populate({
+        path: "user",
+        select: "-password",
       })
-        .populate({
-          path: "servicer",
-          select: "-password",
-        })
-        .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 });
 
-      if (!requests) {
-        return next(errorHandler(404, "Requests not found"));
-      }
-      res.status(200).json(requests);
-    } else if (user.roles === "servicer") {
-      requests = await MessageRequest.find({
-        servicer: currentUser,
-      })
-        .populate({
-          path: "user",
-          select: "-password",
-        })
-        .sort({ createdAt: -1 });
-
-      if (!requests) {
-        return next(errorHandler(404, "Requests not found"));
-      }
-
-      res.status(200).json(requests);
-    }
+    res.status(200).json(requests);
   } catch (error) {
-    return next(errorHandler(500, "Error while fetching requests"));
+    return next(errorHandler(500, "Something went wrong"));
   }
 };
+
+export const getAllMessageRequestsForUser = async (req, res, next) => {
+  try {
+    const currentUser = req.user._id;
+
+    const requests = await MessageRequest.find({
+      user: currentUser,
+    })
+      .populate({
+        path: "servicer",
+        select: "-password",
+      })
+      .sort({
+        createdAt: -1,
+      });
+
+    if (!requests) {
+      return next(errorHandler(404, "Requests not found"));
+    }
+    res.status(200).json(requests);
+  } catch (error) {
+    return next(errorHandler(500, "Something went wrong"));
+  }
+};
+
+// export const getAllMessageRequests = async (req, res, next) => {
+//   try {
+//     const currentUser = req.user._id;
+//     console.log(currentUser);
+//     let requests;
+//     const user = await User.findOne({
+//       _id: currentUser,
+//     });
+
+//     if (user.roles === "user") {
+//       requests = await MessageRequest.find({
+//         user: currentUser,
+//       })
+//         .populate({
+//           path: "servicer",
+//           select: "-password",
+//         })
+//         .sort({ createdAt: -1 });
+
+//       if (!requests) {
+//         return next(errorHandler(404, "Requests not found"));
+//       }
+//       res.status(200).json(requests);
+//     } else if (user.roles === "servicer") {
+//       requests = await MessageRequest.find({
+//         servicer: currentUser,
+//       })
+//         .populate({
+//           path: "user",
+//           select: "-password",
+//         })
+//         .sort({ createdAt: -1 });
+
+//       if (!requests) {
+//         return next(errorHandler(404, "Requests not found"));
+//       }
+
+//       res.status(200).json(requests);
+//     }
+//   } catch (error) {
+//     return next(errorHandler(500, "Error while fetching requests"));
+//   }
+// };
 
 export const getStatusOfRequest = async (req, res, next) => {
   try {

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 const CreateFaq = () => {
   const [answer, setAnswer] = useState("");
   const [question, setQuestion] = useState("");
@@ -22,6 +22,8 @@ const CreateFaq = () => {
 
       const data = await res.json();
       if (data.success === false) {
+        toast.error(data.message);
+        setLoading(false);
         setError(data.message);
         console.log(data.message);
         return;
@@ -29,6 +31,7 @@ const CreateFaq = () => {
       setLoading(false);
       navigate("/faq");
     } catch (error) {
+      setLoading(false);
       console.log(error.message);
       setError(error.message);
     }

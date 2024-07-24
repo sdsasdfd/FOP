@@ -72,6 +72,7 @@ const MessageInfoContainer = () => {
           </>
         )}
       </div>
+
       {/* //for larger screen */}
       <div className="hidden md:block mt-6">
         <table className="w-full text-left">
@@ -83,53 +84,57 @@ const MessageInfoContainer = () => {
               <th className=" w-28  p-3">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y">
-            {conversations.length === 0 ? (
-              <div>no messages available</div>
-            ) : (
-              <>
-                {conversations.map((message) => {
-                  const otherParticipantName =
-                    message.otherParticipantInfo?.username;
-                  const otherParticipantId = message.otherParticipantInfo?._id;
-                  const lastMessageDetails = message?.lastMessage;
-                  const lastMessageImage = lastMessageDetails?.image;
-                  const lastMessage = lastMessageDetails?.message;
-                  const time = lastMessageDetails?.createdAt;
-                  const senderName = lastMessageDetails?.senderId._id;
+          {conversations.length === 0 ? (
+            <tbody className="divide-y">
+              <tr>
+                <td colSpan={4} className="text-center py-4">
+                  No messages available
+                </td>
+              </tr>
+            </tbody>
+          ) : (
+            <tbody className="divide-y">
+              {conversations.map((message) => {
+                const otherParticipantName =
+                  message.otherParticipantInfo?.username;
+                const otherParticipantId = message.otherParticipantInfo?._id;
+                const lastMessageDetails = message?.lastMessage;
+                const lastMessageImage = lastMessageDetails?.image;
+                const lastMessage = lastMessageDetails?.message;
+                const time = lastMessageDetails?.createdAt;
+                const senderName = lastMessageDetails?.senderId._id;
 
-                  return (
-                    <tr key={message._id}>
-                      <td className="p-3 font-semibold">
-                        {" "}
-                        {otherParticipantName}{" "}
-                      </td>
-                      <td className="p-3 ">
-                        <div className=" flex items-center gap-2">
-                          {lastMessageImage && (
-                            <MdOutlinePhotoSizeSelectActual size={22} />
-                          )}
-                          {lastMessage ? (
-                            <span>{lastMessage}</span>
-                          ) : (
-                            <span>Photo</span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="p-3">{moment(time).fromNow()}</td>
-                      <td className="p-3">
-                        <Link to={`${otherParticipantId}`}>
-                          <button className=" bg-blue-500 py-3 rounded-lg w-[70px] text-white">
-                            Read
-                          </button>
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </>
-            )}
-          </tbody>
+                return (
+                  <tr key={message._id}>
+                    <td className="p-3 font-semibold">
+                      {" "}
+                      {otherParticipantName}{" "}
+                    </td>
+                    <td className="p-3 ">
+                      <div className=" flex items-center gap-2">
+                        {lastMessageImage && (
+                          <MdOutlinePhotoSizeSelectActual size={22} />
+                        )}
+                        {lastMessage ? (
+                          <span>{lastMessage}</span>
+                        ) : (
+                          <span>Photo</span>
+                        )}
+                      </div>
+                    </td>
+                    <td className="p-3">{moment(time).fromNow()}</td>
+                    <td className="p-3">
+                      <Link to={`${otherParticipantId}`}>
+                        <button className=" bg-blue-500 py-3 rounded-lg w-[70px] text-white">
+                          Read
+                        </button>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
         </table>
       </div>
     </>

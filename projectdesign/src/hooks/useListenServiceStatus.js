@@ -6,7 +6,7 @@ const useListenServiceStatus = ({
   setServicerCompletedTask,
 }) => {
   const { socket } = useSocketContext();
-  const [isCompleted, setIsCompleted] = useState(false);
+
   useEffect(() => {
     socket?.on("serviceCompleted", (isCompleted) => {
       console.log("IsCompleted :: ", isCompleted);

@@ -5,6 +5,7 @@ import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useState } from "react";
 import { useEffect } from "react";
+
 const FaqForUser = () => {
   const [faqDetails, setFaqDetails] = useState([]);
   const [error, setError] = useState(null);
@@ -16,7 +17,7 @@ const FaqForUser = () => {
         const data = await res.json();
         if (data.success === false) {
           setError(data.message);
-          console.log(data.message);
+
           return;
         }
         setFaqDetails(data);

@@ -152,6 +152,10 @@ const ServicerNavbar = () => {
                 <TbCategoryPlus className=" text-lg" />
                 Gig
               </NavLink>
+            </div>
+
+            <div className="cursor-pointer my-2">
+              <span className=" text-[12px] text-gray-400">ACTIONS</span>
               <NavLink
                 to="faq"
                 onClick={() => setToggle(false)}
@@ -164,11 +168,6 @@ const ServicerNavbar = () => {
                 <BsClipboard2CheckFill className=" text-lg" />
                 FAQ
               </NavLink>
-            </div>
-
-            <div className="cursor-pointer my-2">
-              <span className=" text-[12px] text-gray-400">ACTIONS</span>
-
               <button
                 onClick={handleLogout}
                 className="w-full text-blue-500 hover:bg-blue-100 p-2 flex items-center gap-2"

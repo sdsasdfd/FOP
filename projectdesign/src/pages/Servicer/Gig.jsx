@@ -2,12 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Gig = () => {
   const [image, setImage] = useState(null);
   const imageRef = useRef(null);
   const [title, setTitle] = useState("");
-  const [price, setPrice] = useState();
+  const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
   const [subCat, setSubCat] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -50,17 +51,16 @@ const Gig = () => {
         }),
       });
 
-      if (!res.ok) {
-        // If the response is not ok, throw an error with the status text
-        return console.log(`HTTP error! status: ${res.status}`);
-      }
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-        return console.log(data.message);
+        toast.error(data.message);
+        setLoading(false);
+        console.log(data.message);
+        return;
       }
-      navigate("/login");
       setLoading(false);
+      navigate("/login");
     } catch (error) {
       setLoading(false);
       console.log(error.message);
@@ -114,8 +114,6 @@ const Gig = () => {
               <input
                 onChange={(e) => setPrice(e.target.value)}
                 value={price}
-                min={1000}
-                max={1500}
                 placeholder="Price eg. 1000Rs to 1500Rs per day"
                 type="number"
                 className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3  rounded-lg"

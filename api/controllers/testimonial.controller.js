@@ -2,16 +2,15 @@ import Testimonial from "../model/testimonial.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const addNewTestimonial = async (req, res, next) => {
+  const { description } = req.body;
+  if (!description) {
+    return next(errorHandler(400, "Fill The Fields"));
+  }
   try {
-    const { description } = req.body;
     const testimonial = await Testimonial.create({
       description,
       user: req.user._id,
     });
-
-    if (!testimonial) {
-      return next(errorHandler(500, "Error adding testimonial"));
-    }
 
     res.status(200).json(testimonial);
   } catch (error) {

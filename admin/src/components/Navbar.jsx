@@ -3,7 +3,7 @@ import Logo from "./Logo";
 import { IoMenu } from "react-icons/io5";
 import profileImg from "../assets/profileImg.webp";
 import { MdDashboard } from "react-icons/md";
-
+import { BsBookmarkPlus } from "react-icons/bs";
 import { HiMiniUsers } from "react-icons/hi2";
 import { TbCategoryPlus, TbH1 } from "react-icons/tb";
 import { GrUserWorker } from "react-icons/gr";
@@ -162,7 +162,7 @@ const Navbar = () => {
                 }}
               >
                 <BsClipboard2CheckFill className=" text-lg" />
-                Complains / Testimonials
+                Complains
               </NavLink>
               <NavLink
                 to="testimonial"
@@ -173,7 +173,7 @@ const Navbar = () => {
                   }`;
                 }}
               >
-                <BsClipboard2CheckFill className=" text-lg" />
+                <BsBookmarkPlus className=" text-lg" />
                 Testimonials
               </NavLink>
             </div>

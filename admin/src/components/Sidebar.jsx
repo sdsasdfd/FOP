@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "./Logo";
 import { MdDashboard } from "react-icons/md";
-
+import { BsBookmarkPlus } from "react-icons/bs";
 import { HiMiniUsers } from "react-icons/hi2";
 import { TbCategoryPlus } from "react-icons/tb";
 import { GrUserWorker } from "react-icons/gr";
@@ -116,7 +116,7 @@ const Sidebar = () => {
                 }`;
               }}
             >
-              <BsClipboard2CheckFill className=" text-lg" />
+              <BsBookmarkPlus className=" text-lg" />
               Testimonials
             </NavLink>
           </div>

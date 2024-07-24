@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
-
+import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const EditService = () => {
@@ -53,7 +53,9 @@ const EditService = () => {
       });
       const data = await res.json();
       if (data.success === false) {
+        toast.error(data.message);
         console.log(data.message);
+        return;
       }
       navigate("/services");
     } catch (error) {

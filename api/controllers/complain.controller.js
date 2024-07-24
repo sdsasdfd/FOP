@@ -11,8 +11,8 @@ export const makeComplainForServicer = async (req, res, next) => {
   const { complainDesc } = req.body;
   const generalComplain = false;
 
-  if (complainDesc === 0) {
-    return next(errorHandler(403, "fill the field!"));
+  if (!complainDesc) {
+    return next(errorHandler(400, "Fill The Field!"));
   }
   try {
     const complain = await Complain.create({
@@ -97,6 +97,10 @@ export const getTestimonials = async (req, res, next) => {
 export const giveResponse = async (req, res, next) => {
   const { complainDesc, subject } = req.body;
   const { id } = req.params;
+
+  if (!complainDesc || !subject) {
+    return next(errorHandler(403, "fill the field!"));
+  }
 
   try {
     const user = await User.findById(id).select("-password");

@@ -33,11 +33,11 @@ const EditFaqForServicer = () => {
       });
       const data = await res.json();
       if (data.success === false) {
+        toast.error(data.message);
         return console.log(data.message);
-      } else {
-        toast.success("Update Successfully!");
-        navigate("/faq");
       }
+      toast.success("Update Successfully!");
+      navigate("/faq");
     } catch (error) {
       console.log(error.message);
     }

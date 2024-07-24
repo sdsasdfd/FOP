@@ -7,6 +7,10 @@ import { Account } from "../model/account.model.js";
 export const register = async (req, res, next) => {
   try {
     const { username, email, password, location, roles, category } = req.body;
+
+    if (!username || !email || !password || !location || !roles) {
+      return next(errorHandler(400, "All Fields Are Required!"));
+    }
     let { isAdmin } = req.body;
     const numberOfUsers = await User.countDocuments();
 
@@ -21,16 +25,6 @@ export const register = async (req, res, next) => {
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-
-    // let serviceCategory;
-
-    // if (roles === "servicer") {
-    //   serviceCategory = req.body.category;
-
-    //   if (serviceCategory === "") {
-    //     return next(errorHandler(400, "select the category"));
-    //   }
-    // }
 
     const user = await User.create({
       username,
@@ -55,7 +49,7 @@ export const register = async (req, res, next) => {
         httpOnly: true,
         expires: new Date(Date.now() + oneDay),
       })
-      .status(200)
+      .status(201)
       .json(user);
   } catch (error) {
     next(error);
@@ -65,6 +59,9 @@ export const register = async (req, res, next) => {
 
 export const login = async (req, res, next) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return next(errorHandler(400, "All Fields Are Required!"));
+  }
   try {
     const isUser = await User.findOne({ email });
 

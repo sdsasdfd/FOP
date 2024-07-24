@@ -1,6 +1,7 @@
 import { Payment } from "../model/payment.model.js";
 import { Account } from "../model/account.model.js";
 import { Chat } from "../model/chat.model.js";
+import Order from "../model/order.model.js";
 import { errorHandler } from "../utils/error.js";
 import User from "../model/userModel.js";
 import Gig from "../model/gig.model.js";
@@ -102,6 +103,18 @@ export const makePayment = async (req, res, next) => {
   try {
     const adminId = await findAdminId();
     await updateAccounts(senderId, receiverId, adminId, paymentDetails, next);
+    const orderStatus = await Order.findOneAndUpdate(
+      {
+        user: senderId,
+        servicer: receiverId,
+      },
+      {
+        isCompleted: false,
+      },
+      {
+        new: true,
+      }
+    );
     await payment.save();
     res.status(200).json(payment);
   } catch (error) {

@@ -3,14 +3,18 @@ import { errorHandler } from "../utils/error.js";
 import { v2 as cloudinary } from "cloudinary";
 
 export const createService = async (req, res, next) => {
+  const { title, description } = req.body;
+  let { image } = req.body;
+
+  if (!title || !description || !image) {
+    return next(errorHandler(400, "All Fields Are Required!"));
+  }
   try {
     const { isAdmin } = req.user;
 
     if (!isAdmin) {
       return next(errorHandler(403, "Forbidden"));
     }
-    const { title, description } = req.body;
-    let { image } = req.body;
 
     if (image) {
       const imageRes = await cloudinary.uploader.upload(image);
@@ -64,19 +68,23 @@ export const deleteService = async (req, res, next) => {
 };
 
 export const updateService = async (req, res, next) => {
+  const { description, title } = req.body;
+  let { image } = req.body;
+
+  if (!title || !description || !image) {
+    return next(errorHandler(400, "All Fields Are Required!"));
+  }
   try {
     const { isAdmin } = req.user;
     if (!isAdmin) {
       return next(errorHandler(403, "Forbidden"));
     }
-    const { description, title } = req.body;
 
     const service = await Service.findById(req.params.id);
 
     if (!service) {
       return next(errorHandler(404, "Service not found!"));
     }
-    let { image } = req.body;
 
     if (image) {
       let serviceImage = category.image;

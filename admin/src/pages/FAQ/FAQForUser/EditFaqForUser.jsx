@@ -33,6 +33,7 @@ const EditFaqForUser = () => {
       });
       const data = await res.json();
       if (data.success === false) {
+        toast.error(data.message);
         return console.log(data.message);
       } else {
         toast.success("Update Successfully!");

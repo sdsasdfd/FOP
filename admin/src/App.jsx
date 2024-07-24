@@ -17,8 +17,6 @@ import NewService from "./pages/Services/NewService";
 import EditService from "./pages/Services/EditService";
 import Login from "./pages/Login";
 import ProtectRoute from "./components/ProtectRoute";
-import Testing from "./pages/Testing";
-import Test from "./pages/Test";
 import Faq from "./pages/FAQ/Faq";
 import CreateFaq from "./pages/FAQ/CreateFaq";
 import EditFaq from "./pages/FAQ/EditFaq";
@@ -29,27 +27,7 @@ import EditFaqForUser from "./pages/FAQ/FAQForUser/EditFaqForUser";
 import Complain from "./pages/Complain/Complain";
 import SendResponse from "./pages/Complain/SendResponse";
 import Testimonials from "./pages/Testimonials";
-
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: (
-//       <ProtectRoute>
-//         <Root />
-//       </ProtectRoute>
-//     ),
-//     children: [
-//       { index: true, element: <Home /> },
-//       { path: "users", element: <Users /> },
-//       { path: "servicers", element: <Servicers /> },
-//       { path: "category", element: <Category /> },
-//       { path: "profile", element: <Profile /> },
-//       { path: "/category/new-category", element: <NewCategory /> },
-//       { path: "/category/:id", element: <EditCategory /> },
-//     ],
-//   },
-//   { path: "/login", element: <Login /> },
-// ]);
+import Register from "./pages/Register";
 
 const App = () => {
   return (
@@ -67,8 +45,7 @@ const App = () => {
             <Route path="faq" element={<Faq />} />
             <Route path="faq/new/servicer" element={<CreateFaqForServicer />} />
             <Route path="faq/new/user" element={<CreateFaqForUser />} />
-            {/* <Route path="faq/new" element={<CreateFaq />} /> */}
-            {/* <Route path="faq/:id" element={<EditFaq />} /> */}
+
             <Route path="faq/servicer/:id" element={<EditFaqForServicer />} />
             <Route path="faq/user/:id" element={<EditFaqForUser />} />
             <Route path="complain" element={<Complain />} />
@@ -77,11 +54,10 @@ const App = () => {
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />
-        <Route path="/test" element={<Test />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   );
-  //  <RouterProvider router={router} />
 };
 
 export default App;

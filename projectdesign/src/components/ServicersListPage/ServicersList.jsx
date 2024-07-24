@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ServicerList from "./ServicerList";
+import ServicerListCard from "./ServicerListCard";
 import { Link } from "react-router-dom";
 
 const ServicersList = ({ sortingOption }) => {
@@ -41,7 +41,7 @@ const ServicersList = ({ sortingOption }) => {
   return (
     <div className="sm:ml-4  mt-6  lg:w-[calc(100%-250px)] ">
       {servicerLists?.map((servicerList) => (
-        <ServicerList key={servicerList._id} servicerList={servicerList} />
+        <ServicerListCard key={servicerList._id} servicerList={servicerList} />
       ))}
     </div>
   );

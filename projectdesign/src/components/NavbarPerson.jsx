@@ -73,18 +73,7 @@ const NavbarPerson = () => {
             >
               Services
             </NavLink>
-            <NavLink
-              to="faq"
-              className={({ isActive }) => {
-                return `text-blue-500 text-[18px]  font-medium ${
-                  isActive
-                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
-                    : ""
-                }`;
-              }}
-            >
-              FAQ
-            </NavLink>
+
             <NavLink
               className={({ isActive }) => {
                 return `text-blue-500 text-[18px]  font-medium ${
@@ -197,19 +186,7 @@ const NavbarPerson = () => {
             >
               Services
             </NavLink>
-            <NavLink
-              onClick={() => setToggle(false)}
-              to="faq"
-              className={({ isActive }) => {
-                return `text-blue-500 text-[18px]  font-medium ${
-                  isActive
-                    ? "bg-blue-500 text-white  py-[2px] px-[4px] rounded-md"
-                    : ""
-                }`;
-              }}
-            >
-              FAQ
-            </NavLink>
+
             <NavLink
               onClick={() => setToggle(false)}
               className={({ isActive }) => {

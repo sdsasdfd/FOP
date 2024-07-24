@@ -61,7 +61,7 @@ const Login = () => {
             </label>
 
             <input
-              required
+              // required
               name="email"
               className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3 mt-2 rounded-lg"
               type="email"
@@ -75,7 +75,7 @@ const Login = () => {
             </label>
 
             <input
-              required
+              // required
               name="password"
               className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3 mt-2 rounded-lg"
               type="password"

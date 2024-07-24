@@ -66,7 +66,8 @@ const getAllChats = async (req, res, next) => {
       .populate({
         path: "participants",
         select: "username",
-      });
+      })
+      .sort({ createdAt: -1 });
 
     if (chats.length === 0) {
       // return next(errorHandler(404, "Chats not found"));

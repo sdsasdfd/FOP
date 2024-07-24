@@ -5,7 +5,7 @@ import { CiLocationOn } from "react-icons/ci";
 import ServicerEditProfile from "../../components/Servicer/ServicerEditProfile";
 import { useSelector } from "react-redux";
 
-const SerProfile = () => {
+const ServicerHome = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   const [accountDetails, setAccountDetails] = useState(null);
@@ -73,6 +73,12 @@ const SerProfile = () => {
                 {currentUser.location}
               </span>
             </div>
+            <div className="flex flex-col">
+              <span className=" text-gray-500 text-md">Service</span>
+              <span className=" font-semibold text-lg">
+                {currentUser.category}
+              </span>
+            </div>
             <div className="flex gap-4">
               <ServicerEditProfile />
             </div>
@@ -119,4 +125,4 @@ const SerProfile = () => {
   );
 };
 
-export default SerProfile;
+export default ServicerHome;

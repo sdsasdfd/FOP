@@ -16,6 +16,9 @@ const Suggestion = () => {
 
       if (data.success === false) {
         console.log(data.message);
+        toast.error(data.message);
+        setLoading(false);
+        return;
       }
       toast.success("Suggestion has been sent");
       setLoading(false);

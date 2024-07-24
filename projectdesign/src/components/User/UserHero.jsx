@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 const bgImage = "/img/bgImg.jpg";
+const Img = "/img/Bgimg1.jpg";
 import { CiSearch } from "react-icons/ci";
 import { Link } from "react-router-dom";
 const UserHero = () => {
@@ -28,15 +29,18 @@ const UserHero = () => {
   }, [inputCategoryTitle]);
   return (
     <div
-      className="bg-cover bg-center h-[calc(100vh-4.5rem)] flex justify-start items-center dark:bg-neutral-700 px-4 sm:pl-14"
-      style={{ backgroundImage: `url(${bgImage})` }}
+      className="bg-cover object-cover bg-center h-[calc(100vh-4.5rem)] flex justify-start items-center dark:bg-neutral-700 px-4 sm:pl-14"
+      style={{ backgroundImage: `url(${Img})` }}
     >
       <div className="flex  flex-col">
-        <h1 className="text-white text-2xl sm:text-4xl font-bold">
-          Home Servicer made easy
+        <h1 className="text-white text-2xl sm:text-5xl font-bold">
+          Making Home Services Easy
         </h1>
-        <p className="text-white text-[16px] sm:text-[18px] mb-4">
-          book top-rates professional for all your home needs
+        <p className="text-white text-[16px] sm:text-[18px] my-4">
+          Experience excellence and convenience with our expert home services,
+          including cleaning, mounting, cooking, <br /> plumbing, painting and
+          more. Our skilled professionals bring top-tier quality to your
+          doorstep.
         </p>
         <div className="bg-slate-100 rounded-md flex items-center relative py-4 px-2 gap-4 sm:w-[400px] md:w-[550px] lg:w-[680px]">
           <CiSearch className="text-2xl" />

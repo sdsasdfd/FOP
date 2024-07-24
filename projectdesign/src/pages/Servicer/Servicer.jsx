@@ -1,13 +1,13 @@
 import React from "react";
-import NavbarPerson from "../../components/NavbarPerson";
+
 import { Outlet } from "react-router-dom";
-import Sidebar from "../../components/Servicer/Sidebar";
+import ServicerSidebar from "../../components/Servicer/ServicerSidebar";
 import ServicerNavbar from "../../components/Servicer/ServicerNavbar";
 
 const Servicer = ({ user }) => {
   return (
     <div className="flex">
-      <Sidebar />
+      <ServicerSidebar />
       <div className="w-full">
         <ServicerNavbar />
         <Outlet />

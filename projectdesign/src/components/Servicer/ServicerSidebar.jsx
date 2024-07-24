@@ -14,7 +14,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutSuccess } from "../../store/userSlice";
 
-const Sidebar = () => {
+const ServicerSidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -86,6 +86,10 @@ const Sidebar = () => {
               <TbCategoryPlus className=" text-lg" />
               Gig
             </NavLink>
+          </div>
+
+          <div className="cursor-pointer my-2">
+            <span className=" text-[12px] text-gray-400">ACTIONS</span>
             <NavLink
               to="faq"
               className={({ isActive }) => {
@@ -97,11 +101,6 @@ const Sidebar = () => {
               <BsClipboard2CheckFill className=" text-lg" />
               FAQ
             </NavLink>
-          </div>
-
-          <div className="cursor-pointer my-2">
-            <span className=" text-[12px] text-gray-400">ACTIONS</span>
-
             <button
               onClick={handleLogout}
               className="w-full text-blue-500 hover:bg-blue-100 p-1 flex items-center gap-2"
@@ -116,4 +115,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default ServicerSidebar;

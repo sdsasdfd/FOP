@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const NewService = () => {
   const [image, setImage] = useState(null);
@@ -24,7 +25,10 @@ const NewService = () => {
       const data = await res.json();
 
       if (data.success === false) {
+        setLoading(false);
         setError(data.message);
+        toast.error(data.message);
+        return;
       }
       console.log(data);
       setLoading(false);

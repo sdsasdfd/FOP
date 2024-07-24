@@ -18,6 +18,10 @@ export const createFaqForUser = async (req, res, next) => {
   }
   const { answer, question } = req.body;
   const isUser = true;
+
+  if (!answer || !question) {
+    return next(errorHandler(400, "Fill The Fields"));
+  }
   try {
     const newFaq = await Faq.create({ answer, question, isUser });
     res.status(200).json(newFaq);
@@ -43,6 +47,9 @@ export const createFaqForServicer = async (req, res, next) => {
   }
   const { answer, question } = req.body;
   const isUser = false;
+  if (!answer || !question) {
+    return next(errorHandler(400, "Fill The Fields"));
+  }
   try {
     const newFaq = await Faq.create({ answer, question, isUser });
     res.status(200).json(newFaq);
@@ -91,6 +98,10 @@ export const getFaq = async (req, res, next) => {
 export const updateFaq = async (req, res, next) => {
   const { isAdmin } = req.user;
   const { answer, question } = req.body;
+
+  if (!answer || !question) {
+    return next(errorHandler(400, "Fill The Fields"));
+  }
 
   if (!isAdmin) {
     return next(errorHandler(403, "Forbidden"));

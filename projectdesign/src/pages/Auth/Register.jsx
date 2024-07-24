@@ -96,7 +96,7 @@ const Register = () => {
                 value={username}
                 className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3 mt-2 rounded-lg"
                 type="text"
-                required
+                // required
               />
             </div>
             <div className="flex flex-col mt-4">
@@ -109,6 +109,7 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
                 type="text"
+                // required
               />
             </div>
             <div className="flex flex-col mt-4">
@@ -121,6 +122,7 @@ const Register = () => {
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
+                // required
               />
             </div>
             <div className="flex flex-col mt-2">
@@ -128,6 +130,7 @@ const Register = () => {
                 className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3 mt-2 rounded-lg"
                 onChange={(e) => setLocation(e.target.value)}
                 value={location}
+                // required
               >
                 <option value="">Select your Location</option>
                 {}
@@ -163,6 +166,7 @@ const Register = () => {
                   className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3 mt-2 rounded-lg"
                   onChange={(e) => setCategory(e.target.value)}
                   value={category}
+                  // required
                 >
                   <option value="">Select your Category</option>
                   {categoryNames.map((categoryName, index) => (
