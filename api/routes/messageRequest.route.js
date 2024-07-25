@@ -1,5 +1,4 @@
 import {
-  // getAllMessageRequests,
   getAllMessageRequestsForAdmin,
   getAllMessageRequestsForServicer,
   getAllMessageRequestsForUser,
@@ -13,7 +12,7 @@ const router = express.Router();
 
 router.post("/send-request/:id", verifyUser, sendMessageRequest);
 router.patch("/send-response/:id", verifyUser, sendResponseOfMessageRequest);
-// router.get("/get-all-requests", verifyUser, getAllMessageRequests);
+
 router.get(
   "/get-requests-servicer",
   verifyUser,

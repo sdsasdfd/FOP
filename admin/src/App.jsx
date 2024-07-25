@@ -1,12 +1,6 @@
 import React from "react";
 
-import {
-  createBrowserRouter,
-  Route,
-  RouterProvider,
-  Routes,
-  BrowserRouter,
-} from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Home from "./pages/Home";
 import Root from "./pages/Root";
 import Users from "./pages/Users";
@@ -18,8 +12,7 @@ import EditService from "./pages/Services/EditService";
 import Login from "./pages/Login";
 import ProtectRoute from "./components/ProtectRoute";
 import Faq from "./pages/FAQ/Faq";
-import CreateFaq from "./pages/FAQ/CreateFaq";
-import EditFaq from "./pages/FAQ/EditFaq";
+
 import CreateFaqForServicer from "./pages/FAQ/FAQForServicer/CreateFaqForServicer";
 import CreateFaqForUser from "./pages/FAQ/FAQForUser/CreateFaqForUser";
 import EditFaqForServicer from "./pages/FAQ/FAQForServicer/EditFaqForServicer";

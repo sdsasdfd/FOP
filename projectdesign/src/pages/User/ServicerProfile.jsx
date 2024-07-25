@@ -59,22 +59,6 @@ const ServicerProfile = () => {
     }
   }, [servicerInfo]);
 
-  // const handleSendRequest = async () => {
-  //   try {
-  //     const res = await fetch(`/api/message/create/${id}`, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(),
-  //     });
-  //     const data = await res.json();
-  //     toast.success("Request message send!");
-  //     // console.log(data);
-  //   } catch (error) {
-  //     toast.error(error.message);
-  //     console.log(error.message);
-  //   }
-  // };
-
   const handleSendRequest = async () => {
     try {
       const res = await fetch(`/api/request//send-request/${id}`, {
@@ -235,35 +219,6 @@ const ServicerProfile = () => {
                 })}
               </div>
 
-              {/* <div className="rating mb-3">
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                />
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                  defaultChecked
-                />
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                  defaultChecked
-                />
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                />
-                <input
-                  type="radio"
-                  name="rating-4"
-                  className="mask mask-star-2 bg-green-500"
-                />
-              </div> */}
               <span className="text-lg font-medium">{reviewCount} reviews</span>
             </div>
           </div>

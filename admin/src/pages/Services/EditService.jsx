@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IoIosCloseCircle } from "react-icons/io";
+
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +7,7 @@ const EditService = () => {
   const [image, setImage] = useState(null);
   const imageRef = useRef(null);
   const { id } = useParams();
-  // const [title, setTitle] = useState("");
-  // const [description, setDescription] = useState("");
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
 
@@ -32,9 +31,7 @@ const EditService = () => {
       try {
         const res = await fetch(`/api/service/${id}`);
         const data = await res.json();
-        // setDescription(data.description);
-        // setTitle(data.title);
-        // setImage(data.image);
+
         setFormData(data);
       } catch (error) {
         console.log(error.message);
@@ -100,8 +97,6 @@ const EditService = () => {
               placeholder="Name..."
               defaultValue={formData.title}
               id="title"
-              // value={title}
-              // onChange={(e) => setTitle(e.target.value)}
               onChange={handleChange}
             />
           </div>
@@ -111,8 +106,6 @@ const EditService = () => {
               className="focus:outline-none border-2 p-2 rounded-md"
               placeholder="Description..."
               defaultValue={formData.description}
-              // value={description}
-              // onChange={(e) => setDescription(e.target.value)}
               id="description"
               onChange={handleChange}
             />

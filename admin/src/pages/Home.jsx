@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { FaUser } from "react-icons/fa";
 import { GrServices } from "react-icons/gr";
 import { GrUserWorker } from "react-icons/gr";
@@ -98,20 +98,20 @@ const Home = () => {
           link="/users"
         />
         <Widget
-          bgColor="bg-yellow-200"
-          icon={<GrServices className="text-yellow-800 m-2 text-lg" />}
-          values={categoriesNumbers}
-          text="Services"
-          see="see all category"
-          link="/services"
-        />
-        <Widget
           bgColor="bg-green-200"
           icon={<GrUserWorker className="text-green-800 m-2 text-lg" />}
           values={servicersNumbers}
           text="Servicer"
           see="see all servicer"
           link="/servicers"
+        />
+        <Widget
+          bgColor="bg-yellow-200"
+          icon={<GrServices className="text-yellow-800 m-2 text-lg" />}
+          values={categoriesNumbers}
+          text="Services"
+          see="see all category"
+          link="/services"
         />
 
         <div className="flex flex-col border h-[120px] flex-1 p-3 rounded-md shadow-lg bg-white">

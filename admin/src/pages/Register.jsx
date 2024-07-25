@@ -70,7 +70,7 @@ const Register = () => {
               className="border focus:border-2 focus:border-blue-600 outline-none py-2 px-3 mt-2 rounded-lg"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              type="text"
+              type="email"
             />
           </div>
           <div className="flex flex-col mt-4">

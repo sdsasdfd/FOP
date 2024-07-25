@@ -2,8 +2,7 @@ import React, { useRef, useState } from "react";
 import profileImg from "/img/profileImg.webp";
 import { MdEdit } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
-import { FiEdit } from "react-icons/fi";
-import { IoCloseCircleOutline } from "react-icons/io5";
+
 import {
   updateUserFailure,
   updateUserStart,
@@ -118,8 +117,8 @@ const EditProfile = () => {
               <option name="" value="cooking" id="">
                 cooking
               </option>
-              <option name="" value="cleaning" id="">
-                cleaning
+              <option name="" value="painting" id="">
+                Painting
               </option>
               //{" "}
             </select>

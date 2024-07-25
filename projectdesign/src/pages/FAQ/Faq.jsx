@@ -31,7 +31,7 @@ const Faq = () => {
   return (
     <div className="lg:px-24 md:px-8 px-4 flex justify-center  h-screen">
       <div className=" mt-9 w-full ">
-        <h1 className=" text-gray-600 text-center font-bold md:text-7xl text-[42px] sm:text-6xl sm:mb-10 sm:inline-block border-b-[10px] border-blue-600 pb-2">
+        <h1 className=" text-black text-center font-bold md:text-7xl text-[42px] sm:text-6xl sm:mb-10 sm:inline-block border-b-[10px] border-blue-600 pb-2">
           Questions? Look here.
         </h1>
         {faqDetails.length === 0 && <h1>No Faq available</h1>}

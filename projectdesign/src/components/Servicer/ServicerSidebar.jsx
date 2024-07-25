@@ -1,17 +1,17 @@
 import React from "react";
 import Logo from "../Logo/Logo";
-import { MdDashboard } from "react-icons/md";
+
 import { CiSquareQuestion } from "react-icons/ci";
-import { HiMiniUsers } from "react-icons/hi2";
+
 import { TbCategoryPlus, TbH1 } from "react-icons/tb";
-import { GrUserWorker } from "react-icons/gr";
+
 import { MdOutlineMessage } from "react-icons/md";
 import { BsClipboard2CheckFill } from "react-icons/bs";
 
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbLogout } from "react-icons/tb";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { logoutSuccess } from "../../store/userSlice";
 
 const ServicerSidebar = () => {

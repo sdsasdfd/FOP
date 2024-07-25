@@ -71,7 +71,10 @@ export const updateService = async (req, res, next) => {
   const { description, title } = req.body;
   let { image } = req.body;
 
-  if (!title || !description || !image) {
+  if (title.length === 0) {
+    return next(errorHandler(400, "All Fields Are Required!"));
+  }
+  if (description.length === 0) {
     return next(errorHandler(400, "All Fields Are Required!"));
   }
   try {

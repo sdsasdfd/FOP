@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FiEdit } from "react-icons/fi";
+
 import { AiOutlineDelete } from "react-icons/ai";
 import img from "../assets/profileImg.webp";
 const Servicers = () => {
@@ -47,7 +47,7 @@ const Servicers = () => {
                 <td className="font-semibold p-3">ID</td>
                 <td className="font-semibold p-3">User</td>
                 <td className="font-semibold p-3">Email</td>
-                <td className="font-semibold p-3">Category</td>
+                <td className="font-semibold p-3">Service</td>
                 <td className="font-semibold p-3">Location</td>
                 <td className="font-semibold p-3">Action</td>
               </tr>

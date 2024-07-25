@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa6";
-import { CiStar } from "react-icons/ci";
-import { FaRegStar } from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import profileImg from "/img/profileImg.webp";
 const ServicerListCard = ({ servicerList }) => {
-  // console.log(servicerList.price);
   const description = servicerList?.description;
   const id = servicerList?.servicerId._id;
 
@@ -63,14 +61,6 @@ const ServicerListCard = ({ servicerList }) => {
 
     calculateAverageRating();
   }, [reviews, starCounts]);
-
-  // useEffect(() => {
-  //   const getPriceFromGig = async () => {
-  //     const res = await fetch(/api/gig//${id});
-  //   }
-
-  //   getPriceFromGig();
-  // }, [])
 
   return (
     <div className="mb-8 flex  flex-col gap-3 rounded-lg border p-6  shadow-lg">

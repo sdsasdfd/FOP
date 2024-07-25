@@ -25,9 +25,8 @@ const SendResponse = () => {
 
       if (data.success === false) {
         setLoading(false);
-        toast.error(data.message);
+        // toast.error(data.message);
         setError(data.message);
-        return;
       }
       console.log(data);
       setLoading(false);

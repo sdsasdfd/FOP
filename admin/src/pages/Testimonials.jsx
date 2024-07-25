@@ -1,10 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { IoMdAddCircle } from "react-icons/io";
-import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+
 const Testimonials = () => {
   const [testimonials, setTestimonials] = useState([]);
   const [error, setError] = useState(null);

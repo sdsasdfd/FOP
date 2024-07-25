@@ -26,10 +26,7 @@ export const sendMessageRequest = async (req, res, next) => {
     if (!request) {
       return next(errorHandler(404, "Not found"));
     }
-    // if (servicer) {
-    //     const servicerSocketId = getReceiverSocketId(servicer)
-    //     io.to(servicerSocketId).emit("sendMessageRequest", request.message)
-    // }
+
     if (servicer) {
       const servicerSocketId = getReceiverSocketId(servicer);
       io.to(servicerSocketId).emit("sendMessageRequest", request);
@@ -122,50 +119,6 @@ export const getAllMessageRequestsForUser = async (req, res, next) => {
   }
 };
 
-// export const getAllMessageRequests = async (req, res, next) => {
-//   try {
-//     const currentUser = req.user._id;
-//     console.log(currentUser);
-//     let requests;
-//     const user = await User.findOne({
-//       _id: currentUser,
-//     });
-
-//     if (user.roles === "user") {
-//       requests = await MessageRequest.find({
-//         user: currentUser,
-//       })
-//         .populate({
-//           path: "servicer",
-//           select: "-password",
-//         })
-//         .sort({ createdAt: -1 });
-
-//       if (!requests) {
-//         return next(errorHandler(404, "Requests not found"));
-//       }
-//       res.status(200).json(requests);
-//     } else if (user.roles === "servicer") {
-//       requests = await MessageRequest.find({
-//         servicer: currentUser,
-//       })
-//         .populate({
-//           path: "user",
-//           select: "-password",
-//         })
-//         .sort({ createdAt: -1 });
-
-//       if (!requests) {
-//         return next(errorHandler(404, "Requests not found"));
-//       }
-
-//       res.status(200).json(requests);
-//     }
-//   } catch (error) {
-//     return next(errorHandler(500, "Error while fetching requests"));
-//   }
-// };
-
 export const getStatusOfRequest = async (req, res, next) => {
   try {
     const { id: requestId } = req.params;
@@ -198,27 +151,6 @@ export const getAllMessageRequestsForAdmin = async (req, res, next) => {
         select: "-password",
       })
       .sort({ createdAt: -1 });
-
-    const acceptedRequests = requests.map((request) => {
-      if (request.requestStatus === "accepted") return request;
-      else return;
-    });
-    const rejectedRequests = requests.map((request) => {
-      if (request.requestStatus === "rejected") return request;
-      else return;
-    });
-    const pendingRequests = requests.map((request) => {
-      if (request.requestStatus === "pending") return request;
-      else return;
-    });
-
-    const allRequests = {
-      acceptedRequests,
-      rejectedRequests,
-      pendingRequests,
-    };
-
-    console.log(acceptedRequests);
 
     res.status(200).json(requests);
   } catch (error) {

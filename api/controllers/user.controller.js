@@ -135,29 +135,6 @@ export const getLocationCategory = async (req, res, next) => {
   }
 };
 
-export const getCategoriesBasedOnLocation = async (req, res, next) => {
-  console.log("inside api");
-  try {
-    const userLocation = req.user.location;
-
-    const servicersAvailableAtLocation = await User.find({
-      location: userLocation,
-    }).select("-password");
-
-    const categoriesAvailable = servicersAvailableAtLocation.map(
-      (servicer) => servicer.category
-    );
-
-    const categories = await Service.find({
-      title: { $in: categoriesAvailable },
-    });
-
-    res.status(200).json(categories);
-  } catch (error) {
-    return next(errorHandler(500, "Something went wrong"));
-  }
-};
-
 export const searchCategory = async (req, res, next) => {
   try {
     const { inputCategoryTitle } = req.query;
@@ -174,45 +151,6 @@ export const searchCategory = async (req, res, next) => {
     return next(errorHandler(500, "Something went wrong"));
   }
 };
-
-// export const updateUser = async (req, res, next) => {
-//   try {
-//     const userId = req.user._id;
-//     const { username, email, location } = req.body;
-
-//     let { image } = req.body;
-
-//     if (image) {
-//       const imgRes = await cloudinary.uploader.upload(image);
-//       image = imgRes.secure_url;
-//     }
-
-//     const emailExist = await User.findOne({ email });
-//     if (emailExist) {
-//       return next(errorHandler(409, "Email already exist!"));
-//     }
-
-//     const updateUserData = {};
-
-//     if (username) updateUserData.username = username;
-//     if (email) updateUserData.email = email;
-//     if (location) updateUserData.location = location;
-//     if (image) updateUserData.image = image;
-
-//     const user = await User.findByIdAndUpdate({ _id: userId }, updateUserData, {
-//       new: true,
-//       runValidators: true,
-//     }).select("-password");
-
-//     if (!user) {
-//       return next(errorHandler(404, "User not found"));
-//     }
-
-//     res.status(200).json(user);
-//   } catch (error) {
-//     return next(errorHandler(500, "Error while updating user details"));
-//   }
-// };
 
 export const updateUser = async (req, res, next) => {
   const userId = req.user._id;
@@ -305,6 +243,10 @@ export const updateServiceProvider = async (req, res, next) => {
 export const updateAdminProfile = async (req, res, next) => {
   const userId = req.user._id;
   const { username, email } = req.body;
+
+  if (!username || !email) {
+    return next(errorHandler(400, "Fill The Fields!"));
+  }
 
   let { image } = req.body;
   try {

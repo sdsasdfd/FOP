@@ -111,7 +111,22 @@ export const giveResponse = async (req, res, next) => {
 
     sendMail(user.email, subject, `Hi ${user.username} ${complainDesc}`);
 
-    res.status(200).json("Response sent", user.username);
+    res.json("Response sent", user.username);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteComplain = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const deletedComplain = await Complain.findByIdAndDelete(id);
+
+    if (!deleteComplain) {
+      return next(errorHandler(404), "Not Found!");
+    }
+
+    res.status(200).json(deletedComplain);
   } catch (error) {
     next(error);
   }

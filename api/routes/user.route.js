@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   deleteServicer,
   deleteUser,
-  getCategoriesBasedOnLocation,
   getLocationCategory,
   getServicers,
   getUsers,
@@ -22,12 +21,6 @@ router.get("/get-users", verifyUser, getUsers);
 router.get("/get-servicers", verifyUser, getServicers);
 router.delete("/delete/:id", verifyUser, deleteUser);
 router.delete("/delete/:id", verifyUser, deleteServicer);
-
-router.get(
-  "/get-categories-by-location",
-  verifyUser,
-  getCategoriesBasedOnLocation
-);
 
 router.get("/search-category", verifyUser, searchCategory);
 router.post("/update-user", verifyUser, updateUser);

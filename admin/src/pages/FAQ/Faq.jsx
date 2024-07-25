@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IoMdAddCircle } from "react-icons/io";
-import { FiEdit } from "react-icons/fi";
-import { AiOutlineDelete } from "react-icons/ai";
+
 import FaqForUser from "./FAQForUser/FaqForUser";
 import FaqForServicer from "./FAQForServicer/FaqForServicer";
 

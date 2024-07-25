@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+
 import { MdOutlinePhotoSizeSelectActual } from "react-icons/md";
 
 import moment from "moment";
-import { useSocketContext } from "../../context/SocketContext";
-import useConversation from "../../zustand/useConversation";
+
 import useGetConversations from "../../hooks/useGetConversations";
 
 const MessageInfoContainer = () => {
-  const { currentUser } = useSelector((state) => state.user);
-
-  const { selectedConversation, setSelectedConversation } = useConversation();
-
   const { conversations, loading } = useGetConversations();
 
   return (
@@ -33,8 +28,6 @@ const MessageInfoContainer = () => {
                 const lastMessage = lastMessageDetails?.message;
                 const lastMessageImage = lastMessageDetails?.image;
                 const time = lastMessageDetails?.createdAt;
-                const senderId = lastMessageDetails?.senderId._id;
-                const receiverId = message.lastMessage?.receiverId;
 
                 return (
                   <div
@@ -102,7 +95,6 @@ const MessageInfoContainer = () => {
                 const lastMessageImage = lastMessageDetails?.image;
                 const lastMessage = lastMessageDetails?.message;
                 const time = lastMessageDetails?.createdAt;
-                const senderName = lastMessageDetails?.senderId._id;
 
                 return (
                   <tr key={message._id}>

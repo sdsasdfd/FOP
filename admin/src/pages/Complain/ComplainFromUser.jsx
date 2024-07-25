@@ -29,6 +29,21 @@ const ComplainFromUser = () => {
     };
     fetchGeneralComplain();
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(`/api/complain/delete/${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (data.success === false) {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <>
       {complains.length === 0 ? (
@@ -63,7 +78,10 @@ const ComplainFromUser = () => {
 
                     <td className=" p-3 items-center gap-4 ">
                       <Link to={`/complain/${complain.servicerId._id}`}>
-                        <button className=" text-blue-600 mr-4 flex items-center gap-2">
+                        <button
+                          onClick={() => handleDelete(complain._id)}
+                          className=" text-blue-600 mr-4 flex items-center gap-2"
+                        >
                           <CiMail size={22} />{" "}
                           <span className=" text-[16px]">Email</span>
                         </button>

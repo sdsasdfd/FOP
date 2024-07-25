@@ -4,11 +4,10 @@ import { IoMenu } from "react-icons/io5";
 import profileImg from "/img/profileImg.webp";
 import Logo from "../Logo/Logo";
 
-import { MdDashboard } from "react-icons/md";
 import { BsClipboard2CheckFill } from "react-icons/bs";
-import { HiMiniUsers } from "react-icons/hi2";
+
 import { TbCategoryPlus, TbH1 } from "react-icons/tb";
-import { GrUserWorker } from "react-icons/gr";
+
 import { MdOutlineMessage } from "react-icons/md";
 
 import { FaRegUserCircle } from "react-icons/fa";

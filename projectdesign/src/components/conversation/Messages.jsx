@@ -1,20 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import Message from "./Message";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 
 import useConversation from "../../zustand/useConversation";
-import useGetMessages from "../../hooks/useGetMessages";
+
 import useListenMessages from "../../hooks/useListenMessages";
 
 const Messages = () => {
-  const { messages, setMessages, selectedConversation } = useConversation();
-  // console.log("MESSAGES :::::: ", messages);
-  // const { messages, loading } = useGetMessages()
+  const { messages, setMessages } = useConversation();
+
   useListenMessages();
   const lastMessageRef = useRef();
 
-  const { currentUser } = useSelector((state) => state.user);
   const { id } = useParams();
 
   useEffect(() => {

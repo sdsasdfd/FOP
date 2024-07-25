@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
-import Logo from "../Logo";
+import Logo from "../Logo/Logo";
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {

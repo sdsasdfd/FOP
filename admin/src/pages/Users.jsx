@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FiEdit } from "react-icons/fi";
 import { AiOutlineDelete } from "react-icons/ai";
 import img from "../assets/profileImg.webp";
 const Users = () => {

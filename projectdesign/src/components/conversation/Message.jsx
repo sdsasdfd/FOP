@@ -1,14 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { extractTime } from "../../utils/extractTime";
-import profileImg from "/img/profileImg.webp";
-import useConversation from "../../zustand/useConversation";
 
 const Message = ({ message }) => {
   const { currentUser } = useSelector((state) => state.user);
   const formattedTime = extractTime(message.createdAt);
-  const { selectedConversation } = useConversation();
-  const fromMe = message.senderId === currentUser._id;
 
   return (
     <div
@@ -16,14 +12,6 @@ const Message = ({ message }) => {
         message.senderId === currentUser._id ? "chat-end" : "chat-start"
       } my-2`}
     >
-      <div className="chat-image avatar">
-        <div className="w-10 rounded-full">
-          <img
-            alt="Tailwind CSS chat bubble component"
-            src={currentUser.image || profileImg}
-          />
-        </div>
-      </div>
       <div
         className={`chat-bubble chat-bubble-info  w-fit max-w-[280px] md:max-w-sm lg:max-w-md text-white pb-2`}
       >

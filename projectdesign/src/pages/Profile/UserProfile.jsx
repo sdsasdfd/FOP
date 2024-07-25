@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+
 import profileImg from "/img/profileImg.webp";
-import { CiLocationOn } from "react-icons/ci";
+
 import EditProfile from "../../components/User/EditProfile";
 
 import { useSelector } from "react-redux";
 
 const UserProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
-
-  const [toggleModal, setToggleModal] = useState(false);
 
   const [accountDetails, setAccountDetails] = useState(null);
   const [transactions, setTransactions] = useState([]);
@@ -20,7 +18,6 @@ const UserProfile = () => {
         const res = await fetch("/api/account/get-account-details");
         const data = await res.json();
         setAccountDetails(data);
-        // console.log(data);
       } catch (error) {
         console.error("Error fetching account details:", error);
       }
@@ -117,7 +114,6 @@ const UserProfile = () => {
           </table>
         </div>
       </div>
-      {/* {toggleModal && <EditProfile setToggleModal={setToggleModal} />} */}
     </div>
   );
 };

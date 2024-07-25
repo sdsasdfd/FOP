@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+
 import profileImg from "/img/profileImg.webp";
-import { CiLocationOn } from "react-icons/ci";
+
 import ServicerEditProfile from "../../components/Servicer/ServicerEditProfile";
 import { useSelector } from "react-redux";
 

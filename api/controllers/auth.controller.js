@@ -5,11 +5,21 @@ import jwt from "jsonwebtoken";
 import { Account } from "../model/account.model.js";
 
 export const register = async (req, res, next) => {
+  let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; // regex for email
+  let passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/; // regex for password
   try {
     const { username, email, password, location, roles, category } = req.body;
 
     if (!username || !email || !password || !location || !roles) {
       return next(errorHandler(400, "All Fields Are Required!"));
+    }
+
+    if (password.length < 8) {
+      return next(errorHandler(400, "The Password At Least 8 characters!"));
+    }
+
+    if (!emailRegex.test(email)) {
+      return next(errorHandler(400, "Email Is Invalid!"));
     }
     let { isAdmin } = req.body;
     const numberOfUsers = await User.countDocuments();

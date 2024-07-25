@@ -47,7 +47,7 @@ const OrderHistory = () => {
                 const servicerName =
                   record.participantsFromChat?.participants[0].username;
                 return (
-                  <tr className=" border-b hover:bg-gray-100">
+                  <tr key={record._id} className=" border-b hover:bg-gray-100">
                     <td className="w-32 p-3">{index + 1} </td>
                     <td className="w-32 p-3">{username}</td>
 

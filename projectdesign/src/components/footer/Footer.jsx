@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Logo from "../Logo";
+import Logo from "../Logo/Logo";
 import { Link } from "react-router-dom";
 
 const Footer = () => {

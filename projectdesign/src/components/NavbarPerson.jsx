@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 import { logoutSuccess } from "../store/userSlice";
+import Logo from "./Logo/Logo";
 const NavbarPerson = () => {
   const [toggle, setToggle] = useState(false);
   const [toggleProfile, setToggleProfile] = useState(false);
@@ -40,12 +41,13 @@ const NavbarPerson = () => {
   return (
     <div className="px-2 z-30 sticky top-0 bg-slate-50 border-b-[2px]  ">
       <div className="container relative lg:mx-8 sm:mx-6 mx-auto  flex justify-between items-center ">
-        <Link to="." className="flex items-center gap-2">
+        <Logo />
+        {/* <Link to="." className="flex items-center gap-2">
           <img src={logo} width="64px" alt="" />
           <p className=" text-2xl font-semibold text-blue-600">
             Serve <span className=" text-blue-400">Ease</span>
           </p>
-        </Link>
+        </Link> */}
         <div className=" flex items-center gap-4">
           <div className="hidden gap-5 mr-4 md:flex  items-center ">
             <NavLink

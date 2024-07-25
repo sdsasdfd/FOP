@@ -99,7 +99,10 @@ export const updateFaq = async (req, res, next) => {
   const { isAdmin } = req.user;
   const { answer, question } = req.body;
 
-  if (!answer || !question) {
+  if (!answer) {
+    return next(errorHandler(400, "Fill The Fields"));
+  }
+  if (!question) {
     return next(errorHandler(400, "Fill The Fields"));
   }
 
