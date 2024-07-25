@@ -12,16 +12,16 @@ const Navbar = () => {
       <div className=" lg:px-8 sm:px-6  p-2 flex  items-center ">
         <div className=" hidden sm:flex gap-3 mr-4">
           <Link
-            className="text-blue-500 text-[18px]  font-medium"
+            className="text-sky-800 text-[18px]  font-medium"
             to="/register"
           >
             Register
           </Link>
-          <Link className="text-blue-500 text-[18px]  font-medium" to="/login">
+          <Link className="text-sky-800 text-[18px]  font-medium" to="/login">
             Login
           </Link>
           <Link
-            className="text-blue-500 text-[18px]  font-medium"
+            className="text-sky-800 text-[18px]  font-medium"
             to="/services"
           >
             Services
@@ -45,19 +45,19 @@ const Navbar = () => {
         >
           <div className="flex flex-col p-6 ">
             <Link
-              className="bg-blue-500 text-white  py-[2px] px-[6px] hover:bg-blue-400 rounded-md text-[18px] mt-4"
+              className="bg-sky-800 text-white  py-[2px] px-[6px] hover:bg-sky-700 rounded-md text-[18px] mt-4"
               to="/sign-in-user"
             >
               Sign up
             </Link>
             <Link
-              className="bg-blue-500 text-white  py-[2px] px-[6px] hover:bg-blue-400 rounded-md text-[18px] mt-4 "
+              className="bg-sky-800 text-white  py-[2px] px-[6px] hover:bg-sky-700 rounded-md text-[18px] mt-4 "
               to="/login"
             >
               Login
             </Link>
             <Link
-              className="bg-blue-500 text-white  py-[2px] px-[6px] hover:bg-blue-400 rounded-md text-[18px] mt-4 "
+              className="bg-sky-800 text-white  py-[2px] px-[6px] hover:bg-sky-700 rounded-md text-[18px] mt-4 "
               to="/services"
             >
               Services

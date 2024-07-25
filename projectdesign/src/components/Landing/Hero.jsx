@@ -17,7 +17,7 @@ const Hero = () => {
         </p>
         <Link to="/register">
           <button
-            className="px-5 font-medium text-white bg-blue-600 hover:bg-blue-500 py-3 text-[17px] gap-3 rounded-md flex items-center
+            className="px-5 font-medium text-white bg-sky-800 hover:bg-sky-700 py-3 text-[17px] gap-3 rounded-md flex items-center
 
         "
           >

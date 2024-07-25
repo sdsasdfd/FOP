@@ -24,7 +24,7 @@ const OurServices = () => {
   return (
     <div className=" bg-slate-50 my-14 px-1 sm:px-8 md:px-14 lg:px-24">
       <div className=" flex flex-col gap-1 text-center">
-        <span className=" font-[400] text-lg text-blue-500">
+        <span className=" font-[400] text-lg text-sky-500">
           AREA WHAT WE SERVE
         </span>
         <span className=" text-5xl font-bold">Our Services</span>
@@ -40,7 +40,7 @@ const OurServices = () => {
       <div className=" grid place-items-center my-10">
         <Link
           to={"services"}
-          className=" px-5 font-medium text-white bg-blue-600 hover:bg-blue-500 py-3 text-[17px] gap-3 rounded-md flex items-center"
+          className=" px-5 font-medium text-white bg-sky-800 hover:bg-sky-700 py-3 text-[17px] gap-3 rounded-md flex items-center"
         >
           <span>See All Services</span>
           <FaArrowRight />

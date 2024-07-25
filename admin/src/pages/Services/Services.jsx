@@ -68,14 +68,12 @@ const Services = () => {
                 </tr>
               </thead>
               <tbody>
-                {services.map((service) => (
+                {services.map((service, index) => (
                   <tr
                     key={service._id}
                     className=" border-b hover:bg-gray-100 whitespace-nowrap"
                   >
-                    <td className="w-32 p-3  whitespace-nowrap">
-                      {service._id}
-                    </td>
+                    <td className="w-32 p-3  whitespace-nowrap">{index + 1}</td>
                     <td className="w-36 p-3  ">
                       <img
                         className="w-20 h-20 object-cover  whitespace-nowrap rounded-md"
